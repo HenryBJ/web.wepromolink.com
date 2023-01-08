@@ -11,4 +11,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
     volumes:
-      - /etc/letsencrypt/live/wepromolink.com/:/etc/certs
+      - /etc/letsencrypt/live/wepromolink.com/:/etc/nginx/ssl
+
+      
