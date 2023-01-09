@@ -1,12 +1,17 @@
 import React from 'react';
+import HomeLayout from './layouts/HomeLayout';
+import { Routes, Route, HashRouter as Router } from 'react-router-dom';
 import logo from './logo.svg';
 // import './App.css';
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Welcome to WePromoLink !!!
-    </h1>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomeLayout />} />
+      </Routes>
+    </Router>
+
   );
 }
 
