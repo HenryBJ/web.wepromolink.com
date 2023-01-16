@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v3.0+ */
 import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import { NavButton } from '../../components/NavButton'
 
 
 export default function HomeLayout() {
@@ -8,16 +9,15 @@ export default function HomeLayout() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/terms">Terms</Link>
-                <Link to="/faq">FAQ</Link>
-                <Link to="/pricing">Pricing</Link>
-                <Link to="/contact">Contact Us</Link>
-                <Link to="/login">Login</Link>
-            </nav>
-            <Outlet />
+        <div className='bg-orange-100'>
+            <div className="mx-auto h-screen">
+                <div className='flex'>
+                    <div className='h-screen flex-1 w-full'>
+                        <Outlet />
+                    </div>
+                    <div className=' bg-orange-500 h-screen flex-initial w-1/3'>Right</div>
+                </div>
+            </div>
         </div>
     )
 }
