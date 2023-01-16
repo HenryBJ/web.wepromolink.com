@@ -2,7 +2,9 @@
 export default function Home() {
   return (
     <>
-      Home
+      <div className=" h-full">
+        Home
+      </div>
     </>
 
   )
