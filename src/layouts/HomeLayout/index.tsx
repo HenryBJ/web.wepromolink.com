@@ -28,7 +28,7 @@ export default function HomeLayout() {
                     </div>
                 </div>
             </div>
-            <div className='hidden md:absolute top-0 left-1'>
+            <div className='absolute top-0 left-1'>
                 <Graphic scale={0.5} />
             </div>
         </div>

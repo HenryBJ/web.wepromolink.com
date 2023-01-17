@@ -1,5 +1,6 @@
 
-const default_fillcolor:string = '#EA7227';
+const default_fillcolor:string = 'none';
+// const default_fillcolor:string = '#EA7227';
 const default_strokecolor:string = 'white';
 const default_width:number = 265;
 const default_height:number = 198;
