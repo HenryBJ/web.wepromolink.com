@@ -4,6 +4,7 @@ import { Link, Navigate, Outlet } from 'react-router-dom'
 import Graphic from '../../components/Graphic'
 import Logo from '../../components/Logo'
 import MenuHamb from '../../components/MenuHamb'
+import { MenuOption } from '../../components/MenuOption'
 import NavBar from '../../components/NavBar'
 import { NavButton } from '../../components/NavButton'
 import { AuthProvider, useAuth } from '../../hooks/Auth'
@@ -45,7 +46,13 @@ export default function HomeLayout() {
                 <Graphic scale={0.5} />
             </div>
             <div className='md:hidden  absolute top-3 right-6'>
-                <MenuHamb/>
+                <MenuHamb>
+                    <MenuOption title='Home' url='/' />
+                    <MenuOption title='Terms' url='/terms' />
+                    <MenuOption title='FAQ' url='/faq' />
+                    <MenuOption title='Pricing' url='/pricing' />
+                    <MenuOption title='Contact Us' url='/contact' />
+                </MenuHamb>
             </div>
         </div>
     )
