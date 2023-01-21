@@ -1,23 +1,39 @@
-import { faSwimmingPool } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import GoogleIcon from "../../components/Google";
 import Logo from "../../components/Logo";
-import { signInWithGoogle } from "../../firebase"
+import { auth, fbLogOut, signInWithGoogle } from "../../firebase"
+import { useAuth } from "../../hooks/Auth";
 
 export default function Home() {
 
+  const { user, login, logout } = useAuth();
+
   const Click = () => {
-    signInWithGoogle()
-      .then(result => {
-        console.log(result);
-        alert(result.user.email)
-      })
-      .catch(error => {
-        console.log(error);
-        alert(error)
-      })
+    if (user) {
+      fbLogOut().then(() => logout())
+    }
+    else {
+      signInWithGoogle()
+        .then(result => {
+          console.log(result);
+          login(result.user);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+
   }
+
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(user => {
+  //     if (user) {
+  //     }
+  //     else {
+  //     }
+  //   });
+  // }, []);
 
   return (
     <>
@@ -38,7 +54,7 @@ export default function Home() {
             </div>
             <div className="grow">
               <span>
-                Log In with Google
+                {user ? 'Logout' : 'Log In with Google'}
               </span>
             </div>
           </div>

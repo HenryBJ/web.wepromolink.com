@@ -24,7 +24,7 @@ function App() {
           <Route path="/faq" element={<Faq />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
+          {/* <Route path="/login" element={<Login />} /> */}
         </Route>
 
         <Route element={<AuthLayout />}>

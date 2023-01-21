@@ -1,15 +1,19 @@
 /* This example requires Tailwind CSS v3.0+ */
 import { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Navigate, Outlet } from 'react-router-dom'
 import Graphic from '../../components/Graphic'
 import Logo from '../../components/Logo'
 import NavBar from '../../components/NavBar'
 import { NavButton } from '../../components/NavButton'
+import { AuthProvider, useAuth } from '../../hooks/Auth'
+import AuthLayout from '../AuthLayout'
 
 
 export default function HomeLayout() {
-
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    // const { user } = useAuth();
+    // if (user) {
+    //     return <Navigate to="/dashboard" />;
+    // }
 
     return (
         <div className='bg-orange-500 md:bg-orange-100'>
@@ -17,7 +21,10 @@ export default function HomeLayout() {
                 <div className='hidden md:flex'>
                     <div className='h-screen flex-1 w-full flex flex-col'>
                         <div className='grow'>
-                            <Outlet />
+                            <AuthProvider>
+                                <Outlet />
+                            </AuthProvider>
+
                         </div>
                         <div className='my-2'>
                             <NavBar />
@@ -28,7 +35,9 @@ export default function HomeLayout() {
                     </div>
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>
-                    <Outlet />
+                    <AuthProvider>
+                        <Outlet />
+                    </AuthProvider>
                 </div>
             </div>
             <div className='hidden md:absolute top-0 left-1'>
