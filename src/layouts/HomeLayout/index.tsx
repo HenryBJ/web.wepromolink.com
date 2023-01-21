@@ -27,7 +27,7 @@ export default function HomeLayout() {
                         <Logo scale={1.2} />
                     </div>
                 </div>
-                <div className='grow md:hidden h-screen'>
+                <div className='grow md:hidden h-[calc(100vh-74px)]'>
                     <Outlet />
                 </div>
             </div>
