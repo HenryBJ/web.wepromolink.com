@@ -15,6 +15,7 @@ export default function Home() {
       })
       .catch(error => {
         console.log(error);
+        alert(error)
       })
   }
 
@@ -30,7 +31,7 @@ export default function Home() {
         <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-2xl w-3/5 text-center">
           <span>Try the easiest way to advertise your campaign or monetize by sharing on social networks</span>
         </div>
-        <button onClick={Click} className="bg-white  md:bg-orange-300 hover:bg-orange-500 text-orange-600 md:text-orange-900 hover:text-white font-bold py-2 px-4 rounded-full min-w-fit ">
+        <button onClick={Click} className="bg-white  md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit ">
           <div className="flex w-56">
             <div>
               <GoogleIcon />
