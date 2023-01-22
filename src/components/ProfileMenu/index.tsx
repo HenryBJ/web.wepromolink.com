@@ -22,7 +22,7 @@ useEffect(()=>{
                     {() => {
                         if (props.imageUrl) {
                             return (
-                                <img className="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" alt="profile image" src={props.imageUrl}/>
+                                <img className="w-9 h-9 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" alt="profile image" src={props.imageUrl}/>
                             )
                         }
                         else {
