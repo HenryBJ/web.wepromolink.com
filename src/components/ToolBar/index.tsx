@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { NavLink as Link } from "react-router-dom"
 
 const strokeWidth = 2.1;
 const iconClass = 'w-7 h-7';
@@ -34,9 +34,12 @@ export default function ToolBar() {
     return (
         <div className="bg-orange-500 w-full max-w-lg md:w-fit flex flex-row">
             {navegation.map((e, i) => (
-                <Link key={i} to={e.url} className="text-white mx-4 h-full w-full hover:ring-2 p-1 ring-white rounded-full">
-                    {e.icon}
+                <Link key={i} to={e.url} className="text-orange-300 mx-4 h-full w-full hover:ring-2 active:ring-2 p-1 ring-white rounded-full">
+                    {({isActive})=>(<div className={isActive?'text-white ':''}>{e.icon}</div>)}
                 </Link>
+                // <Link key={i} to={e.url} className="text-white mx-4 h-full w-full hover:ring-2 active:ring-2 p-1 ring-white rounded-full">
+                //     {e.icon}
+                // </Link>
             ))}
         </div>
     )
