@@ -10,10 +10,6 @@ interface IUserInfo {
 
 export default function ProfileMenu(props: IUserInfo) {
 
-useEffect(()=>{
-    console.log(props.imageUrl);
-},[]);
-
     return (
         <Menu>
             {({ open }) =>
@@ -22,7 +18,7 @@ useEffect(()=>{
                     {() => {
                         if (props.imageUrl) {
                             return (
-                                <img className="w-9 h-9 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" alt="profile image" src={props.imageUrl}/>
+                                <img className="w-9 h-9 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" alt="profile image" src={props.imageUrl} />
                             )
                         }
                         else {
@@ -42,15 +38,15 @@ useEffect(()=>{
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                 >
-                    <Menu.Items className="absolute right-0 mt-0 w-80 px-5 py-5 origin-top-right rounded-xl  bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none">
+                    <Menu.Items className="absolute top-12 right-0 mt-0 w-44 px-3 py-3 origin-top-right rounded-xl  bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none text-center text-orange-600 font-semibold ">
                         <Menu.Item>
                             {({ active }) => (
-                                <a
-                                    className={`${active && 'bg-blue-500'}`}
-                                    href="/account-settings"
-                                >
-                                    Account settings
-                                </a>
+                                <button className="hover:bg-orange-500 w-full hover:text-white" onClick={props.logout}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                    </svg>
+                                    <span>Log out</span>
+                                </button>
                             )}
                         </Menu.Item>
                         {/* <Menu.Item>
