@@ -32,7 +32,7 @@ const navegation = [
 
 export default function ToolBar() {
     return (
-        <div className="bg-orange-300 w-full max-w-lg md:w-fit flex flex-row">
+        <div className="bg-orange-500 w-full max-w-lg md:w-fit flex flex-row">
             {navegation.map((e, i) => (
                 <Link key={i} to={e.url} className="text-white mx-4 h-full w-full hover:ring-2 p-1 ring-white rounded-full">
                     {e.icon}
