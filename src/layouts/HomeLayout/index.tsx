@@ -42,9 +42,9 @@ export default function HomeLayout() {
                     </AuthProvider>
                 </div>
             </div>
-            <div className='hidden md:block md:absolute top-0 left-1'>
+            {/* <div className='hidden md:block md:absolute top-0 left-1'>
                 <Graphic scale={0.5} />
-            </div>
+            </div> */}
             <div className='md:hidden  absolute top-3 right-6'>
                 <MenuHamb>
                     <MenuOption title='Home' url='/' />
