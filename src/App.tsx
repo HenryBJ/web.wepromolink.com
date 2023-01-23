@@ -12,6 +12,10 @@ import Dashboard from './pages/Dashboard';
 import Layout from './layouts/AuthLayout';
 import AuthLayout from './layouts/AuthLayout';
 import { ProtectedRoute } from './router/ProtectedRoute';
+import Settings from './pages/Settings';
+import Campaign from './pages/Campaign';
+import Shared from './pages/Shared';
+import Balance from './pages/Balance';
 // import './App.css';
 
 function App() {
@@ -30,6 +34,10 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/campaigns" element={<Campaign />} />
+            <Route path="/links" element={<Shared />} />
+            <Route path="/balance" element={<Balance />} />
           </Route>
         </Route>
       </Routes>
