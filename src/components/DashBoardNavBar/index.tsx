@@ -24,7 +24,7 @@ export default function DashBoardNavBar() {
                 </div>
             </div>
             <div className="bg-orange-500-500 w-full flex items-center justify-center">
-                <div className="md:hidden">
+                <div className="md:hidden my-1">
                     <ToolBar />
                 </div>
             </div>

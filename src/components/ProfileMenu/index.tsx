@@ -25,12 +25,12 @@ export default function ProfileMenu(props: IUserInfo) {
                     {() => {
                         if (props.imageUrl) {
                             return (
-                                <img className="w-10 min-w-min h-10  rounded-full ring-1 ring-white" alt="profile image" src={props.imageUrl} />
+                                <img className="ml-4 w-10 max-w-[40px] max-h-[40px] h-10  rounded-full ring-1 ring-white" alt="profile image" src={props.imageUrl} />
                             )
                         }
                         else {
                             return (
-                                <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                <div className="ml-4 relative w-10 h-10 max-w-[40px] max-h-[40px] overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                     <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
                                 </div>
                             )
