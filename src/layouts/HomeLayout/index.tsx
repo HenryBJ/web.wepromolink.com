@@ -47,11 +47,11 @@ export default function HomeLayout() {
             </div> */}
             <div className='md:hidden  absolute top-3 right-6'>
                 <MenuHamb>
-                    <MenuOption title='Home' url='/' />
-                    <MenuOption title='Terms' url='/terms' />
+                    <MenuOption title='Home' url='/'  />
+                    <MenuOption title='Terms' url='/terms'  />
                     <MenuOption title='FAQ' url='/faq' />
-                    <MenuOption title='Pricing' url='/pricing' />
-                    <MenuOption title='Contact Us' url='/contact' />
+                    <MenuOption title='Pricing' url='/pricing'  />
+                    <MenuOption title='Contact Us' url='/contact'  />
                 </MenuHamb>
             </div>
         </div>

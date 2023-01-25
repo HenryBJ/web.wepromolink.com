@@ -1,20 +1,20 @@
 import { Menu, Transition } from '@headlessui/react'
 import { Divide as Hamburger } from 'hamburger-react'
-import { ReactFragment, useState } from 'react'
+import React, { ReactElement, ReactFragment, useState } from 'react'
 import { MenuOption } from '../MenuOption'
 
 type Props = {
-    title:string,
-    url:string
+    title: string,
+    url: string
 }
 
-export default function MenuHamb({children}:any) {
+export default function MenuHamb({ children }: any) {
 
     const [setOpen] = useState(false)
 
     return (
         <Menu>
-            {({ open }) =>
+            {({ open, close }) =>
             (<>
                 <Menu.Button>
                     <Hamburger toggled={open} color="white" duration={0.5} />
@@ -27,11 +27,12 @@ export default function MenuHamb({children}:any) {
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                 >
-                    <Menu.Items className="absolute right-0 mt-0 w-80 px-5 py-5 origin-top-right rounded-xl  bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none">
-                        {() => children.map((e:ReactFragment , i: number) =>
+                    <Menu.Items className="absolute right-0 mt-0 w-80 px-7 py-5 origin-top-right rounded-xl  bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none">
+                        {() => children.map((e: ReactElement, i: number) =>
                         (
                             <Menu.Item key={i}>
-                               {e}
+                                {React.cloneElement(e,{close:close})}
+                                {/* {e} */}
                             </Menu.Item>
                         ))}
                         {/* <Menu.Item>

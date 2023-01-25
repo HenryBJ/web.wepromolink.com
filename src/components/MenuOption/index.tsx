@@ -4,14 +4,15 @@ interface IPros {
     title: string,
     url: string,
     bgColor?: string,
-    fontColor?: string
+    fontColor?: string,
+    close?: (event: any) => void;
 }
 
 export const MenuOption = (props: IPros) => {
 
     return (
-        <Link to={props.url}>
-            <div className="hover:bg-orange-700 max-w-xs w-full cursor-pointer inline-block bg-orange-500 text-white font-sans font-bold text-center text-lg px-6 py-1 mx-2 my-1 rounded-full shadow-xl hover:shadow-none active:bg-white active:text-orange-500 active:ring-2 active:ring-orange-500">
+        <Link to={props.url} onClick={props.close}>
+            <div className="hover:bg-orange-700 max-w-xs w-full cursor-pointer inline-block bg-orange-500 text-white font-sans font-bold text-center text-lg py-1 my-1 rounded-full shadow-xl hover:shadow-none active:bg-white active:text-orange-500 active:ring-2 active:ring-orange-500">
                 {props.title}
             </div>
         </Link>
