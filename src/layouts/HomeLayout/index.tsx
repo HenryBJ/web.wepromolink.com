@@ -9,6 +9,7 @@ import NavBar from '../../components/NavBar'
 import { NavButton } from '../../components/NavButton'
 import { AuthProvider, useAuth } from '../../hooks/Auth'
 import AuthLayout from '../AuthLayout'
+import bgImage from '../../images/fondo.png';
 
 
 export default function HomeLayout() {
@@ -21,7 +22,7 @@ export default function HomeLayout() {
         <div className='bg-orange-500 md:bg-orange-100'>
             <div className="mx-auto h-screen">
                 <div className='hidden md:flex'>
-                    <div className='h-screen flex-1 w-full flex flex-col'>
+                    <div className='h-screen flex-1 w-full flex flex-col bg-center bg-cover bg-hero'>
                         <div className='grow'>
                             <AuthProvider>
                                 <Outlet />
