@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ICampaingCard } from "../../interfaces/ICampaingCard";
-import ImageCache from "../ImageCache";
 import ShareDialog from "../ShareDialog";
 
 
