@@ -9,7 +9,7 @@ export default function AuthLayout() {
     return (
         <><AuthProvider>
             <DashBoardNavBar />
-            <main className="bg-gray-100">
+            <main className="bg-gray-100 min-h-[calc(100vh-51px)] h-full">
                 <Outlet />
             </main>
         </AuthProvider>

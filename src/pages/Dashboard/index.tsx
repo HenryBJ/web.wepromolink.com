@@ -20,9 +20,8 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <section className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-6 justify-center">
-      {
-        
+    <section className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
+      {        
         campaignsList.sponsoredLinks.map((c) => (
           <CampaignCard
             key={c.id}
@@ -30,6 +29,8 @@ export default function Dashboard() {
             title={c.title}
             description={c.description}
             epm={c.epm}
+            autorImageUrl={c.autorImageUrl}
+            autorName={c.autorName}
             imageUrl={c.imageUrl} />))
       }
     </section>
