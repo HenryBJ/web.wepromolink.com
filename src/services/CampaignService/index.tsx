@@ -4,7 +4,7 @@ import { ICampaignListResponse } from "../../interfaces/ICampaingCard";
 
 export function GetCampaigns() {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
-    if (mock) {
+    if (mock === "1") {
         return new Promise(function (resolve:(value:AxiosResponse|any)=>void, reject) {
             let resultado = true;
 

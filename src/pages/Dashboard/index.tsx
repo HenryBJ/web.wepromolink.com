@@ -11,7 +11,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-    alert(`process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK: ${process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK}`);
     GetCampaigns()
       .then(resp => {setCampaignList(resp.data); console.log(resp.data)})
       .then(() => setLoading(false))
