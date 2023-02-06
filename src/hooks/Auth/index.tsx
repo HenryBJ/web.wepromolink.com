@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "../../interfaces/IUser";
 import { useLocalStorage } from "../LocalStorage";
 
 const AuthContext = createContext<any>(null);
@@ -9,7 +10,7 @@ export const AuthProvider = ({ children }:any) => {
     const navigate = useNavigate();
   
     // call this function when you want to authenticate the user
-    const login = async (data:any) => {
+    const login = async (data:IUser) => {
       setUser(data);
       navigate("/dashboard");
     };
