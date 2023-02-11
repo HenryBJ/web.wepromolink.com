@@ -6,7 +6,6 @@ import { GetCampaigns } from "../../services/CampaignService";
 
 export default function Dashboard() {
 
-  const [campaignsList, setCampaignList] = useState<ICampaignListResponse>({ page: 0, sponsoredLinks: [], totalPages: 0 });
   const [page, setPage] = useState(-1);
   const [data, setData] = useState<ICampaingCard[]>([]);
   const [error, setError] = useState(false);
@@ -40,8 +39,8 @@ export default function Dashboard() {
 
 
   return (
-    <section>
-      <article className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
+    <>
+      <section className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
         {
           data.map((c) => (
             <CampaignCard
@@ -54,11 +53,13 @@ export default function Dashboard() {
               autorName={c.autorName}
               imageUrl={c.imageUrl} />))
         }
-      </article>
-      {isFetching &&
+      </section>
+      {
+        isFetching &&
         <div className="flex items-center justify-center my-3">
           <Spinner text="Loading more ..." />
-        </div>}
-    </section>
+        </div>
+      }
+    </>
   )
 }
