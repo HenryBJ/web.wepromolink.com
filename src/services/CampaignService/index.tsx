@@ -2,21 +2,23 @@ import { AxiosResponse } from "axios";
 import { apiRequest } from "..";
 import { ICampaignListResponse } from "../../interfaces/ICampaingCard";
 
-export function GetCampaigns() {
+export function GetCampaigns(page:Number) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
     if (mock === "1") {
         return new Promise(function (resolve:(value:AxiosResponse|any)=>void, reject) {
             let resultado = true;
 
             if (resultado) {
-                resolve({data:mockObj});
+                setTimeout(() => {
+                    resolve({ data: mockObj });
+                },5000);
             } else {
                 reject("La operación falló");
             }
         });
     }
     else {
-        return apiRequest.get("links")
+        return apiRequest.get(`links?page=${page}`)
     }
 }
 

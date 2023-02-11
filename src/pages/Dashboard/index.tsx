@@ -1,38 +1,64 @@
 import { useEffect, useState } from "react";
 import CampaignCard from "../../components/CampaignCard";
+import Spinner from "../../components/Spinner";
 import { ICampaignListResponse, ICampaingCard } from "../../interfaces/ICampaingCard";
 import { GetCampaigns } from "../../services/CampaignService";
 
 export default function Dashboard() {
 
-  const [campaignsList, setCampaignList] = useState<ICampaignListResponse>({page:0,sponsoredLinks:[], totalPages:0});
+  const [campaignsList, setCampaignList] = useState<ICampaignListResponse>({ page: 0, sponsoredLinks: [], totalPages: 0 });
+  const [page, setPage] = useState(-1);
+  const [data, setData] = useState<ICampaingCard[]>([]);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    GetCampaigns()
-      .then(resp => {setCampaignList(resp.data); console.log(resp.data)})
-      .then(() => setLoading(false))
-      .catch(err => setError(true))
-      .finally(() => setLoading(false));
-
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isFetching) return;
+
+    GetCampaigns(page + 1)
+      .then(resp => {
+        setPage(resp.data.page);
+        setData(prev => [...prev, ...(resp.data.sponsoredLinks)]);
+      })
+      .catch(err => setError(true))
+      .finally(() => setIsFetching(false));
+  }, [isFetching]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    )
+      return;
+    setIsFetching(true);
+  };
+
+
   return (
-    <section className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
-      {        
-        campaignsList.sponsoredLinks.map((c) => (
-          <CampaignCard
-            key={c.id}
-            budget={c.budget}
-            title={c.title}
-            description={c.description}
-            epm={c.epm}
-            autorImageUrl={c.autorImageUrl}
-            autorName={c.autorName}
-            imageUrl={c.imageUrl} />))
-      }
+    <section>
+      <article className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
+        {
+          data.map((c) => (
+            <CampaignCard
+              key={c.id}
+              budget={c.budget}
+              title={c.title}
+              description={c.description}
+              epm={c.epm}
+              autorImageUrl={c.autorImageUrl}
+              autorName={c.autorName}
+              imageUrl={c.imageUrl} />))
+        }
+      </article>
+      {isFetching &&
+        <div className="flex items-center justify-center my-3">
+          <Spinner text="Loading more ..." />
+        </div>}
     </section>
   )
 }
