@@ -26,6 +26,14 @@ export default function Index({ columns, rows, defaultAction }: IDynamicTable) {
         myRef.current &&setWidth(myRef.current['offsetWidth']);
     };
 
+    useEffect(()=>{
+        if(myRef.current){
+            const table:any = myRef.current;
+            const delta = width < 752 ?12:10;
+            table.style.minHeight = `calc(100vh - ${table.offsetTop+delta}px)`;
+        }
+    },[width]);
+
     useEffect(() => {
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -35,7 +43,7 @@ export default function Index({ columns, rows, defaultAction }: IDynamicTable) {
     }, []);
 
     return (
-        <div ref={myRef} className="relative rounded shadow-xl w-full">
+        <div ref={myRef} className="relative rounded shadow-xl w-full max-h-32 overflow-y-auto">
             {/* <p>Ancho actual: {width}px</p> */}
             <table className="w-full text-sm text-left text-white rounded shadow-xl">
                 <thead className="text-xs text-white uppercase bg-orange-500">

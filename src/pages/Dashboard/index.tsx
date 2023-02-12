@@ -40,7 +40,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <section className="container max-w-5xl px-5 mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
+      <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
         {
           data.map((c) => (
             <CampaignCard
