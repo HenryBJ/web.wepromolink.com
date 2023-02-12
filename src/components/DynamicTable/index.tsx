@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { IExtraActions } from "../../interfaces/IExtraActions"
+import { IPagination } from "../../interfaces/IPagination";
 import ActionMenu from "../ActionMenu"
 
 
@@ -7,32 +8,33 @@ import ActionMenu from "../ActionMenu"
 export interface IColumnData {
     title: string,
     name: string,
-    hidden: (value?:any)=>boolean,
+    hidden: (value?: any) => boolean,
     transform?: (value: any) => any,
-    extraActions?: IExtraActions[]
+    extraActions?: IExtraActions[],
 }
 
 interface IDynamicTable {
     columns: IColumnData[],
     rows: any[],
     defaultAction?: (value: any) => void,
+    pagination?: IPagination,
 }
 
-export default function Index({ columns, rows, defaultAction }: IDynamicTable) {
+export default function Index({ columns, rows, defaultAction, pagination }: IDynamicTable) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
     const handleResize = () => {
-        myRef.current &&setWidth(myRef.current['offsetWidth']);
+        myRef.current && setWidth(myRef.current['offsetWidth']);
     };
 
-    useEffect(()=>{
-        if(myRef.current){
-            const table:any = myRef.current;
-            const delta = width < 752 ?12:10;
-            table.style.minHeight = `calc(100vh - ${table.offsetTop+delta}px)`;
+    useEffect(() => {
+        if (myRef.current) {
+            const table: any = myRef.current;
+            const delta = width < 752 ? 12 : 10;
+            table.style.minHeight = `calc(100vh - ${table.offsetTop + delta}px)`;
         }
-    },[width]);
+    }, [width]);
 
     useEffect(() => {
         handleResize();
@@ -45,6 +47,8 @@ export default function Index({ columns, rows, defaultAction }: IDynamicTable) {
     return (
         <div ref={myRef} className="relative rounded shadow-xl w-full max-h-32 overflow-y-auto">
             {/* <p>Ancho actual: {width}px</p> */}
+            {!rows.length?<div className="absolute top-1/2 w-full text-center">No items to show</div> 
+            :
             <table className="w-full text-sm text-left text-white rounded shadow-xl">
                 <thead className="text-xs text-white uppercase bg-orange-500">
                     <tr>
@@ -77,6 +81,12 @@ export default function Index({ columns, rows, defaultAction }: IDynamicTable) {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+            </table>}
+            {pagination && rows.length !== 0  &&
+                <div className="left-0 bottom-0 sticky w-full">
+                    <div className="bg-orange-500 border-b text-gray-700 px-6 py-3 text-center">
+
+                    </div>
+                </div>}
         </div>)
 }
