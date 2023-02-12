@@ -25,16 +25,16 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 
 
 export const Columns: IColumnData[] = [
-    { title: "Id", name: "id", hidden: true },
-    { title: "Campaign", name: "title", hidden: false },
-    { title: "Url", name: "url", hidden: false },
-    { title: "Status", name: "status", hidden: false, transform:e=>e?(activeIcon):(deactiveIcon) },
-    { title: "Budget", name: "budget", hidden: false },
-    { title: "EPM", name: "epm", hidden: false },
-    { title: "Last Click", name: "lastClick", hidden: false },
-    { title: "Last Shared", name: "lastShared", hidden: false },
+    { title: "Id", name: "id", hidden:_=> true },
+    { title: "Campaign", name: "title", hidden:_=> false },
+    { title: "Url", name: "url", hidden:w=> w < 984 },
+    { title: "Status", name: "status", hidden:w=> w < 390, transform:e=>e?(activeIcon):(deactiveIcon) },
+    { title: "Budget", name: "budget", hidden:w=> w < 490 },
+    { title: "EPM", name: "epm", hidden:w=> w < 570  },
+    { title: "Last Click", name: "lastClick", hidden:w=> w < 680 },
+    { title: "Last Shared", name: "lastShared", hidden:w=> w < 850 },
     {
-        title: "Actions", name: "", hidden: false, extraActions: [
+        title: "Actions", name: "", hidden:_=> false, extraActions: [
             { title: "Details", icon: detailsIcon, action: (e) => alert(e.id) },
             { title: "Statistics", icon: statsIcon, action: (e) => alert(e.id) },
             { title: "Add Funds", icon: fundsIcon, action: (e) => alert(e.id) },

@@ -4,10 +4,10 @@ import { Columns } from "./columns";
 
 export default function Campaign() {
     return (
-        <section className="container max-w-5xl mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
-            <div className="w-full flex items-center justify-center">
+        <section className="container max-w-5xl px-5 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
+            <div className="w-full flex flex-col-reverse items-center sm:flex-row justify-around gap-2 sm:gap-7">
                 <SearchBar />
-                <button type="button" className="float-right ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Create New Campaign</button>
+                <button type="button" className="min-w-[180px] ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Create New Campaign</button>
             </div>
             <DynamicTable defaultAction={(e: any) => alert(e.id)} columns={Columns} rows={
                 [

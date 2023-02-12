@@ -8,7 +8,7 @@ export default function Index() {
     };
 
     return (
-        <div className="w-2/3">
+        <div className="w-full">
             <form>
                 <div className="relative">
                     <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
