@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { IExtraActions } from "../../interfaces/IExtraActions"
 import { IPagination } from "../../interfaces/IPagination";
 import ActionMenu from "../ActionMenu"
+import Pagination from "../Pagination";
 
 
 
@@ -44,49 +45,65 @@ export default function Index({ columns, rows, defaultAction, pagination }: IDyn
         };
     }, []);
 
+    const NoData = () => (
+        <div className="absolute top-1/2 w-full text-center flex items-center justify-center gap-2">
+            <svg
+                className="w-8 h-8 text-orange-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+            </svg>
+            <span className="text-gray-500 text-lg">No items to show</span>
+        </div>
+    );
+
     return (
         <div ref={myRef} className="relative rounded shadow-xl w-full max-h-32 overflow-y-auto">
             {/* <p>Ancho actual: {width}px</p> */}
-            {!rows.length?<div className="absolute top-1/2 w-full text-center">No items to show</div> 
-            :
-            <table className="w-full text-sm text-left text-white rounded shadow-xl">
-                <thead className="text-xs text-white uppercase bg-orange-500">
-                    <tr>
-                        {columns.filter(e => !e.hidden(width)).map(Column =>
-                        (<th key={Column.name} scope="col" className="px-6 py-3">
-                            {Column.title}
-                        </th>))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows.map((row, rowIndex) => (
-                        <tr className="bg-white border-b text-gray-700 text-left hover:bg-gray-200 cursor-pointer" key={rowIndex}>
-                            {columns.filter(e => !e.hidden(width)).map((column, index) => {
-                                if (column.extraActions) {
-                                    return (
-                                        <td key={index} className="px-6 py-2 text-center">
-                                            <ActionMenu item={row} actions={column.extraActions} />
-                                        </td>)
-                                }
-                                else
-                                    return (index === 0 ?
-                                        <th key={index} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
-                                            {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                        </th> : <td key={index} onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2"}>
-                                            {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                        </td>)
-                            }
-
-                            )}
+            {!rows.length ? <NoData/>
+                :
+                <table className="w-full text-sm text-left text-white rounded shadow-xl">
+                    <thead className="text-xs text-white uppercase bg-orange-500">
+                        <tr>
+                            {columns.filter(e => !e.hidden(width)).map(Column =>
+                            (<th key={Column.name} scope="col" className="px-6 py-3">
+                                {Column.title}
+                            </th>))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>}
-            {pagination && rows.length !== 0  &&
-                <div className="left-0 bottom-0 sticky w-full">
-                    <div className="bg-orange-500 border-b text-gray-700 px-6 py-3 text-center">
+                    </thead>
+                    <tbody>
+                        {rows.map((row, rowIndex) => (
+                            <tr className="bg-white border-b text-gray-700 text-left hover:bg-gray-200 cursor-pointer" key={rowIndex}>
+                                {columns.filter(e => !e.hidden(width)).map((column, index) => {
+                                    if (column.extraActions) {
+                                        return (
+                                            <td key={index} className="px-6 py-2 text-center">
+                                                <ActionMenu item={row} actions={column.extraActions} />
+                                            </td>)
+                                    }
+                                    else
+                                        return (index === 0 ?
+                                            <th key={index} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
+                                                {column.transform ? column.transform(row[column.name]) : row[column.name]}
+                                            </th> : <td key={index} onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2"}>
+                                                {column.transform ? column.transform(row[column.name]) : row[column.name]}
+                                            </td>)
+                                }
 
-                    </div>
-                </div>}
+                                )}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>}
+            {pagination && rows.length !== 0 &&
+                <Pagination pagination={pagination} />}
         </div>)
 }
