@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { apiRequest } from "..";
-import { ICreateAffLink, ICreateAffLinkResponse } from "../../interfaces/ICreateAffLink";
+import { ICreateAffLink } from "../../interfaces/Request";
+import { AffLinkMock } from "./mock";
 
 export function CreateAffLink(data: ICreateAffLink) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
@@ -10,7 +11,7 @@ export function CreateAffLink(data: ICreateAffLink) {
 
             if (resultado) {
                 setTimeout(() => {
-                    resolve({ data: mockObj });
+                    resolve({ data: AffLinkMock });
                 },5000);
 
             } else {
@@ -23,8 +24,4 @@ export function CreateAffLink(data: ICreateAffLink) {
     }
 }
 
-let mockObj: ICreateAffLinkResponse =
-{
-    id: "Kwxo3pH5Vxq2b-dX",
-    link: "https://api.wepromolink.com/Kwxo3pH5Vxq2b-dX"
-};
+

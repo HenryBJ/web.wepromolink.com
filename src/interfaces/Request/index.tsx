@@ -9,8 +9,3 @@ export interface ICreateAffLink {
     BTCAddress: string;
     Options?:ICreateAffLinkOptions;
 }
-
-export interface ICreateAffLinkResponse {
-    id: string;
-    link:string;
-}

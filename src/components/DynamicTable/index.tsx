@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { IExtraActions } from "../../interfaces/IExtraActions"
-import { IPagination } from "../../interfaces/IPagination";
+import { IPagination, IPaginationExtended } from "../../interfaces/IPagination";
 import ActionMenu from "../ActionMenu"
+import Loader from "../Loader";
 import Pagination from "../Pagination";
+import Spinner, { SpinnerType } from "../Spinner";
 
 
 
@@ -18,10 +20,11 @@ interface IDynamicTable {
     columns: IColumnData[],
     rows: any[],
     defaultAction?: (value: any) => void,
-    pagination?: IPagination,
+    pagination?: IPaginationExtended,
+    loading: boolean
 }
 
-export default function Index({ columns, rows, defaultAction, pagination }: IDynamicTable) {
+export default function Index({ columns, rows, defaultAction, pagination, loading = false }: IDynamicTable) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
@@ -66,44 +69,49 @@ export default function Index({ columns, rows, defaultAction, pagination }: IDyn
     );
 
     return (
-        <div ref={myRef} className="relative rounded shadow-xl w-full max-h-32 overflow-y-auto">
-            {/* <p>Ancho actual: {width}px</p> */}
-            {!rows.length ? <NoData/>
-                :
-                <table className="w-full text-sm text-left text-white rounded shadow-xl">
-                    <thead className="text-xs text-white uppercase bg-orange-500">
-                        <tr>
-                            {columns.filter(e => !e.hidden(width)).map(Column =>
-                            (<th key={Column.name} scope="col" className="px-6 py-3">
-                                {Column.title}
-                            </th>))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {rows.map((row, rowIndex) => (
-                            <tr className="bg-white border-b text-gray-700 text-left hover:bg-gray-200 cursor-pointer" key={rowIndex}>
-                                {columns.filter(e => !e.hidden(width)).map((column, index) => {
-                                    if (column.extraActions) {
-                                        return (
-                                            <td key={index} className="px-6 py-2 text-center">
-                                                <ActionMenu item={row} actions={column.extraActions} />
-                                            </td>)
-                                    }
-                                    else
-                                        return (index === 0 ?
-                                            <th key={index} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
-                                                {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                            </th> : <td key={index} onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2"}>
-                                                {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                            </td>)
-                                }
-
-                                )}
+        <>
+            <div ref={myRef} className="relative rounded shadow-xl w-full max-h-32 overflow-y-auto">
+                {/* <p>Ancho actual: {width}px</p> */}
+                {!rows.length ? loading ? "" : <NoData />
+                    :
+                    <table className="w-full text-sm text-left text-white rounded shadow-xl">
+                        <thead className="text-xs text-white uppercase bg-orange-500">
+                            <tr>
+                                {columns.filter(e => !e.hidden(width)).map(Column =>
+                                (<th key={Column.name} scope="col" className="px-6 py-3">
+                                    {Column.title}
+                                </th>))}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>}
-            {pagination && rows.length !== 0 &&
-                <Pagination pagination={pagination} />}
-        </div>)
+                        </thead>
+                        <tbody>
+                            {rows.map((row, rowIndex) => (
+                                <tr className="bg-white border-b text-gray-700 text-left hover:bg-gray-200 cursor-pointer" key={rowIndex}>
+                                    {columns.filter(e => !e.hidden(width)).map((column, index) => {
+                                        if (column.extraActions) {
+                                            return (
+                                                <td key={index} className="px-6 py-2 text-center">
+                                                    <ActionMenu item={row} actions={column.extraActions} />
+                                                </td>)
+                                        }
+                                        else
+                                            return (index === 0 ?
+                                                <th key={index} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
+                                                    {column.transform ? column.transform(row[column.name]) : row[column.name]}
+                                                </th> : <td key={index} onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2"}>
+                                                    {column.transform ? column.transform(row[column.name]) : row[column.name]}
+                                                </td>)
+                                    }
+
+                                    )}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>}
+                {pagination && rows.length !== 0 &&
+                    <Pagination pagination={pagination} />}
+            </div>
+            {loading && <Loader/>
+            }
+        </>
+    )
 }

@@ -1,4 +1,4 @@
-enum SpinnerType {
+export enum SpinnerType {
     Primary,
     Alternative
 }

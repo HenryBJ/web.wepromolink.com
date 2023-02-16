@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CampaignCard from "../../components/CampaignCard";
 import Spinner from "../../components/Spinner";
-import { ICampaignListResponse, ICampaingCard } from "../../interfaces/ICampaingCard";
+import { ICampaingCard } from "../../interfaces/ViewModels";
 import { GetCampaigns } from "../../services/CampaignService";
 
 export default function Dashboard() {

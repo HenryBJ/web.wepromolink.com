@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ICampaingCard } from "../../interfaces/ICampaingCard";
+import { ICampaingCard } from "../../interfaces/ViewModels";
 import ShareDialog from "../ShareDialog";
 
 

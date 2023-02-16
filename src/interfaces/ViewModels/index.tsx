@@ -1,3 +1,4 @@
+
 export interface ICampaingCard{
     id?:string,
     title:string,
@@ -9,8 +10,13 @@ export interface ICampaingCard{
     autorName:string
 }
 
-export interface ICampaignListResponse{
-    page:Number,
-    sponsoredLinks:ICampaingCard[],
-    totalPages:Number
+export interface IMyCampaign{
+    id?:string,
+    title:string,
+    url:string,
+    status:boolean,
+    budget:Number,
+    epm:Number,
+    lastClick:Date,
+    lastShared:Date
 }

@@ -1,8 +1,8 @@
-import { IPagination } from "../../interfaces/IPagination";
+import { IPagination, IPaginationExtended } from "../../interfaces/IPagination";
 
 
 interface IProps {
-    pagination: IPagination | undefined
+    pagination: IPaginationExtended
 }
 
 

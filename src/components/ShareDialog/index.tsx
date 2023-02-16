@@ -2,11 +2,11 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import CopyButton from '../CopyButton'
 import { Link } from 'react-router-dom'
-import { ICreateAffLink, ICreateAffLinkResponse } from '../../interfaces/ICreateAffLink';
 import { CreateAffLink } from '../../services/AffLinkService';
 import { useAuth } from '../../hooks/Auth';
 import { IUser } from '../../interfaces/IUser';
 import Spinner from '../Spinner';
+import { ICreateAffLinkResponse } from '../../interfaces/Responses';
 
 interface IShareDialogInput {
     isOpen: boolean;

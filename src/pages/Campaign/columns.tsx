@@ -23,6 +23,35 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 </svg>
 )
 
+const timeSince = (date:Date):string =>  {
+    let now = new Date();
+    let dif = now.getTime() - date.getTime();
+    const seconds = Math.floor(dif / 1000);
+    let interval = Math.floor(seconds / 31536000);
+  
+    if (interval >= 1) {
+      return interval + " year" + (interval === 1 ? "" : "s") + " ago";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+      return interval + " month" + (interval === 1 ? "" : "s") + " ago";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+      return interval + " day" + (interval === 1 ? "" : "s") + " ago";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+      return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+      return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
+    }
+    return "just now";
+  }
+  
+
 
 export const Columns: IColumnData[] = [
     { title: "Id", name: "id", hidden:_=> true },
@@ -31,8 +60,8 @@ export const Columns: IColumnData[] = [
     { title: "Status", name: "status", hidden:w=> w < 390, transform:e=>e?(activeIcon):(deactiveIcon) },
     { title: "Budget", name: "budget", hidden:w=> w < 490 },
     { title: "EPM", name: "epm", hidden:w=> w < 570  },
-    { title: "Last Click", name: "lastClick", hidden:w=> w < 680 },
-    { title: "Last Shared", name: "lastShared", hidden:w=> w < 850 },
+    { title: "Last Click", name: "lastClick", hidden:w=> w < 680, transform:e=>timeSince(e) },
+    { title: "Last Shared", name: "lastShared", hidden:w=> w < 850, transform:e=>timeSince(e) },
     {
         title: "Actions", name: "", hidden:_=> false, extraActions: [
             { title: "Details", icon: detailsIcon, action: (e) => alert(e.id) },
