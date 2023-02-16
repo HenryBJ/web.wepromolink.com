@@ -22,7 +22,7 @@ export function GetCampaigns(page:Number) {
     }
 }
 
-export function GetMyCampaigns(page:Number, cant:Number=50) {
+export function GetMyCampaigns(page:Number, filter:string, cant:Number=50) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
     if (mock === "1") {
         return new Promise(function (resolve:(value:AxiosResponse|any)=>void, reject) {
@@ -38,6 +38,6 @@ export function GetMyCampaigns(page:Number, cant:Number=50) {
         });
     }
     else {
-        return apiRequest.get(`mycampaigns?page=${page}&cant=${cant}`)
+        return apiRequest.get(`mycampaigns?page=${page}&cant=${cant}&filter=${filter}`)
     }
 }
