@@ -90,7 +90,7 @@ export default function Index({ columns, rows, defaultAction, pagination, loadin
                                         if (column.extraActions) {
                                             return (
                                                 <td key={index} className="px-6 py-2 text-center">
-                                                    <ActionMenu item={row} actions={column.extraActions} />
+                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions} />
                                                 </td>)
                                         }
                                         else
