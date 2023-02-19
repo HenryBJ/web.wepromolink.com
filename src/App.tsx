@@ -16,6 +16,7 @@ import Settings from './pages/Settings';
 import Campaign from './pages/Campaign';
 import Shared from './pages/Shared';
 import Balance from './pages/Balance';
+import CreateCampaign from './pages/CreateCampaign';
 // import './App.css';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/campaigns" element={<Campaign />} />
+            <Route path='/create' element={<CreateCampaign />} />
             <Route path="/links" element={<Shared />} />
             <Route path="/balance" element={<Balance />} />
           </Route>
