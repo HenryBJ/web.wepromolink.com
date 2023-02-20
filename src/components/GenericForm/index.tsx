@@ -1,10 +1,11 @@
 import { Children, ReactElement, ReactNode } from "react";
 import InfoTip from "../InfoTip";
-import { FieldValues, useForm, UseFormRegister } from "react-hook-form";
+import { FieldValues, useForm, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from "react";
+import WarningTip from "../WarningTip";
 
-type FormProps = (props: { register: UseFormRegister<FieldValues> }) => React.ReactNode;
+type FormProps = (props: { register: UseFormRegister<FieldValues>, watch:UseFormWatch<FieldValues> }) => React.ReactNode;
 
 
 export interface IFormItems {
@@ -34,7 +35,7 @@ export function FormItem({ helpTip, children }: IFormItems) {
 
 export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit }: IProps) {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, watch } = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -62,18 +63,20 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
                     {React.Children.map(children, (child, index) => {
                         let echild = child as ReactElement;
                         let error = echild.props['field'] && errors[`${echild.props['field']}`]?.message;
+                        let helpTip = echild.props['helpTip'];
                         if (typeof echild.props.children === "function") {
                             let fn: FormProps = echild.props.children;
                             return (
                                 <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
-                                    {fn({ register: register })}
-                                    {error}
+                                    {fn({ register: register, watch:watch })}
+                                    {helpTip && <InfoTip text={helpTip} />}
+                                    {error && <WarningTip text={error}/>}
                                 </div>);
                         } else {
                             return (
                                 <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
                                     {child}
-                                    {error}
+                                    {error && <WarningTip text={error}/>}
                                 </div>);
                         }
 
