@@ -21,6 +21,14 @@ export interface IMyCampaign{
     lastShared:Date
 }
 
+export interface IMyAffLink{
+    id?:string,
+    title:string,
+    url:string,
+    available:Number,
+    lastClick:Date,
+}
+
 export interface ICreateCampaign{
     title:string,
     url:string,

@@ -68,7 +68,7 @@ export default function Index() {
         data.email = user.email
 
         CreateCampaigns(data)
-            .then(res => { console.log(res.data); navigation(-1); })
+            .then(res => navigation(-1))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
 
