@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import { apiRequest } from "..";
+import { ICreateCampaign } from "../../interfaces/ViewModels";
 import { campaignToFeedList, myCampaingList } from "./mock";
 
 export function GetCampaigns(page:Number) {
@@ -39,5 +40,25 @@ export function GetMyCampaigns(page:Number, filter:string, cant:Number=50) {
     }
     else {
         return apiRequest.get(`mycampaigns?page=${page}&cant=${cant}&filter=${filter}`)
+    }
+}
+
+export function CreateCampaigns(data:ICreateCampaign) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve:(value:AxiosResponse|any)=>void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve({ data: "A-P3eaApJtuv" }); // new campaignId
+                },5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.post("link", data)
     }
 }

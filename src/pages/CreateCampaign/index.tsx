@@ -1,15 +1,12 @@
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import * as yup from "yup";
-import { ReactEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, ReactEventHandler, useEffect, useState } from "react";
+import Loader from "../../components/Loader";
+import { CreateCampaigns } from "../../services/CampaignService";
+import { useNavigate } from "react-router-dom";
+import { ICreateCampaign } from "../../interfaces/ViewModels";
+import { useAuth } from "../../hooks/Auth";
 
-type CampaignInputs = {
-    title: string,
-    url: string,
-    description: string,
-    imageUrl: string,
-    epm: number,
-    email: string
-}
 
 const schema = yup.object({
     title: yup.string().trim().required(),
@@ -26,6 +23,9 @@ export default function Index() {
     const fallbackImg: string = "https://wepromolink.com/card.png";
     const [imgSrc, setImgSrc] = useState(fallbackImg);
     const [imgError, setImgError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const navigation = useNavigate();
+    const { user } = useAuth();
 
 
     const onImgError = () => {
@@ -36,32 +36,43 @@ export default function Index() {
         }
     };
 
-    // const handleImg = (imageUrl: string):string => {
-    //     try {
+    const checkImg = async (imageUrl: string) => {
+        const imagen = new Image();
+        imagen.src = imageUrl;
 
-    //         const fn = async (url:string)=> await fetch(url); 
+        imagen.onload = () => {
+            setImgSrc(imageUrl);
+        };
 
-    //         const response = await fn(imageUrl) 
-    //         const contentType = response.headers.get('content-type');
-    //         if(contentType && (contentType.includes('image/png') || contentType.includes('image/jpeg')) ){
-    //             return imageUrl;
-    //         } else {
-    //             return fallbackImg;
-    //         }
-            
-    //     } catch (error) {
-    //         return fallbackImg;
-    //     }
-    // }
-
-    const onSubmit = (data: CampaignInputs) => {
-        alert(data.description);
+        imagen.onerror = () => {
+            setImgSrc(fallbackImg);
+        };
     }
 
-    useEffect(()=>{
+    const handleImg = (e: string) => {
 
-    },[]);
+        function validarURL(url: string) {
+            const regex = /^(http|https):\/\/[^ "]+$/;
+            return regex.test(url);
+        }
 
+        if (validarURL(e)) {
+            checkImg(e);
+        }
+    }
+
+    const onSubmit = (data: ICreateCampaign) => {
+        setLoading(true);
+        
+        data.imageUrl = imgSrc;
+        data.email = user.email
+
+        CreateCampaigns(data)
+            .then(res => { console.log(res.data); navigation(-1); })
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false));
+
+    }
 
 
     return (
@@ -90,14 +101,15 @@ export default function Index() {
                 <FormItem helpTip="Campaign Image Preview: if the image url provided is not valid a default image is used">
                     {({ watch }) => {
                         let obj: any = watch();
-                        // handleImg(obj.imageUrl);
+                        handleImg(obj.imageUrl);
                         return (
                             <div className="flex justify-start items-center px-0">
-                                <img className="h-full w-80 rounded ring-2 ring-orange-500" onError={onImgError} src={imgSrc} alt="Image preview" />  
+                                <img className="h-full w-80 rounded ring-2 ring-orange-500" onError={onImgError} src={imgSrc} alt="Image preview" />
                             </div>
                         )
                     }}
                 </FormItem>
             </GenericForm>
+            {loading && <Loader text="Creating campaign ..." />}
         </section>)
 }

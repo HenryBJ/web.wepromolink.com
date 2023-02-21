@@ -20,3 +20,12 @@ export interface IMyCampaign{
     lastClick:Date,
     lastShared:Date
 }
+
+export interface ICreateCampaign{
+    title:string,
+    url:string,
+    description:string,
+    imageUrl:string,
+    email:string,
+    epm:Number,
+}

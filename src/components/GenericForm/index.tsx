@@ -4,13 +4,14 @@ import { FieldValues, useForm, UseFormRegister, UseFormWatch } from "react-hook-
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from "react";
 import WarningTip from "../WarningTip";
+import { useNavigate } from "react-router-dom";
 
-type FormProps = (props: { register: UseFormRegister<FieldValues>, watch:UseFormWatch<FieldValues> }) => React.ReactNode;
+type FormProps = (props: { register: UseFormRegister<FieldValues>, watch: UseFormWatch<FieldValues> }) => React.ReactNode;
 
 
 export interface IFormItems {
     helpTip?: string,
-    field?:string,
+    field?: string,
     children: FormProps | ReactNode
 }
 
@@ -39,12 +40,10 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
         resolver: yupResolver(schema)
     });
 
-    const handleTip = () => {
-        alert("/Tip");
-    }
+    const navigation = useNavigate();
 
     const handleBack = () => {
-        alert("/back");
+        navigation(-1);
     }
 
 
@@ -68,21 +67,21 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
                             let fn: FormProps = echild.props.children;
                             return (
                                 <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
-                                    {fn({ register: register, watch:watch })}
+                                    {fn({ register: register, watch: watch })}
                                     {helpTip && <InfoTip text={helpTip} />}
-                                    {error && <WarningTip text={error}/>}
+                                    {error && <WarningTip text={error} />}
                                 </div>);
                         } else {
                             return (
                                 <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
                                     {child}
-                                    {error && <WarningTip text={error}/>}
+                                    {error && <WarningTip text={error} />}
                                 </div>);
                         }
 
                     })}
                     <div className="min-h-[60px] bg-white shadow px-2 py-2 flex items-center justify-center">
-                        <button type="submit"  className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
+                        <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
                     </div>
                 </form>
             </div>
