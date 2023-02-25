@@ -1,0 +1,107 @@
+import { useEffect, useState } from "react";
+import { Bar} from "react-chartjs-2";
+import Spinner from "../Spinner";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarElement } from 'chart.js';
+import { AxiosResponse } from "axios";
+
+export interface IStats {
+    title: string,
+    labels: string[],
+    data: number[][],
+    dataLabels:string[]
+}
+
+interface IProps {
+    title: string,
+    transform?: (value: any) => any,
+    load?(): Promise<AxiosResponse<IStats>>,
+    data?: IStats
+}
+
+interface IBarData {
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string;
+        borderColor: string;
+    }[];
+}
+
+const options = (title: string, showLegend:boolean = false) => ({
+    responsive: true,
+    plugins: {
+        legend: {
+            display:showLegend, 
+            position: 'top' as const,
+        },
+        title: {
+            display: false,
+            text: title,
+        },
+    },
+});
+const generateRandomColors = (n: Number) => {
+    const colors = [];
+    for (let i = 0; i < n; i++) {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        const alpha = 0.8;
+        colors.push(`rgba(${r}, ${g}, ${b}, ${alpha})`);
+    }
+    return colors;
+}
+
+const transformAdapter: (value: IStats) => IBarData = (value) => {
+    let colors = generateRandomColors(value.data.length);
+    let output: IBarData = {
+        labels: value.labels, datasets:value.data.map((e, index)=>({
+            data: e,
+            backgroundColor: colors[index],
+            borderColor: colors[index],
+            label: value.dataLabels[index]
+        }))
+    }
+    return output
+}
+
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+
+export default function Index({ title, load, transform, data }: IProps) {
+    const [loading, setLoading] = useState(false);
+    const [pdata, setPData] = useState<IBarData>();
+
+    useEffect(() => {
+        if (load) {
+            setLoading(true);
+            load()
+                .then(res => {
+                    if (transform) {
+                        setPData(transformAdapter(transform(res.data)))
+                    } else {
+                        setPData(transformAdapter(res.data))
+                    }
+                })
+                .catch(err => console.log(err))
+                .finally(() => setLoading(false))
+        } else if (transform) {
+            setPData(transformAdapter(transform(data)))
+        } else {
+            data && setPData(transformAdapter(data))
+        }
+    }, []);
+
+
+    return (
+        <div className="w-full bg-white rounded shadow-lg cursor-pointer">
+            <div className="h-10 w-full bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
+                {title}
+            </div>
+            <div className="w-full h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">
+                {loading ? <Spinner /> : pdata && <Bar className="w-full" options={options(data?.title || 'Stats', data && data?.data.length > 1)} data={pdata} />}
+            </div>
+        </div>)
+}
