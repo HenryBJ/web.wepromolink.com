@@ -17,6 +17,8 @@ import Campaign from './pages/Campaign';
 import Shared from './pages/Shared';
 import Balance from './pages/Balance';
 import CreateCampaign from './pages/CreateCampaign';
+import Feed from './pages/Feed';
+import Notification from './pages/Notification';
 // import './App.css';
 
 function App() {
@@ -34,7 +36,9 @@ function App() {
 
         <Route element={<AuthLayout />}>
           <Route element={<ProtectedRoute />}>
+            <Route path="/notifications" element={<Notification/>} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/feed" element={<Feed />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/campaigns" element={<Campaign />} />
             <Route path='/create' element={<CreateCampaign />} />
