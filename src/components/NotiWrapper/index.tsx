@@ -10,12 +10,12 @@ export default function Index({ children, notiIndex }: any) {
         if(notiIndex){
             setbadge(notification[notiIndex]);
         }
-    },[badge]);
+    },[notification.flag]);
     
 
     return (
-        <div className="relative inline group">
+        <div className="group relative">
             {children}
-            {badge?<span className="group-hover:hidden absolute -bottom-1 -right-2 bg-red-600 rounded-full px-1 text-xs text-white font-bold">99</span>:''}
+            {badge?<span className="group-hover:hidden absolute top-0 -right-2 bg-red-600 rounded-full px-1 text-[9px] text-white font-bold ring-1 ring-orange-200">{badge}</span>:''}
         </div>)
 }

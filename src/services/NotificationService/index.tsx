@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { apiRequest } from "..";
 import { INotificationBadget } from "../../hooks/NotificationProvider";
-import { notiMock } from "./mock";
+import { generateRandomObject, notiMock } from "./mock";
 
 export function GetNotificationBadget(id:Number) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
@@ -11,7 +11,7 @@ export function GetNotificationBadget(id:Number) {
 
             if (resultado) {
                 setTimeout(() => {
-                    resolve({ data: notiMock });
+                    resolve({ data: generateRandomObject(notiMock) });
                 },5000);
             } else {
                 reject("La operación falló");

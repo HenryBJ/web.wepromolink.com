@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom";
+import NotiWrapper from "../NotiWrapper";
 
 interface IUserInfo {
     name: string,
@@ -29,7 +30,9 @@ export default function ProfileMenu(props: IUserInfo) {
                     {() => {
                         if (props.imageUrl) {
                             return (
-                                <img className="ml-4 w-7 max-w-[40px] max-h-[40px] h-7  rounded-full ring-1 ring-white" alt="profile image" src={props.imageUrl} />
+                                <NotiWrapper notiIndex="notification">
+                                    <img className="ml-4 w-7 max-w-[40px] max-h-[40px] h-7  rounded-full ring-1 ring-white" alt="profile image" src={props.imageUrl} />
+                                </NotiWrapper>
                             )
                         }
                         else {
@@ -41,7 +44,7 @@ export default function ProfileMenu(props: IUserInfo) {
                         }
                     }}
                 </Menu.Button>
-                <Transition
+                <Transition className="relative z-50"
                     enter="transition duration-500 ease-out"
                     enterFrom="transform scale-95 opacity-0"
                     enterTo="transform scale-100 opacity-100"
@@ -52,12 +55,14 @@ export default function ProfileMenu(props: IUserInfo) {
                     <Menu.Items className="absolute top-8 right-0 mt-0 w-44 px-3 py-3 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none text-center text-orange-600 font-semibold ">
                         <Menu.Item>
                             {({ active }) => (
-                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={GoNotifications}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6  inline mr-2 my-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                                    </svg>
-                                    <span>Notifications</span>
-                                </button>
+                                <NotiWrapper notiIndex="notification">
+                                    <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={GoNotifications}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6  inline mr-2 my-2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                        </svg>
+                                        <span>Notifications</span>
+                                    </button>
+                                </NotiWrapper>
                             )}
                         </Menu.Item>
                         <Menu.Item>

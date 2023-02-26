@@ -2,13 +2,13 @@ import React, { Children, createContext, useEffect, useState } from 'react';
 import { GetNotificationBadget, UpdateNotificationBadget } from '../../services/NotificationService';
 
 export interface INotificationBadget {
-  id: Number,
-  notification: Number,
-  campaing: Number,
-  links: Number,
-  clicks: Number,
-  deposit: Number,
-  withdraw: Number,
+  id: number,
+  notification: number,
+  campaing: number,
+  links: number,
+  clicks: number,
+  deposit: number,
+  withdraw: number,
   flag: string
 }
 
