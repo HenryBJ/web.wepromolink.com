@@ -1,0 +1,42 @@
+import { ITransactionResponse } from "../../interfaces/Responses";
+
+
+export const transactionList: ITransactionResponse = {
+    pagination: { cant: 44, page: 1, totalPages: 44, lastPage: 50 },
+    items: [
+        { id: 1, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 2, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 3, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 4, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 5, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 6, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 7, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 8, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 9, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 10, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 11, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 12, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 13, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 14, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 15, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 16, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 17, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 18, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 19, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 20, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 21, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 22, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 23, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 24, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 25, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 26, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 27, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 28, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 29, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 30, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 31, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 32, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 33, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+        { id: 34, amount: 100, status: 'PENDING', title: 'DEPOSIT BTC', created: new Date() },
+    ]
+}

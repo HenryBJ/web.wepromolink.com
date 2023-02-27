@@ -16,7 +16,7 @@ const stats:IStats = {
 
 
 
-export default function Balance() {
+export default function Dashboard() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
             <div className="flex gap-2 flex-wrap  justify-center items-start">

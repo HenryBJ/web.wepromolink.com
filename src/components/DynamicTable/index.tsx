@@ -17,6 +17,7 @@ export interface IColumnData {
 }
 
 interface IDynamicTable {
+    title?: string,
     columns: IColumnData[],
     rows: any[],
     defaultAction?: (value: any) => void,
@@ -24,7 +25,7 @@ interface IDynamicTable {
     loading: boolean
 }
 
-export default function Index({ columns, rows, defaultAction, pagination, loading = false }: IDynamicTable) {
+export default function Index({ title, columns, rows, defaultAction, pagination, loading = false }: IDynamicTable) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
@@ -76,9 +77,15 @@ export default function Index({ columns, rows, defaultAction, pagination, loadin
                     :
                     <table className="w-full text-sm text-left text-white rounded shadow-xl">
                         <thead className="text-xs text-white uppercase bg-orange-500">
+                            {title ?
+                                <tr>
+                                    <td className="px-2 py-1 text-xs font-bold text-center" colSpan={columns.length}>
+                                        {title}
+                                    </td>
+                                </tr> : ''}
                             <tr>
                                 {columns.filter(e => !e.hidden(width)).map(Column =>
-                                (<th key={Column.name} scope="col" className="px-6 py-3">
+                                (<th key={Column.name} scope="col" className="px-6 py-3 text-[0.7rem]">
                                     {Column.title}
                                 </th>))}
                             </tr>
@@ -110,7 +117,7 @@ export default function Index({ columns, rows, defaultAction, pagination, loadin
                 {pagination && rows.length !== 0 &&
                     <Pagination pagination={pagination} />}
             </div>
-            {loading && <Loader/>
+            {loading && <Loader />
             }
         </>
     )

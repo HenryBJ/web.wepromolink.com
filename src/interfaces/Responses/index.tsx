@@ -1,5 +1,5 @@
 import { IPagination } from "../IPagination";
-import { ICampaingCard, IMyAffLink, IMyCampaign } from "../ViewModels";
+import { ICampaingCard, IMyAffLink, IMyCampaign, ITransaction } from "../ViewModels";
 
 export interface ICampaignListResponse {
     page: Number,
@@ -20,6 +20,11 @@ export interface IMyCampaignsResponse {
 export interface IMyAffLinksResponse {
     pagination: IPagination,
     items: IMyAffLink[]
+}
+
+export interface ITransactionResponse {
+    pagination: IPagination,
+    items: ITransaction[]
 }
 
 

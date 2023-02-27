@@ -29,6 +29,15 @@ export interface IMyAffLink{
     lastClick:Date,
 }
 
+export interface ITransaction{
+    id:number,
+    title:string,
+    amount:number,
+    status:string,
+    created:Date,
+}
+
+
 export interface ICreateCampaign{
     title:string,
     url:string,

@@ -46,9 +46,9 @@ export default function Index({ title, data, transform, load, trend }: IProps) {
 
 
     return (
-        <div className="min-w-[200px] bg-white min-h-[140px] rounded shadow-lg cursor-pointer">
-            <div className="h-10 w-full bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">{title}</div>
-            <div className="w-full h-[100px] rounded-b p-2 flex justify-center items-center text-2xl gap-1">
+        <div className="min-w-[160px] sm:min-w-[180px] bg-white min-h-[70px] sm:min-h-[120px] rounded shadow-lg cursor-pointer">
+            <div className="h-7 text-sm sm:text-sm  sm:h-10 w-full bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">{title}</div>
+            <div className="w-full h-12 sm:h-[80px] rounded-b p-2 flex justify-center items-center text-2xl gap-1">
                 {loading ? <Spinner /> : pdata}
                 {trend !== undefined ? trend ? trendUp : trendDown : null}
             </div>
