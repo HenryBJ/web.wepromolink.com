@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Dash from "../../components/Dash";
 import DynamicTable from "../../components/DynamicTable";
-import { IMyAffLinksResponse, ITransactionResponse } from "../../interfaces/Responses";
+import { ITransactionResponse } from "../../interfaces/Responses";
 import { GetTransactions } from "../../services/TransactionService";
 import { Columns } from "./columns";
 

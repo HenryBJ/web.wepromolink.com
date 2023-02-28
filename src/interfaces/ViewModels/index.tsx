@@ -37,6 +37,14 @@ export interface ITransaction{
     created:Date,
 }
 
+export interface INotification{
+    id:number,
+    title:string,
+    message:string,
+    status:string,
+    created:Date,
+}
+
 
 export interface ICreateCampaign{
     title:string,

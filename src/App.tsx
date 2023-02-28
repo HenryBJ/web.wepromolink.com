@@ -19,6 +19,8 @@ import Balance from './pages/Balance';
 import CreateCampaign from './pages/CreateCampaign';
 import Feed from './pages/Feed';
 import Notification from './pages/Notification';
+import Billing from './pages/Billing';
+import SubPlan from './pages/SubPlan';
 // import './App.css';
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route element={<ProtectedRoute />}>
             <Route path="/notifications" element={<Notification/>} />
+            <Route path="/billing" element={<Billing/>} />
+            <Route path="/subcriptions" element={<SubPlan/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/settings" element={<Settings />} />

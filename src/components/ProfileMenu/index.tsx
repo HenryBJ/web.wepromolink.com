@@ -18,8 +18,19 @@ export default function ProfileMenu(props: IUserInfo) {
         navigate("/settings");
     }
 
-    const GoNotifications = () => {
+    const GoNotifications = (fn: () => void) => {
         navigate("/notifications");
+        fn();
+    }
+
+    const GoBilling = (fn: () => void) => {
+        navigate("/billing");
+        fn();
+    }
+
+    const GoSubs = (fn: () => void) => {
+        navigate("/subcriptions");
+        fn();
     }
 
     return (
@@ -37,9 +48,11 @@ export default function ProfileMenu(props: IUserInfo) {
                         }
                         else {
                             return (
-                                <div className="ml-4 relative w-7 h-7 max-w-[40px] max-h-[40px] overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <svg className="absolute w-7 h-7 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                                </div>
+                                <NotiWrapper notiIndex="notification">
+                                    <div className="ml-4 relative w-7 h-7 max-w-[40px] max-h-[40px] overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                        <svg className="absolute w-7 h-7 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+                                    </div>
+                                </NotiWrapper>
                             )
                         }
                     }}
@@ -54,9 +67,9 @@ export default function ProfileMenu(props: IUserInfo) {
                 >
                     <Menu.Items className="absolute top-8 right-0 mt-0 w-44 px-3 py-3 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none text-center text-orange-600 font-semibold ">
                         <Menu.Item>
-                            {({ active }) => (
+                            {({ active, close }) => (
                                 <NotiWrapper notiIndex="notification">
-                                    <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={GoNotifications}>
+                                    <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoNotifications(close)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6  inline mr-2 my-2">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                                         </svg>
@@ -74,6 +87,28 @@ export default function ProfileMenu(props: IUserInfo) {
                                     </svg>
 
                                     <span>Settings</span>
+                                </button>
+                            )}
+                        </Menu.Item>
+                        <Menu.Item>
+                            {({ active, close }) => (
+                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoBilling(close)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                    </svg>
+
+                                    <span>Billing</span>
+                                </button>
+                            )}
+                        </Menu.Item>
+                        <Menu.Item>
+                            {({ active, close }) => (
+                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoSubs(close)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+                                    </svg>
+
+                                    <span>Subcriptions</span>
                                 </button>
                             )}
                         </Menu.Item>
