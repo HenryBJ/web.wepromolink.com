@@ -45,6 +45,21 @@ export interface INotification{
     created:Date,
 }
 
+export interface ISubscriptionPlan{
+    id:number,
+    title:string,
+    price:number,
+    interval:string,
+    discount:number,
+    inUse:boolean,
+    ads:boolean,
+    depositFee:number,
+    payoutFee:number,
+    payoutMinimun:number,
+    paymentMethod:string,
+    tag?:string
+}
+
 
 export interface ICreateCampaign{
     title:string,

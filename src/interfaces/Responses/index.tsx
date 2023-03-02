@@ -1,5 +1,5 @@
 import { IPagination } from "../IPagination";
-import { ICampaingCard, IMyAffLink, IMyCampaign, INotification, ITransaction } from "../ViewModels";
+import { ICampaingCard, IMyAffLink, IMyCampaign, INotification, ISubscriptionPlan, ITransaction } from "../ViewModels";
 
 export interface ICampaignListResponse {
     page: Number,
@@ -30,6 +30,11 @@ export interface ITransactionResponse {
 export interface INotificationResponse {
     pagination: IPagination,
     items: INotification[]
+}
+
+export interface ISubscriptionResponse {
+    pagination: IPagination,
+    items: ISubscriptionPlan[]
 }
 
 

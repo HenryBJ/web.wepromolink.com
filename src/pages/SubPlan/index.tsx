@@ -1,5 +1,10 @@
 
+import { useEffect, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb"
+import DynamicTable from "../../components/DynamicTable";
+import { ISubscriptionResponse } from "../../interfaces/Responses";
+import { GetSubscriptionPlans } from "../../services/SubscriptionService";
+import { Columns } from "./columns";
 
 
 const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -9,8 +14,32 @@ const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0
 
 
 export default function Index() {
-    return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
-        <Breadcrumb levels={[{ icon: subIcon, title: 'Subcription Plans', link: '/subcriptions' }, { title: 'Subcriptions Plans', link: '' }]} />
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [page, setPage] = useState(1);
+    const [data, setData] = useState<ISubscriptionResponse>();
+
+    useEffect(() => {
+        setLoading(true);
+        GetSubscriptionPlans(page)
+            .then((res) => setData(res.data))
+            .catch(err => setError(true))
+            .finally(() => setLoading(false))
+    }, [page]);
+    
+    return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
+        <Breadcrumb levels={[{ icon: subIcon, title: 'Subcriptions', link: '/subcriptions' }, { title: 'Subcriptions', link: '' }]} />
+        <DynamicTable title='Subscription Plans' defaultAction={(e: any) => alert(e.id)} columns={Columns} loading={loading}
+                pagination={
+                    {
+                        first: () => setPage(1),
+                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
+                        next: () => setPage(prev => prev + 1),
+                        prev: () => setPage(prev => prev - 1),
+                        ...(data?.pagination!),
+                    }
+                }
+                rows={data?.items || []} />
     </section>)
 }

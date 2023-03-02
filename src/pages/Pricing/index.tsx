@@ -6,13 +6,13 @@ export default function Pricing() {
   const [proMonthly, setProMonthly] = useState(true);
   const [busiMonthly, setBusiMonthly] = useState(true);
 
-  const onGetStarted = (monthly:boolean)=>{
+  const onGetStarted = (monthly: boolean) => {
     alert(monthly)
   }
 
   return (
 
-    <div className="container max-w-4xl mx-auto z-50 pt-12 md:pt-0 md:mt-5">
+    <div className="container max-w-6xl mx-auto z-50 pt-12 md:pt-0 md:mt-5">
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">Pricing</h1>
 
       <div className=" h-[calc(100vh-120px)] md:h-[calc(100vh-180px)] w-full flex flex-wrap gap-3 md:gap-11 justify-center overflow-y-auto ">
@@ -50,6 +50,7 @@ export default function Pricing() {
           mastercard={true}
           onGetStarted={onGetStarted}
           wireBank={false} />
+
 
       </div>
 
