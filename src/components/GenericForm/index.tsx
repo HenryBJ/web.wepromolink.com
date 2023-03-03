@@ -21,7 +21,8 @@ interface IProps {
     buttonTitle?: string,
     schema: any,
     onSubmit: (data: any) => void,
-    children: ReactNode
+    children: ReactNode,
+    back?: boolean
 }
 
 export function FormItem({ helpTip, children }: IFormItems) {
@@ -34,7 +35,7 @@ export function FormItem({ helpTip, children }: IFormItems) {
 }
 
 
-export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit }: IProps) {
+export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true }: IProps) {
 
     const { register, handleSubmit, formState: { errors }, watch } = useForm({
         resolver: yupResolver(schema)
@@ -49,11 +50,11 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
 
     return (
         <div className="relative w-full bg-gray-200 flex flex-col rounded shadow-xl">
-            <div className="absolute top-1 left-3 text-white cursor-pointer hover:text-gray-300" onClick={handleBack}>
+            {back && <div className="absolute top-1 left-3 text-white cursor-pointer hover:text-gray-300" onClick={handleBack}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-            </div>
+            </div>}
             <div className="h-9 w-full rounded-t bg-orange-500 uppercase text-white flex items-center justify-center font-bold  ">
                 {title}
             </div>

@@ -69,3 +69,20 @@ export interface ICreateCampaign{
     email:string,
     epm:Number,
 }
+
+export interface IPayoutData{
+    payoutType:string,
+    btcAddress?:string,
+    debitCard?:string,
+    paypal?:string,
+    wire?:{
+        name:string,
+        accountNumber:string,
+        bankName:string,
+        swiftorBic?:string,
+        iban?:string,
+        bankAddress:string,
+        branch?:string         
+    }
+}
+

@@ -96,11 +96,11 @@ export default function Index({ title, load, transform, data }: IProps) {
 
 
     return (
-        <div className="w-full bg-white rounded shadow-lg cursor-pointer">
-            <div className="h-10 w-full bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
+        <div className="bg-white rounded shadow-lg cursor-pointer">
+            <div className="h-10 bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
                 {title}
             </div>
-            <div className="w-full h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">
+            <div className="h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">
                 {loading ? <Spinner /> : pdata && <Line className="w-full" options={options(data?.title || 'Stats', data && data?.data.length > 1)} data={pdata} />}
             </div>
         </div>)

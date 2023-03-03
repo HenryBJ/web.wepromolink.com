@@ -1,15 +1,12 @@
 import React from 'react';
 import HomeLayout from './layouts/HomeLayout';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
-import logo from './logo.svg';
 import Home from './pages/Home';
 import Terms from './pages/Terms';
 import Faq from './pages/Faq';
 import Pricing from './pages/Pricing';
 import Contact from './pages/Contact';
-import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import Layout from './layouts/AuthLayout';
 import AuthLayout from './layouts/AuthLayout';
 import { ProtectedRoute } from './router/ProtectedRoute';
 import Settings from './pages/Settings';
@@ -19,8 +16,8 @@ import Balance from './pages/Balance';
 import CreateCampaign from './pages/CreateCampaign';
 import Feed from './pages/Feed';
 import Notification from './pages/Notification';
-import Billing from './pages/Billing';
 import SubPlan from './pages/SubPlan';
+import Payout from './pages/Payout';
 // import './App.css';
 
 function App() {
@@ -39,7 +36,7 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route element={<ProtectedRoute />}>
             <Route path="/notifications" element={<Notification/>} />
-            <Route path="/billing" element={<Billing/>} />
+            <Route path="/payouts" element={<Payout/>} />
             <Route path="/subcriptions" element={<SubPlan/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/feed" element={<Feed />} />
