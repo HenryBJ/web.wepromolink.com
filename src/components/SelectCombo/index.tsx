@@ -1,87 +1,34 @@
 import { Fragment, ReactElement, useEffect, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { Control, FieldValues } from 'react-hook-form'
+import { Listbox, Transition } from "@headlessui/react"
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
-const people = [
-    {
-        id: 1,
-        name: 'Wade Cooper',
-        avatar:
-            'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 2,
-        name: 'Arlene Mccoy',
-        avatar:
-            'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 3,
-        name: 'Devon Webb',
-        avatar:
-            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
-    },
-    {
-        id: 4,
-        name: 'Tom Cook',
-        avatar:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 5,
-        name: 'Tanya Fox',
-        avatar:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 6,
-        name: 'Hellen Schmidt',
-        avatar:
-            'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 7,
-        name: 'Caroline Schultz',
-        avatar:
-            'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 8,
-        name: 'Mason Heaney',
-        avatar:
-            'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 9,
-        name: 'Claudie Smitham',
-        avatar:
-            'https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-        id: 10,
-        name: 'Emil Schaefer',
-        avatar:
-            'https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-]
+
+interface IProps {
+    onChange?: (data: string) => void,
+    items: { id: number, name: string, icon: ReactElement, selected: boolean }[]
+}
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-interface IProps {
-    items: { id: number, name: string, icon: ReactElement }[]
-}
+export default function Index({ items, onChange }: IProps) {
+    const [itemSelected, setItemSelected] = useState<{ id: number, name: string, icon: ReactElement, selected: boolean }>()
 
-export default function Index({ items }: IProps) {
-    const [itemSelected, setItemSelected] = useState<{ id: number, name: string, icon: ReactElement }>()
+    const doChange = (data: { id: number, name: string, icon: ReactElement, selected: boolean }) => {
+        setItemSelected(data);
+        onChange && onChange(data.name.toLocaleLowerCase());
+    }
 
-    // useEffect(() => {
-    //     setItemSelected(items[0]);
-    // }, []);
+    useEffect(() => {
+        let one = items.find(e => e.selected === true);
+        setItemSelected(one);
+        onChange && onChange(one!.name.toLocaleLowerCase());
+    }, []);
 
     return (
-        <Listbox value={itemSelected} onChange={setItemSelected}>
+        < Listbox value={itemSelected} onChange={doChange} >
             {({ open }) => (
                 <>
                     <div className="relative mt-2">
@@ -108,16 +55,16 @@ export default function Index({ items }: IProps) {
                                         key={index}
                                         className={({ active }) =>
                                             classNames(
-                                                active ? 'bg-orange-500 text-white' : 'text-gray-700',
+                                                active ? 'group bg-orange-500 text-white' : 'group  text-gray-700',
                                                 'relative cursor-pointer select-none py-2 pl-3 pr-9'
                                             )
                                         }
-                                        value={item.name}
+                                        value={item}
                                     >
                                         {({ selected, active }) => (
                                             <>
                                                 <div className="flex items-center">
-                                                    {itemSelected?.icon}
+                                                    {item?.icon}
                                                     <span
                                                         className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
                                                     >
@@ -144,6 +91,5 @@ export default function Index({ items }: IProps) {
                     </div>
                 </>
             )}
-        </Listbox>
-    )
+        </Listbox >)
 }

@@ -1,12 +1,12 @@
 import { Children, ReactElement, ReactNode } from "react";
 import InfoTip from "../InfoTip";
-import { FieldValues, useForm, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { Control, FieldValues, useForm, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from "react";
 import WarningTip from "../WarningTip";
 import { useNavigate } from "react-router-dom";
 
-type FormProps = (props: { register: UseFormRegister<FieldValues>, watch: UseFormWatch<FieldValues> }) => React.ReactNode;
+type FormProps = (props: { register: UseFormRegister<FieldValues>, watch: UseFormWatch<FieldValues>, control: Control<FieldValues, any>, setValue:UseFormSetValue<FieldValues> }) => React.ReactNode;
 
 
 export interface IFormItems {
@@ -37,7 +37,7 @@ export function FormItem({ helpTip, children }: IFormItems) {
 
 export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true }: IProps) {
 
-    const { register, handleSubmit, formState: { errors }, watch } = useForm({
+    const { register, handleSubmit, formState: { errors }, watch, control, setValue } = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -45,6 +45,10 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
 
     const handleBack = () => {
         navigation(-1);
+    }
+
+    const handleError =(error:any)=>{
+        console.log(errors);
     }
 
 
@@ -59,7 +63,7 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
                 {title}
             </div>
             <div className="flex flex-col gap-1">
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} onError={handleError}>
                     {React.Children.map(children, (child, index) => {
                         let echild = child as ReactElement;
                         let error = echild.props['field'] && errors[`${echild.props['field']}`]?.message;
@@ -68,7 +72,7 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
                             let fn: FormProps = echild.props.children;
                             return (
                                 <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
-                                    {fn({ register: register, watch: watch })}
+                                    {fn({ register: register, watch: watch, control: control, setValue:setValue })}
                                     {helpTip && <InfoTip text={helpTip} />}
                                     {error && <WarningTip text={error} />}
                                 </div>);
