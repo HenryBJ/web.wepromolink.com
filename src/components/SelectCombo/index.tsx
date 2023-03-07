@@ -6,14 +6,15 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 interface IProps {
     onChange?: (data: string) => void,
-    items: { id: number, name: string, icon: ReactElement, selected: boolean }[]
+    items: { id: number, name: string, icon: ReactElement, selected: boolean }[],
+    isDisabled?:boolean
 }
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Index({ items, onChange }: IProps) {
+export default function Index({ items, isDisabled, onChange }: IProps) {
     const [itemSelected, setItemSelected] = useState<{ id: number, name: string, icon: ReactElement, selected: boolean }>()
 
     const doChange = (data: { id: number, name: string, icon: ReactElement, selected: boolean }) => {
@@ -25,10 +26,10 @@ export default function Index({ items, onChange }: IProps) {
         let one = items.find(e => e.selected === true);
         setItemSelected(one);
         onChange && onChange(one!.name.toLocaleLowerCase());
-    }, []);
+    }, [items]);
 
     return (
-        < Listbox value={itemSelected} onChange={doChange} >
+        < Listbox value={itemSelected} onChange={doChange} disabled={isDisabled} >
             {({ open }) => (
                 <>
                     <div className="relative mt-2">

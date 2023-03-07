@@ -2,7 +2,7 @@ import { IPayoutData } from "../../interfaces/ViewModels";
 
 
 export const payoutMock: IPayoutData = {
-    payoutType: 'wire',
+    payoutType: 'bitcoin',
     btcAddress: 'bcfwefaefafafg234523rr3r23r2r23r',
     debitCard: '',
     paypal: '',
@@ -14,5 +14,5 @@ export const payoutMock: IPayoutData = {
     wireBankAddress: '',
     wireBranch: '',
     wireRouting:'',
-    allowChangePayoutType:false
+    isLockedPayoutType:false
   }

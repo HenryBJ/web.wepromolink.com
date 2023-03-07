@@ -83,6 +83,6 @@ export interface IPayoutData {
     wireBankAddress?: string,
     wireBranch?: string,
     wireRouting?:string,
-    allowChangePayoutType:boolean
+    isLockedPayoutType:boolean
 }
 
