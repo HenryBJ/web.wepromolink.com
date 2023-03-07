@@ -1,4 +1,4 @@
-import { Children, ReactElement, ReactNode } from "react";
+import { Children, ReactElement, ReactNode, useEffect } from "react";
 import InfoTip from "../InfoTip";
 import { Control, FieldValues, useForm, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -22,7 +22,8 @@ interface IProps {
     schema: any,
     onSubmit: (data: any) => void,
     children: ReactNode,
-    back?: boolean
+    back?: boolean,
+    initialValue?:any
 }
 
 export function FormItem({ helpTip, children }: IFormItems) {
@@ -35,7 +36,7 @@ export function FormItem({ helpTip, children }: IFormItems) {
 }
 
 
-export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true }: IProps) {
+export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true, initialValue }: IProps) {
 
     const { register, handleSubmit, formState: { errors }, watch, control, setValue } = useForm({
         resolver: yupResolver(schema)
@@ -50,6 +51,17 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
     const handleError =(error:any)=>{
         console.log(errors);
     }
+
+    useEffect(()=>{
+        if(initialValue){
+            for (const prop in initialValue) {
+                if (Object.prototype.hasOwnProperty.call(initialValue, prop)) {
+                  const value = initialValue[prop];
+                  setValue(prop, value);
+                }
+              }
+        }
+    },[initialValue]);
 
 
     return (

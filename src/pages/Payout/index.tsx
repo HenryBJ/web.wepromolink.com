@@ -77,17 +77,17 @@ export default function Index() {
         payoutType: yup.string().trim().required(),
         btcAddress: yup.string().when('payoutType', {
             is: (val: string) => val === 'bitcoin',
-            then: yup.string().required('Bitcoin address is required'),
+            then: yup.string().matches(/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/, 'The Bitcoin address is invalid').required('Bitcoin address is required'),
             otherwise: yup.string()
         }),
         debitCard: yup.string().when('payoutType', {
             is: (val: string) => (val === 'visa' || val === 'mastercard'),
-            then: yup.string().required('Debit card is required'),
+            then: yup.string().matches(/^(4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$/, 'The debit card number is invalid').required('Debit card is required'),
             otherwise: yup.string()
         }),
         paypal: yup.string().when('payoutType', {
             is: (val: string) => val === 'paypal',
-            then: yup.string().required('Paypal email is required'),
+            then: yup.string().email('Please enter a valid email address').required('Paypal email is required'),
             otherwise: yup.string()
         }),
         stripe: yup.string().when('payoutType', {
@@ -118,7 +118,7 @@ export default function Index() {
 
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
         <Breadcrumb levels={[{ icon: billingIcon, title: 'Payout', link: '/payouts' }, { title: 'Payout Data', link: '' }]} />
-        <GenericForm schema={schema} title="Payout Info" onSubmit={onSubmit} buttonTitle="Update" back={false} >
+        <GenericForm schema={schema} title="Payout Info" onSubmit={onSubmit} buttonTitle="Update" back={false} initialValue={data} >
             <FormItem field="payoutType" helpTip="Payment method">
                 {({ setValue }) => (<SelectCombo onChange={(value) => { setValue('payoutType', value); setPayType(value) }} items={options} isDisabled={islocked} />)}
             </FormItem>
@@ -127,7 +127,7 @@ export default function Index() {
                 {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Bitcoin Address" type="text" {...register("btcAddress")} />)}
             </FormItem> : []}
 
-            {(payType === 'visa' || payType === 'mastercard') ? <FormItem field="debitCard" helpTip="Debit card number">
+            {(payType === 'visa' || payType === 'mastercard') ? <FormItem field="debitCard" helpTip="Debit card number Visa or Mastercard">
                 {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Debit card number" type="text" {...register("debitCard")} />)}
             </FormItem> : []}
 

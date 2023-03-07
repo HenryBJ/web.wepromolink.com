@@ -3,7 +3,7 @@ import { IPayoutData } from "../../interfaces/ViewModels";
 
 export const payoutMock: IPayoutData = {
     payoutType: 'bitcoin',
-    btcAddress: 'bcfwefaefafafg234523rr3r23r2r23r',
+    btcAddress: '',
     debitCard: '',
     paypal: '',
     stripe: '',
