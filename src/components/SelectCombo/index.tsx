@@ -6,7 +6,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 interface IProps {
     onChange?: (data: string) => void,
-    items: { id: number, name: string, icon: ReactElement, selected: boolean }[],
+    items: { id: number, name: string, icon?: ReactElement, selected: boolean }[],
     isDisabled?:boolean
 }
 
@@ -15,7 +15,7 @@ function classNames(...classes: any[]) {
 }
 
 export default function Index({ items, isDisabled, onChange }: IProps) {
-    const [itemSelected, setItemSelected] = useState<{ id: number, name: string, icon: ReactElement, selected: boolean }>()
+    const [itemSelected, setItemSelected] = useState<{ id: number, name: string, icon?: ReactElement, selected: boolean }>()
 
     const doChange = (data: { id: number, name: string, icon: ReactElement, selected: boolean }) => {
         setItemSelected(data);

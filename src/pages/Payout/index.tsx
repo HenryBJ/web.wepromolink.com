@@ -168,8 +168,6 @@ export default function Index() {
                 {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Branch" type="text" {...register("wireBranch")} />)}
             </FormItem> : []}
 
-
-
         </GenericForm>
         {loading && <Loader text={loading} />}
     </section>)

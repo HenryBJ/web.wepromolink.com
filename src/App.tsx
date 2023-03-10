@@ -18,6 +18,7 @@ import Feed from './pages/Feed';
 import Notification from './pages/Notification';
 import SubPlan from './pages/SubPlan';
 import Payout from './pages/Payout';
+import Deposit from './pages/Deposit';
 // import './App.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/payouts" element={<Payout/>} />
             <Route path="/subcriptions" element={<SubPlan/>} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/deposit" element={<Deposit />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/campaigns" element={<Campaign />} />
