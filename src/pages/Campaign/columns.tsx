@@ -23,7 +23,7 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 </svg>
 )
 
-const timeSince = (date:Date):string =>  {
+export const timeSince = (date:Date):string =>  {
     let now = new Date();
     let dif = now.getTime() - date.getTime();
     const seconds = Math.floor(dif / 1000);

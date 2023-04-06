@@ -35,7 +35,7 @@ export default function Campaign() {
                 <SearchBar onChange={handleSearch} />
                 <button type="button" onClick={handleClick}  className="min-w-[180px] ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Create New Campaign</button>
             </div>
-            <DynamicTable defaultAction={(e: any) => alert(e.id)} columns={Columns} loading={loading}
+            <DynamicTable defaultAction={(e: any) => navigate(`/campaigns/detail/${e.id}`)} columns={Columns} loading={loading}
                 pagination={
                     {
                         first: () => setPage(1),

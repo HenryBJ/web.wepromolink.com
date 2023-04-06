@@ -3,17 +3,20 @@ import { useAuth } from "../../hooks/Auth";
 import ProfileMenu from "../ProfileMenu";
 import TextLogo from "../TextLogo";
 import ToolBar from "../ToolBar";
+import { NavLink } from "react-router-dom";
 
 export default function DashBoardNavBar() {
 
     const { user, logout } = useAuth();
 
     return (
-        <nav className="sticky top-0 w-full h-min border border-b-2 z-50  bg-orange-500">
+        <nav className="sticky top-0 w-full h-min border border-b-2 z-50  bg-orange-500" style={{ zIndex: 100 }}>
             <div className="container max-w-5xl mx-auto h-full">
                 <div className="flex flex-row py-1 items-center h-full ">
                     <div className="basis-1/5  pl-1">
-                        <TextLogo scale={0.8} fillcolor="white" />
+                        <a href="https://wepromolink.com">
+                            <TextLogo scale={0.8} fillcolor="white" />
+                        </a>
                     </div>
                     <div className="basis-4/5 h-full flex flex-row justify-end pr-2 items-center">
                         <div className="hidden md:block">
