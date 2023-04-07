@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { useEffect, useRef, useState } from "react";
 import { IExtraActions } from "../../interfaces/IExtraActions";
+import { useNavigate } from "react-router-dom";
 
 interface IProp {
     actions: IExtraActions[],
@@ -11,6 +12,7 @@ export default function Index({ item, actions }: IProp) {
 
     const myRef = useRef<HTMLDivElement | null>(null);
     const [isNearBottom, setIsNearBottom] = useState(false);
+    const navigate = useNavigate();
 
 
     const IsCloseToBottom = () => {
@@ -49,7 +51,7 @@ export default function Index({ item, actions }: IProp) {
                         {actions.map((m, index) => (
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button key={index} className="w-full rounded hover:bg-gray-200 flex gap-4 items-center" onClick={() => m.action(item)}>
+                                    <button key={index} className="w-full rounded hover:bg-gray-200 flex gap-4 items-center" onClick={() => m.action(item, navigate)}>
                                         {m.icon}
                                         <span className="basis-3/4 text-left">{m.title}</span>
                                     </button>

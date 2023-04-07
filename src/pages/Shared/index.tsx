@@ -33,7 +33,7 @@ export default function Index() {
             <div className="w-full flex flex-col-reverse items-center sm:flex-row justify-around gap-2 sm:gap-7">
                 <SearchBar onChange={handleSearch} />
             </div>
-            <DynamicTable defaultAction={(e: any) => alert(e.id)} columns={Columns} loading={loading}
+            <DynamicTable defaultAction={(e: any) => navigate(`/links/detail/${e.id}`)} columns={Columns} loading={loading}
                 pagination={
                     {
                         first: () => setPage(1),

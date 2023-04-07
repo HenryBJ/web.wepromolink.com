@@ -20,6 +20,7 @@ import SubPlan from './pages/SubPlan';
 import Payout from './pages/Payout';
 import Deposit from './pages/Deposit';
 import CampaignDetail from './pages/CampaignDetail';
+import SharedDetail from './pages/SharedDetail';
 // import './App.css';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/campaigns" element={<Campaign />} />
             <Route path="/campaigns/detail/:id" element={<CampaignDetail/>} />
+            <Route path="/links/detail/:id" element={<SharedDetail/>} />
             <Route path='/create' element={<CreateCampaign />} />
             <Route path="/links" element={<Shared />} />
             <Route path="/balance" element={<Balance />} />

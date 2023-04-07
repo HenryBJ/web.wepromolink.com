@@ -76,6 +76,37 @@ export function GetCampaignDetail(id: string) {
     }
 }
 
+export function GetLinkAffDetail(id: string) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve({
+                        data: {
+                            id: '1',
+                            title: 'HenryDeveloper',
+                            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam aliquam voluptatum atque? Maiores veniam placeat accusantium aliquid nisi vel in esse, commodi laborum explicabo soluta eius nihil earum corporis quibusdam.',
+                            url: 'https://henrydeveloper.com',
+                            imageUrl: 'https://henrydeveloper.com/images/card.png',
+                            available: 100,
+                            epm: 15,
+                            lastClick: new Date(),
+                        }
+                    });
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.get(`mylinkaffdetail?id=${id}`)
+    }
+}
+
 export function CreateCampaigns(data: ICreateCampaign) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
     if (mock === "1") {

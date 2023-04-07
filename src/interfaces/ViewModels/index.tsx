@@ -34,6 +34,17 @@ export interface IMyCampaignDetail {
     lastShared: Date
 }
 
+export interface IMyAffLinkDetail {
+    id: string,
+    title: string,
+    imageUrl: string,
+    description: string,
+    url: string,
+    available: Number,
+    epm: Number,
+    lastClick: Date,
+}
+
 export interface IMyAffLink {
     id?: string,
     title: string,

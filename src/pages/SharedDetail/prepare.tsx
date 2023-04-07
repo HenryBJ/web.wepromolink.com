@@ -1,9 +1,9 @@
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
-import { IMyCampaignDetail } from "../../interfaces/ViewModels";
+import { IMyAffLinkDetail, IMyCampaignDetail } from "../../interfaces/ViewModels";
 
-export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailData | undefined => {
-    if (campaign) {
-        const properties = Object.entries(campaign);
+export const prepareData = (linkdetail: IMyAffLinkDetail) => (): IGenericDetailData | undefined => {
+    if (linkdetail) {
+        const properties = Object.entries(linkdetail);
         let ifields = properties.map(([key, value]) => {
             switch (key) {
                 case 'id':
@@ -67,22 +67,12 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
                         order: 4
                     }
                     return f_url2;
+             
 
-                case 'status':
-                    let f_status: IField = {
-                        isImage: false,
-                        title: 'Status',
-                        value: value ? "Active" : "Deactivated",
-                        valueType: 'boolean',
-                        isHidden: false,
-                        order: 5
-                    }
-                    return f_status;
-
-                case 'budget':
+                case 'available':
                     let f_bud: IField = {
                         isImage: false,
-                        title: 'Budget',
+                        title: 'Profit',
                         value: value,
                         valueType: 'number',
                         isHidden: false,
@@ -113,16 +103,6 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
                     }
                     return f_last;
 
-                case 'lastShared':
-                    let f_shared: IField = {
-                        isImage: false,
-                        title: 'Last Shared',
-                        value: value,
-                        valueType: 'date',
-                        isHidden: false,
-                        order: 9
-                    }
-                    return f_shared;
 
                 default:
                     let other: IField = {
@@ -138,7 +118,7 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
         });
         return {
             fields: ifields,
-            title: campaign.title
+            title: linkdetail.title
         }
     }
 

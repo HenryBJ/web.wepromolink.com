@@ -4,7 +4,6 @@ import { IPagination, IPaginationExtended } from "../../interfaces/IPagination";
 import ActionMenu from "../ActionMenu"
 import Loader from "../Loader";
 import Pagination from "../Pagination";
-import Spinner, { SpinnerType } from "../Spinner";
 
 
 
