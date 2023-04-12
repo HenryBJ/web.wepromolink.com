@@ -38,7 +38,7 @@ export default function Index() {
             <Dash title="Profit" data={34.09} transform={(e) => `$${e}`} helpTip={'This is the amount of money that the user has earned from the clicks received on their shared links. It represents the revenue generated from the user\'s campaigns and is available for withdrawal.'} />
             <Dash title="Payout" data={232.98} transform={(e) => `$${e}`}  helpTip={'This is the total amount of money that the user has withdrawn from their profit. It represents the amount of money that has been transferred to the user\'s account as a result of their campaigns\' success.'} />
         </div>
-        <DynamicTable title='Transactions' defaultAction={(e: any) => alert(e.id)} columns={Columns} loading={loading}
+        <DynamicTable title='Transactions' defaultAction={(e: any) => navigation(`/balance/detail/${e.id}`)} columns={Columns} loading={loading}
             pagination={
                 {
                     first: () => setPage(1),

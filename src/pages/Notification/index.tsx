@@ -4,6 +4,7 @@ import DynamicTable from "../../components/DynamicTable";
 import { INotificationResponse } from "../../interfaces/Responses";
 import { GetNotifications } from "../../services/NotificationService";
 import { Columns } from "./columns";
+import { useNavigate } from "react-router-dom";
 
 export default function Index() {
 
@@ -15,6 +16,7 @@ export default function Index() {
     const [error, setError] = useState(false);
     const [page, setPage] = useState(1);
     const [data, setData] = useState<INotificationResponse>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
@@ -28,7 +30,7 @@ export default function Index() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
             <Breadcrumb levels={[{ icon: notiIcon, title: 'Notifications', link: '/notifications' }, { title: 'Notifications', link: '' }]} />
-            <DynamicTable title='Notifications' defaultAction={(e: any) => alert(e.id)} columns={Columns} loading={loading}
+            <DynamicTable title='Notifications' defaultAction={(e: any) => navigate(`/notifications/detail/${e.id}`)} columns={Columns} loading={loading}
                 pagination={
                     {
                         first: () => setPage(1),

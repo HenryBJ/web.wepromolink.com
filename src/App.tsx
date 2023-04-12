@@ -21,6 +21,9 @@ import Payout from './pages/Payout';
 import Deposit from './pages/Deposit';
 import CampaignDetail from './pages/CampaignDetail';
 import SharedDetail from './pages/SharedDetail';
+import TransactionDetail from './pages/TransactionDetail';
+import NotificationDetail from './pages/NotificationDetail';
+import SubPlanDetail from './pages/SubPlanDetail';
 // import './App.css';
 
 function App() {
@@ -48,6 +51,9 @@ function App() {
             <Route path="/campaigns" element={<Campaign />} />
             <Route path="/campaigns/detail/:id" element={<CampaignDetail/>} />
             <Route path="/links/detail/:id" element={<SharedDetail/>} />
+            <Route path="/balance/detail/:id" element={<TransactionDetail/>} />
+            <Route path="/notifications/detail/:id" element={<NotificationDetail/>} />
+            <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} />
             <Route path='/create' element={<CreateCampaign />} />
             <Route path="/links" element={<Shared />} />
             <Route path="/balance" element={<Balance />} />

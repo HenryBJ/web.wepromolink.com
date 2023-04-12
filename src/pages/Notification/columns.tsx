@@ -50,7 +50,7 @@ export const Columns: IColumnData[] = [
   { title: "Created", name: "created", hidden: w => w < 984, transform: e => timeSince(e) },
   {
     title: "Actions", name: "", hidden: _ => false, extraActions: [
-      { title: "Details", icon: detailsIcon, action: (e) => alert(e.id) },
+      { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/notifications/detail/${e.id}`) },
       { title: "Delete", icon: deleteIcon, action: (e) => alert(e.id) },
     ]
   },

@@ -5,6 +5,7 @@ import DynamicTable from "../../components/DynamicTable";
 import { ISubscriptionResponse } from "../../interfaces/Responses";
 import { GetSubscriptionPlans } from "../../services/SubscriptionService";
 import { Columns } from "./columns";
+import { useNavigate } from "react-router-dom";
 
 
 const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -19,6 +20,7 @@ export default function Index() {
     const [error, setError] = useState(false);
     const [page, setPage] = useState(1);
     const [data, setData] = useState<ISubscriptionResponse>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
@@ -30,7 +32,7 @@ export default function Index() {
     
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
         <Breadcrumb levels={[{ icon: subIcon, title: 'Subcriptions', link: '/subcriptions' }, { title: 'Subcriptions', link: '' }]} />
-        <DynamicTable title='Subscription Plans' defaultAction={(e: any) => alert(e.id)} columns={Columns} loading={loading}
+        <DynamicTable title='Subscription Plans' defaultAction={(e: any) => navigate(`/subcriptions/detail/${e.id}`)} columns={Columns} loading={loading}
                 pagination={
                     {
                         first: () => setPage(1),

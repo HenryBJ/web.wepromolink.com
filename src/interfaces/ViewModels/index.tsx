@@ -34,6 +34,15 @@ export interface IMyCampaignDetail {
     lastShared: Date
 }
 
+export interface IMyTransactionDetail {
+    id: string,
+    title: string,
+    amount: number,
+    status: string,
+    created: Date,
+
+}
+
 export interface IMyAffLinkDetail {
     id: string,
     title: string,
