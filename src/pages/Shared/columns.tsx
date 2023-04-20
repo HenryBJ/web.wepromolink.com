@@ -60,7 +60,7 @@ export const Columns: IColumnData[] = [
     { title: "Profit", name: "available", hidden:w=> w < 390, transform:e=>`$${e}` },
     { title: "Last Click", name: "lastClick", hidden:w=> w < 984, transform:e=>timeSince(e)},
     {
-        title: "Actions", name: "", hidden:_=> false, extraActions: [
+        title: "Actions", name: "", hidden:_=> false, extraActions:_=> [
             { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/links/detail/${e.id}`) },
             { title: "Statistics", icon: statsIcon, action: (e) => alert(e.id) },
             { title: "Withdraw", icon: fundsIcon, action: (e) => alert(e.id) },

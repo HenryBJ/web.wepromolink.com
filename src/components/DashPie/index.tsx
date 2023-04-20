@@ -88,7 +88,7 @@ export default function Index({ title, load, transform, data}: IProps) {
                 {title}
             </div>
             <div className="w-full h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">
-                {loading ? <Spinner /> : pdata && <Pie data={pdata} />}
+                {loading ? <Spinner text="" /> : pdata && <Pie data={pdata} />}
             </div>
         </div>)
 }

@@ -4,7 +4,7 @@ import { IExtraActions } from "../../interfaces/IExtraActions";
 import { useNavigate } from "react-router-dom";
 
 interface IProp {
-    actions: IExtraActions[],
+    actions?: IExtraActions[] | undefined,
     item: any
 }
 
@@ -48,7 +48,7 @@ export default function Index({ item, actions }: IProp) {
                         IsCloseToBottom()
                     ?"absolute top-0 right-0 mt-0 w-44 px-1 py-1 origin-top-right rounded bg-white transform -translate-y-28 shadow-lg ring-1 ring-orange-100  focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50"
                     :"absolute top-0 right-0 mt-0 w-44 px-1 py-1 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-100  focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50"}>
-                        {actions.map((m, index) => (
+                        {actions && actions.map((m, index) => (
                             <Menu.Item>
                                 {({ active }) => (
                                     <button key={index} className="w-full rounded hover:bg-gray-200 flex gap-4 items-center" onClick={() => m.action(item, navigate)}>

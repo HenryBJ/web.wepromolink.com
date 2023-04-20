@@ -4,7 +4,7 @@ import Spinner from "../Spinner";
 
 interface IProps {
     title: string,
-    data: any,
+    data?: any,
     transform?: (value: any) => any,
     load?(): Promise<any>,
     trend?: boolean,
@@ -54,7 +54,7 @@ export default function Index({ title, data, transform, load, trend, helpTip }: 
                 {helpTip && <HelpTip title={`Information of ${title}`} text={helpTip}/>}
             </div>
             <div className="w-full h-12 sm:h-[80px] rounded-b p-2 flex justify-center items-center text-2xl gap-1">
-                {loading ? <Spinner /> : pdata}
+                {loading ? <Spinner text="" /> : pdata}
                 {trend !== undefined ? trend ? trendUp : trendDown : null}
             </div>
         </div>)

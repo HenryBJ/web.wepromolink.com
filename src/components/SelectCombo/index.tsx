@@ -6,7 +6,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
 
 interface IProps {
     onChange?: (data: string) => void,
-    items: { id: number, name: string, icon?: ReactElement, selected: boolean }[],
+    items: { id: number, name: string, icon?: ReactElement, selected: boolean}[],
     isDisabled?:boolean
 }
 

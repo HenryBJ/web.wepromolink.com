@@ -45,11 +45,11 @@ const timeSince = (date: Date): string => {
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Title", name: "title", hidden: _ => false },
-  { title: "Message", name: "message", hidden: _ => false },
+  { title: "Message", name: "message", hidden: w => w < 370 },
   { title: "Status", name: "status", hidden: _ => true },
   { title: "Created", name: "created", hidden: w => w < 984, transform: e => timeSince(e) },
   {
-    title: "Actions", name: "", hidden: _ => false, extraActions: [
+    title: "Actions", name: "", hidden: _ => false, extraActions:_=> [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/notifications/detail/${e.id}`) },
       { title: "Delete", icon: deleteIcon, action: (e) => alert(e.id) },
     ]

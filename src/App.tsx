@@ -24,6 +24,7 @@ import SharedDetail from './pages/SharedDetail';
 import TransactionDetail from './pages/TransactionDetail';
 import NotificationDetail from './pages/NotificationDetail';
 import SubPlanDetail from './pages/SubPlanDetail';
+import Withdraw from './pages/Withdraw';
 // import './App.css';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/subcriptions" element={<SubPlan/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/deposit" element={<Deposit />} />
+            <Route path="/withdraw" element={<Withdraw />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/campaigns" element={<Campaign />} />
