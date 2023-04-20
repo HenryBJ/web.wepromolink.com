@@ -48,7 +48,7 @@ export default function Index({ title, data, transform, load, trend, helpTip }: 
 
 
     return (
-        <div className="min-w-[160px] sm:min-w-[180px] bg-white min-h-[70px] sm:min-h-[120px] rounded shadow-lg cursor-default">
+        <div className="flex-grow min-w-[160px] sm:min-w-[180px] bg-white min-h-[70px] sm:min-h-[120px] rounded shadow-lg cursor-default">
             <div className="relative h-7 text-sm sm:text-sm  sm:h-10 w-full bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
                 {title}
                 {helpTip && <HelpTip title={`Information of ${title}`} text={helpTip}/>}

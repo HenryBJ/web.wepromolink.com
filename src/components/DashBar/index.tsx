@@ -96,7 +96,7 @@ export default function Index({ title, load, transform, data }: IProps) {
 
 
     return (
-        <div className="bg-white rounded shadow-lg cursor-pointer">
+        <div className="flex-grow bg-white rounded shadow-lg cursor-pointer">
             <div className="h-10 bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
                 {title}
             </div>
