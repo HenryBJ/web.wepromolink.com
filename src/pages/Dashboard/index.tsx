@@ -4,7 +4,7 @@ import DashBar, { IStats } from "../../components/DashBar";
 import DashLine from "../../components/DashLine";
 import DashPie from "../../components/DashPie";
 import { GetAvailableBalanceData, GetProfitBalanceData } from "../../services/TransactionService";
-import { GetClickOnCampaignsByCountries, GetClickOnLinksByCountries, GetEarnByCountries, GetHistoricalClickOnCampaigns, GetHistoricalClickOnLinks, GetHistoricalClickOnShares, GetHistoricalEarnOnLinks, GetSharedByUsers } from "../../services/DashboardService";
+import { GetClickOnCampaignsByCountries, GetClickOnLinksByCountries, GetClicksLastWeekOnCompaingData, GetClicksLastWeekOnLinkData, GetClicksTodayOnCompaingData, GetClicksTodayOnLinkData, GetEarnByCountries, GetEarnLastWeekData, GetEarnTodayData, GetHistoricalClickOnCampaigns, GetHistoricalClickOnLinks, GetHistoricalClickOnShares, GetHistoricalEarnOnLinks, GetSharedByUsers, GetSharedLastWeekData, GetSharedTodayData } from "../../services/DashboardService";
 
 
 
@@ -21,16 +21,16 @@ export default function Dashboard() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
             <div className="flex gap-2 flex-wrap  justify-center items-start">
-                <Dash title="Available" load={GetAvailableBalanceData} transform={(e) => `$${e}`} />
+                <Dash title="Available" load={GetAvailableBalanceData} transform={(e) => `$${e}`} helpTip={'This is the amount of money from the user\'s budget that has not yet been assigned to any campaigns. It represents the funds that are still available for the user to allocate to new or existing campaigns.'} />
                 <Dash title="Profit" load={GetProfitBalanceData} transform={(e) => `$${e}`} helpTip={'This is the amount of money that the user has earned from the clicks received on their shared links. It represents the revenue generated from the user\'s campaigns and is available for withdrawal.'} />
-                <Dash title="Earn Today" data={2343} transform={(e) => `$${e}`} />
-                <Dash title="Earn Last Week" data={2343} transform={(e) => `$${e}`} />
-                <Dash title="Today on links" data={23} transform={(e) => `${e} clicks`} />
-                <Dash title="Last Week on links" data={2343} transform={(e) => `${e} clicks`} />
-                <Dash title="Today on campaigns" data={23} transform={(e) => `${e} clicks`} />
-                <Dash title="Last Week on campaigns" data={2343} transform={(e) => `${e} clicks`} />
-                <Dash title="Shared Today" data={2} transform={(e) => `${e} shared`} />
-                <Dash title="Shared Last Week" data={12} transform={(e) => `${e} shared`} />
+                <Dash title="Earn Today" load={GetEarnTodayData} transform={(e) => `$${e}`} />
+                <Dash title="Earn Last Week" load={GetEarnLastWeekData} transform={(e) => `$${e}`} />
+                <Dash title="Today on links" load={GetClicksTodayOnLinkData} transform={(e) => `${e} clicks`} />
+                <Dash title="Last Week on links" load={GetClicksLastWeekOnLinkData} transform={(e) => `${e} clicks`} />
+                <Dash title="Today on campaigns" load={GetClicksTodayOnCompaingData} transform={(e) => `${e} clicks`} />
+                <Dash title="Last Week on campaigns" load={GetClicksLastWeekOnCompaingData} transform={(e) => `${e} clicks`} />
+                <Dash title="Shared Today" load={GetSharedTodayData} transform={(e) => `${e} shared`} />
+                <Dash title="Shared Last Week" load={GetSharedLastWeekData} transform={(e) => `${e} shared`} />
                 <DashLine title="Clicks on links" load={GetHistoricalClickOnLinks} />
                 <DashLine title="Earn on links" load={GetHistoricalEarnOnLinks} />
                 <DashLine title="Clicks on campaigns" load={GetHistoricalClickOnCampaigns} />
