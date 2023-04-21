@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { IColumnData } from "../../components/DynamicTable";
 
 
@@ -51,7 +52,7 @@ export const Columns: IColumnData[] = [
   {
     title: "Actions", name: "", hidden: _ => false, extraActions:_=> [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/notifications/detail/${e.id}`) },
-      { title: "Delete", icon: deleteIcon, action: (e) => alert(e.id) },
+      { title: "Delete", icon: deleteIcon, action: (e) => toast.success("Notification deleted") },
     ]
   },
 ];

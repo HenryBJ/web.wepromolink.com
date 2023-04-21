@@ -27,6 +27,7 @@ import SubPlanDetail from './pages/SubPlanDetail';
 import Withdraw from './pages/Withdraw';
 import { GetCampaignStats } from './services/CampaignService';
 import CampaignStats from './pages/CampaignStats';
+import SharedStats from './pages/SharedStats';
 // import './App.css';
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
             <Route path="/campaigns/detail/:id" element={<CampaignDetail/>} />
             <Route path="/campaigns/stats/:id" element={<CampaignStats/>} />
             <Route path="/links/detail/:id" element={<SharedDetail/>} />
+            <Route path="/links/stats/:id" element={<SharedStats/>} />
             <Route path="/balance/detail/:id" element={<TransactionDetail/>} />
             <Route path="/notifications/detail/:id" element={<NotificationDetail/>} />
             <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} />

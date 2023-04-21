@@ -66,7 +66,7 @@ export default function Index({ prepare }: Props) {
                 )
 
             case 'dash':
-                return <Dash title={item.title} data={item.value} />
+                return <Dash title={item.title} data={item.transform ? item.transform(item.value) :item.value} />
 
             case 'line':
                 return <DashLine title={item.title} data={item.value} />

@@ -1,4 +1,5 @@
 import { ICreateAffLinkResponse, IMyAffLinksResponse } from "../../interfaces/Responses";
+import { IMyAffLinkStats } from "../../interfaces/ViewModels";
 
 export const  AffLinkMock: ICreateAffLinkResponse =
 {
@@ -47,4 +48,41 @@ export const myAffLinkList: IMyAffLinksResponse = {
         { id: "36", title: "HenryDeveloper", url: "https://henrydeveloper.com", lastClick: new Date(), available: 343  },
 
            ]
+}
+
+
+export const AffLinkStatsMock:IMyAffLinkStats = {
+    id: '1',
+    title: 'HenryDeveloper',
+    imageUrl: 'https://wepromolink.com/card.png',
+    lastWeekClicks:200,
+    todayClicks:33,
+    clickByCountries:{
+        title:'Clicks by Countries',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    },
+    historicalClicks:{
+        title:'Clicks',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    },
+    earnLastWeek:100,
+    earnToday:456,
+    earnByCountries:{
+        title:'Clicks',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    },
+    historicalEarn:{
+        title:'Clicks',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    }
+    
+    
 }

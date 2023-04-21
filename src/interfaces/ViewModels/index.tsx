@@ -75,6 +75,20 @@ export interface IMyAffLinkDetail {
     lastClick: Date,
 }
 
+export interface IMyAffLinkStats {
+    id: string,
+    title: string,
+    imageUrl: string,
+    todayClicks: Number,
+    lastWeekClicks: Number,
+    historicalClicks:IStats,
+    clickByCountries:IStats,
+    earnToday:Number,
+    earnLastWeek:Number,
+    historicalEarn:IStats,
+    earnByCountries:IStats
+}
+
 export interface IMyAffLink {
     id?: string,
     title: string,

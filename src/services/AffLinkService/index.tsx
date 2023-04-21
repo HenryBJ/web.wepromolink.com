@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { apiRequest } from "..";
 import { ICreateAffLink } from "../../interfaces/Request";
-import { AffLinkMock, myAffLinkList } from "./mock";
+import { AffLinkMock, AffLinkStatsMock, myAffLinkList } from "./mock";
 
 export function CreateAffLink(data: ICreateAffLink) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
@@ -44,4 +44,24 @@ export function GetMyAffLinks(page:Number, filter:string, cant:Number=50) {
     }
 }
 
+export function GetAffLinkStats(id: string) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
 
+            if (resultado) {
+                setTimeout(() => {
+                    resolve({
+                        data: AffLinkStatsMock
+                    });
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.get(`getafflinkstats?id=${id}`)
+    }
+}

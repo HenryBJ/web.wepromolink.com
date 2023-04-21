@@ -62,8 +62,7 @@ export const Columns: IColumnData[] = [
     {
         title: "Actions", name: "", hidden:_=> false, extraActions:_=> [
             { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/links/detail/${e.id}`) },
-            { title: "Statistics", icon: statsIcon, action: (e) => alert(e.id) },
-            { title: "Withdraw", icon: fundsIcon, action: (e) => alert(e.id) },
+            { title: "Statistics", icon: statsIcon, action: (e, navigate) => navigate(`/links/stats/${e.id}`) },
         ]
     },
 ];
