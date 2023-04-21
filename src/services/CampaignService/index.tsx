@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { apiRequest } from "..";
 import { ICreateCampaign } from "../../interfaces/ViewModels";
-import { campaignToFeedList, myCampaingList } from "./mock";
+import { CampaingStatsMock, campaignToFeedList, myCampaingList } from "./mock";
 
 export function GetCampaigns(page: Number) {
     let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
@@ -57,7 +57,7 @@ export function GetCampaignDetail(id: string) {
                             title: 'HenryDeveloper',
                             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam aliquam voluptatum atque? Maiores veniam placeat accusantium aliquid nisi vel in esse, commodi laborum explicabo soluta eius nihil earum corporis quibusdam.',
                             url: 'https://henrydeveloper.com',
-                            imageUrl: 'https://henrydeveloper.com/images/card.png',
+                            imageUrl: 'https://wepromolink.com/card.png',
                             status: true,
                             budget: 100,
                             epm: 15,
@@ -90,7 +90,7 @@ export function GetLinkAffDetail(id: string) {
                             title: 'HenryDeveloper',
                             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam aliquam voluptatum atque? Maiores veniam placeat accusantium aliquid nisi vel in esse, commodi laborum explicabo soluta eius nihil earum corporis quibusdam.',
                             url: 'https://henrydeveloper.com',
-                            imageUrl: 'https://henrydeveloper.com/images/card.png',
+                            imageUrl: 'https://wepromolink.com/card.png',
                             available: 100,
                             epm: 15,
                             lastClick: new Date(),
@@ -124,5 +124,27 @@ export function CreateCampaigns(data: ICreateCampaign) {
     }
     else {
         return apiRequest.post("link", data)
+    }
+}
+
+export function GetCampaignStats(id: string) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve({
+                        data: CampaingStatsMock
+                    });
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.get(`mycampaigndetail?id=${id}`)
     }
 }

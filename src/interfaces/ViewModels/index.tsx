@@ -1,4 +1,11 @@
 
+export interface IStats {
+    title: string,
+    labels: string[],
+    data: number[][],
+    dataLabels:string[]
+}
+
 export interface ICampaingCard {
     id?: string,
     title: string,
@@ -32,6 +39,20 @@ export interface IMyCampaignDetail {
     epm: Number,
     lastClick: Date,
     lastShared: Date
+}
+
+export interface IMyCampaignStats {
+    id: string,
+    title: string,
+    imageUrl: string,
+    todayClicks: Number,
+    lastWeekClicks: Number,
+    historicalClicks:IStats,
+    clickByCountries:IStats,
+    sharedTodayOnCampaings:Number,
+    sharedLastWeekOnCampaings:Number,
+    historicalShared:IStats,
+    sharedByUsers:IStats    
 }
 
 export interface IMyTransactionDetail {

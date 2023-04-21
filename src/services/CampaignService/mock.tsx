@@ -1,4 +1,5 @@
 import { ICampaignListResponse, IMyCampaignsResponse } from "../../interfaces/Responses";
+import { IMyCampaignStats } from "../../interfaces/ViewModels";
 
 
 export const campaignToFeedList: ICampaignListResponse =
@@ -70,7 +71,7 @@ export const campaignToFeedList: ICampaignListResponse =
 };
 
 export const myCampaingList: IMyCampaignsResponse = {
-    pagination: { cant: 44, page: 1, totalPages: 44, lastPage:50},
+    pagination: { cant: 44, page: 1, totalPages: 44, lastPage: 50 },
     items: [
         { id: "1", title: "HenryDeveloper", url: "https://henrydeveloper.com", status: true, budget: 95, epm: 15, lastClick: new Date(), lastShared: new Date() },
         { id: "2", title: "HenryDeveloper", url: "https://henrydeveloper.com", status: true, budget: 95, epm: 15, lastClick: new Date(), lastShared: new Date() },
@@ -117,4 +118,39 @@ export const myCampaingList: IMyCampaignsResponse = {
         { id: "43", title: "HenryDeveloper", url: "https://henrydeveloper.com", status: true, budget: 95, epm: 15, lastClick: new Date(), lastShared: new Date() },
         { id: "44", title: "HenryDeveloper", url: "https://henrydeveloper.com", status: true, budget: 95, epm: 15, lastClick: new Date(), lastShared: new Date() },
     ]
+}
+
+
+export const CampaingStatsMock:IMyCampaignStats = {
+    id: '1',
+    title: 'HenryDeveloper',
+    imageUrl: 'https://wepromolink.com/card.png',
+    lastWeekClicks:200,
+    sharedLastWeekOnCampaings: 100,
+    sharedTodayOnCampaings:30,
+    todayClicks:33,
+    clickByCountries:{
+        title:'Clicks by Countries',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    },
+    historicalClicks:{
+        title:'Clicks',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    },
+    historicalShared:{
+        title:'Shares',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    },
+    sharedByUsers:{
+        title:'Shared by Users',
+        labels:['Alemania', 'Estados Unidos', 'Cuba', 'Republica Dominicana','Canada','Uruguay'],
+        data:[[23,45,63,43,77,22],[78,10,54,1,200,43]],
+        dataLabels:['Yesterday','Today']
+    }
 }

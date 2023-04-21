@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { timeSince } from "../../pages/Campaign/columns";
 import CopyButton from "../CopyButton";
+import Dash from "../Dash";
+import DashLine from "../DashLine";
+import DashBar from "../DashBar";
 
 
 export interface IField {
@@ -10,9 +13,10 @@ export interface IField {
     title: string;
     isImage: boolean;
     isHidden: boolean;
+    hideTitle?:boolean,
     order: number;
-    fnwidth?:(value:number)=>number;
-    transform?:(value:any)=>any;
+    fnwidth?: (value: number) => number;
+    transform?: (value: any) => any;
 }
 
 export interface IGenericDetailData {
@@ -52,7 +56,7 @@ export default function Index({ prepare }: Props) {
     const Draw = (item: IField) => {
         switch (item.valueType) {
             case 'string':
-                return item.transform ? item.transform(item.value):item.value;
+                return item.transform ? item.transform(item.value) : item.value;
 
             case 'image':
                 return (
@@ -60,6 +64,18 @@ export default function Index({ prepare }: Props) {
                         <img className="h-full w-80 rounded ring-2 ring-orange-500" src={item.value} alt="Image preview" />
                     </div>
                 )
+
+            case 'dash':
+                return <Dash title={item.title} data={item.value} />
+
+            case 'line':
+                return <DashLine title={item.title} data={item.value} />
+
+            case 'bar':
+                return <DashBar title={item.title} data={item.value} />
+
+            case 'pie':
+                return <DashBar title={item.title} data={item.value} />
 
             case 'url':
                 return (
@@ -72,13 +88,13 @@ export default function Index({ prepare }: Props) {
                 );
 
             case 'date':
-                return item.transform ? item.transform(item.value):timeSince(item.value);
+                return item.transform ? item.transform(item.value) : timeSince(item.value);
 
             case 'boolean':
-                return item.transform ? item.transform(item.value):item.value;
+                return item.transform ? item.transform(item.value) : item.value;
 
             case 'number':
-                return item.transform ? item.transform(item.value) :(item.value as number).toString();
+                return item.transform ? item.transform(item.value) : (item.value as number).toString();
 
             default:
                 return 'valueType not supported';
@@ -104,8 +120,8 @@ export default function Index({ prepare }: Props) {
             <div className="flex flex-wrap gap-1 justify-between bg-white">
                 {data?.fields.filter(k => !k.isHidden).sort((a, b) => a.order - b.order).map((e, index) => {
                     return (
-                        <div key={index} className="min-h-[60px] bg-white shadow px-2 py-2 flex-grow flex flex-col gap-1" style={e.fnwidth ? {width:e.fnwidth(width)}:{}}>
-                            <span className="font-semibold text-gray-800">{e.title}</span>
+                        <div key={index} className="min-h-[60px] bg-white shadow px-2 py-2 flex-grow flex flex-col gap-1" style={e.fnwidth ? { width: e.fnwidth(width) } : {}}>
+                            {!e.hideTitle && <span className="font-semibold text-gray-800">{e.title}</span>}
                             {Draw(e)}
                             {/* <label>{width}</label> */}
                         </div>

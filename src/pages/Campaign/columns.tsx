@@ -73,7 +73,7 @@ export const Columns: IColumnData[] = [
   {
     title: "Actions", name: "", hidden: _ => false, extraActions:(k)=> [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/campaigns/detail/${e.id}`) },
-      { title: "Statistics", icon: statsIcon, action: (e) => alert(e.id) },
+      { title: "Statistics", icon: statsIcon, action: (e, navigate) => navigate(`/campaigns/stats/${e.id}`) },
       { title: "Add Funds", icon: fundsIcon, action: (e) => alert(e.id) },
       { title: k.status?"Unpublish":"Publish", icon: publishIcon, action: (e) => alert(e.id) },
     ]
