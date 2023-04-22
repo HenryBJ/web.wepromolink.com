@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { IColumnData } from "../../components/DynamicTable";
+import { toast } from "react-toastify";
+import { PublishCampaign, UnpublishCampaign } from "../../services/CampaignService";
 
 const statsIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
   <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -59,6 +61,23 @@ export const timeSince = (date: Date): string => {
   return "just now";
 }
 
+const handlePublish = (id: any, status: boolean, reload:()=>void) => {
+  if (!status) {
+    PublishCampaign(id)
+      .then(res => {
+        toast.success("Campaign published successfully!!!");
+        reload();
+      })
+      .catch(error => toast.error(error));
+  } else {
+    UnpublishCampaign(id)
+      .then(res => {
+        toast.success("Campaign unpublished successfully!!!");
+        reload();
+    })
+      .catch(error => toast.error(error));
+  }
+}
 
 
 export const Columns: IColumnData[] = [
@@ -71,11 +90,11 @@ export const Columns: IColumnData[] = [
   { title: "Last Click", name: "lastClick", hidden: w => w < 680, transform: e => timeSince(e) },
   { title: "Last Shared", name: "lastShared", hidden: w => w < 850, transform: e => timeSince(e) },
   {
-    title: "Actions", name: "", hidden: _ => false, extraActions:(k)=> [
+    title: "Actions", name: "", hidden: _ => false, extraActions: (k) => [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/campaigns/detail/${e.id}`) },
       { title: "Statistics", icon: statsIcon, action: (e, navigate) => navigate(`/campaigns/stats/${e.id}`) },
       { title: "Add Funds", icon: fundsIcon, action: (e) => alert(e.id) },
-      { title: k.status?"Unpublish":"Publish", icon: publishIcon, action: (e) => alert(e.id) },
+      { title: k.status ? "Unpublish" : "Publish", icon: publishIcon, action: (e,_,reload) => handlePublish(e.id,k.status, reload) },
     ]
   },
 ];

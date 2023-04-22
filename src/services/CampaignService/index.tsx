@@ -148,3 +148,44 @@ export function GetCampaignStats(id: string) {
         return apiRequest.get(`mycampaigndetail?id=${id}`)
     }
 }
+
+
+export function PublishCampaign(id: string) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve(true);
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.post('publishcampaign', id)
+    }
+}
+
+export function UnpublishCampaign(id: string) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve(true);
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.post('unpublishcampaign', id)
+    }
+}

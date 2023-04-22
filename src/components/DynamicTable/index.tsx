@@ -21,10 +21,11 @@ interface IDynamicTable {
     rows: any[],
     defaultAction?: (value: any) => void,
     pagination?: IPaginationExtended,
-    loading: boolean
+    loading: boolean,
+    reload?:()=>void
 }
 
-export default function Index({ title, columns, rows, defaultAction, pagination, loading = false }: IDynamicTable) {
+export default function Index({ title, columns, rows, defaultAction, pagination, loading = false, reload }: IDynamicTable) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
@@ -96,7 +97,7 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
                                         if (column.extraActions) {
                                             return (
                                                 <td key={index} className="px-6 py-2 text-center">
-                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} />
+                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} />
                                                 </td>)
                                         }
                                         else

@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 interface IProp {
     actions?: IExtraActions[] | undefined,
-    item: any
+    item: any,
+    reload?:()=>void
 }
 
-export default function Index({ item, actions }: IProp) {
+export default function Index({ item, actions, reload }: IProp) {
 
     const myRef = useRef<HTMLDivElement | null>(null);
     const [isNearBottom, setIsNearBottom] = useState(false);
@@ -51,7 +52,7 @@ export default function Index({ item, actions }: IProp) {
                         {actions && actions.map((m, index) => (
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button key={index} className="w-full rounded hover:bg-gray-200 flex gap-4 items-center" onClick={() => m.action(item, navigate)}>
+                                    <button key={index} className="w-full rounded hover:bg-gray-200 flex gap-4 items-center" onClick={() => m.action(item, navigate, reload)}>
                                         {m.icon}
                                         <span className="basis-3/4 text-left">{m.title}</span>
                                     </button>
