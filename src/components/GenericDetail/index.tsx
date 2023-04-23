@@ -13,7 +13,7 @@ export interface IField {
     title: string;
     isImage: boolean;
     isHidden: boolean;
-    hideTitle?:boolean,
+    hideTitle?: boolean,
     order: number;
     fnwidth?: (value: number) => number;
     transform?: (value: any) => any;
@@ -24,11 +24,17 @@ export interface IGenericDetailData {
     title: string;
 }
 
-interface Props {
-    prepare: () => IGenericDetailData | undefined
+export interface IExtraAction {
+    title: string,
+    fn: (value: any) => void
 }
 
-export default function Index({ prepare }: Props) {
+interface Props {
+    prepare: () => IGenericDetailData | undefined,
+    actions?: IExtraAction[]
+}
+
+export default function Index({ prepare, actions }: Props) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
@@ -66,7 +72,7 @@ export default function Index({ prepare }: Props) {
                 )
 
             case 'dash':
-                return <Dash title={item.title} data={item.transform ? item.transform(item.value) :item.value} />
+                return <Dash title={item.title} data={item.transform ? item.transform(item.value) : item.value} />
 
             case 'line':
                 return <DashLine title={item.title} data={item.value} />
@@ -127,8 +133,11 @@ export default function Index({ prepare }: Props) {
                         </div>
                     )
                 })}
-                <div className="min-h-[60px] bg-white shadow px-2 py-2 flex items-center justify-center w-full">
+                <div className="min-h-[60px] bg-white shadow px-2 py-2 flex flex-wrap-reverse items-center justify-center w-full gap-2">
                     <button type="button" onClick={handleBack} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Back</button>
+                    {actions && actions.map((item:IExtraAction,index)=>(
+                        <button key={index} type="button" onClick={()=>item.fn(data)} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{item.title}</button>
+                    ))}
                 </div>
             </div>
         </div>

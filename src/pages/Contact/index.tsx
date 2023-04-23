@@ -37,8 +37,8 @@ export default function Contact() {
         </div>
       </div>
       <div className="text-center text-orange-100 md:text-orange-500 mt-auto">
-            Supported by <FontAwesomeIcon icon={faBolt} className="text-orange-100 md:text-orange-500 mx-2" />
-            <a href="https://henrydeveloper.com" className="text-orange-100 md:text-orange-500 underline">henrydeveloper.com</a>
+            Powered by <FontAwesomeIcon icon={faBolt} className="text-orange-100 md:text-orange-500 mx-2" />
+            <a href="https://beniteztechsolutions.com" className="text-orange-100 md:text-orange-500 underline">B-Tech Innovation Studios LLC</a>
         </div>
     </div>
   )

@@ -57,3 +57,23 @@ export function GetSubscriptionDetail(id: string) {
         return apiRequest.get(`mysubscriptiondetail?id=${id}`)
     }
 }
+
+export function ChangeToPlan(id: string) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve(true);
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.post('changetoplan',id)
+    }
+}

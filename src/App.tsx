@@ -28,6 +28,7 @@ import Withdraw from './pages/Withdraw';
 import { GetCampaignStats } from './services/CampaignService';
 import CampaignStats from './pages/CampaignStats';
 import SharedStats from './pages/SharedStats';
+import CampaignFunds from './pages/CampaignFunds';
 // import './App.css';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/campaigns" element={<Campaign />} />
             <Route path="/campaigns/detail/:id" element={<CampaignDetail/>} />
+            <Route path="/campaigns/funds/:id" element={<CampaignFunds/>} />
             <Route path="/campaigns/stats/:id" element={<CampaignStats/>} />
             <Route path="/links/detail/:id" element={<SharedDetail/>} />
             <Route path="/links/stats/:id" element={<SharedStats/>} />

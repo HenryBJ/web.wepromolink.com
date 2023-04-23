@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import GenericDetail, { IField, IGenericDetailData } from "../../components/GenericDetail";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
-import {  INotification, ISubscriptionPlan } from "../../interfaces/ViewModels";
+import { INotification, ISubscriptionPlan } from "../../interfaces/ViewModels";
 import { prepareData } from "./prepare";
 import { GetNotificationDetail } from "../../services/NotificationService";
-import { GetSubscriptionDetail } from "../../services/SubscriptionService";
+import { ChangeToPlan, GetSubscriptionDetail } from "../../services/SubscriptionService";
+import { toast } from "react-toastify";
 
 
 const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -18,8 +19,8 @@ export default function Index() {
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [sub, setSub] = useState<ISubscriptionPlan | undefined>();
+    const navigate = useNavigate();
 
-    
 
     useEffect(() => {
         setLoading(true);
@@ -29,12 +30,23 @@ export default function Index() {
             .finally(() => setLoading(false));
     }, []);
 
-
+    const handleSubChange = (sub: any) => {
+        let subId = sub.fields.find((e: any) => e.title === 'ID').value;
+        
+        // console.log(`Change to sub plan with ID=${subId}`);
+        
+        ChangeToPlan(subId)
+            .then(res => {
+                toast.success('Subcription plan changed successfully !!!');
+                navigate('/subcriptions');
+            })
+            .catch(error => toast.error(error));
+    }
 
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: subIcon, title: 'Subcriptions', link: '/subcriptions' }, { title: 'Subscription\'s details', link: '' }]} />
-            {sub && <GenericDetail prepare={prepareData(sub)} />}
+            {sub && <GenericDetail prepare={prepareData(sub)} actions={!sub.inUse ? [{ title: 'Change to this plan', fn: (t) => handleSubChange(t) }] : []} />}
             {loading && <Loader text="Loading subcription details ..." />}
         </section>
     )
