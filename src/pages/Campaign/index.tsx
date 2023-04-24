@@ -5,11 +5,16 @@ import SearchBar from "../../components/SearchBar";
 import { IMyCampaignsResponse } from "../../interfaces/Responses";
 import { GetMyCampaigns } from "../../services/CampaignService";
 import { Columns } from "./columns";
+import GenericDialog from "../../components/GenericDialog";
+import ManageFunds from "./ManageFunds";
+import { IMyCampaign } from "../../interfaces/ViewModels";
 
 export default function Campaign() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    let [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
+    const [rowSelected, setRowSelected] = useState<IMyCampaign>();
     const [filter, setFilter] = useState("");
     const [data, setData] = useState<IMyCampaignsResponse>()
     const navigate = useNavigate();
@@ -39,7 +44,26 @@ export default function Campaign() {
                 <SearchBar onChange={handleSearch} />
                 <button type="button" onClick={handleClick} className="min-w-[180px] ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Create New Campaign</button>
             </div>
-            <DynamicTable reload={()=>handleInfo()} defaultAction={(e: any) => navigate(`/campaigns/detail/${e.id}`)} columns={Columns} loading={loading}
+            <GenericDialog
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                title={`Manage funds for ${rowSelected?.title}`}
+                description=''
+                actions={[{ caption: 'OK', fn: () => alert('OK') }]} >
+                <ManageFunds item={rowSelected} />
+            </GenericDialog>
+
+            <DynamicTable
+                reload={() => handleInfo()}
+                defaultAction={(e: any) => navigate(`/campaigns/detail/${e.id}`)}
+                columns={Columns}
+                loading={loading}
+                onTap={(item, option) => {
+                    if (option == 3) {
+                        setIsOpen(true);
+                        setRowSelected(item);
+                    }
+                }}
                 pagination={
                     {
                         first: () => setPage(1),

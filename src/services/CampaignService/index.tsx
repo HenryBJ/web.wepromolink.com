@@ -123,7 +123,27 @@ export function CreateCampaigns(data: ICreateCampaign) {
         });
     }
     else {
-        return apiRequest.post("link", data)
+        return apiRequest.post("createcampaign", data)
+    }
+}
+
+export function EditCampaign(id:string, data: ICreateCampaign) {
+    let mock = process.env.REACT_APP_STAGE_MOCK_WEPROMOLINK;
+    if (mock === "1") {
+        return new Promise(function (resolve: (value: AxiosResponse | any) => void, reject) {
+            let resultado = true;
+
+            if (resultado) {
+                setTimeout(() => {
+                    resolve(true);
+                }, 5000);
+            } else {
+                reject("La operación falló");
+            }
+        });
+    }
+    else {
+        return apiRequest.post("editcampaign", {id, data})
     }
 }
 

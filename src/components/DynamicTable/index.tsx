@@ -12,7 +12,7 @@ export interface IColumnData {
     name: string,
     hidden: (value?: any) => boolean,
     transform?: (value: any) => any,
-    extraActions?:(value: any) => IExtraActions[],
+    extraActions?: (value: any) => IExtraActions[],
 }
 
 interface IDynamicTable {
@@ -22,10 +22,11 @@ interface IDynamicTable {
     defaultAction?: (value: any) => void,
     pagination?: IPaginationExtended,
     loading: boolean,
-    reload?:()=>void
+    reload?: () => void,
+    onTap?: (item: any, option: Number) => void
 }
 
-export default function Index({ title, columns, rows, defaultAction, pagination, loading = false, reload }: IDynamicTable) {
+export default function Index({ title, columns, rows, defaultAction, pagination, loading = false, reload, onTap }: IDynamicTable) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
@@ -97,7 +98,7 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
                                         if (column.extraActions) {
                                             return (
                                                 <td key={index} className="px-6 py-2 text-center">
-                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} />
+                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} onTap={(option) => onTap && onTap(row, option)} />
                                                 </td>)
                                         }
                                         else

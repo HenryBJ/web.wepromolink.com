@@ -26,7 +26,7 @@ interface IProps {
     initialValue?:any
 }
 
-export function FormItem({ helpTip, children }: IFormItems) {
+export function FormItem({helpTip, children }: IFormItems) {
     return (
         <>
             {helpTip && <InfoTip text={helpTip} />}

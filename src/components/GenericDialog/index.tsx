@@ -1,4 +1,4 @@
-import { Fragment, ReactElement, useEffect, useState } from 'react'
+import { Fragment, ReactElement, ReactNode, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useAuth } from '../../hooks/Auth';
 
@@ -6,12 +6,13 @@ interface IGenericDialogInput {
     isOpen: boolean,
     setIsOpen: (value: boolean) => void,
     title: string,
-    icon?:ReactElement,
-    description?:string,
-    actions?:{caption:string, fn:()=>void}[]
+    icon?: ReactElement,
+    description?: string,
+    actions?: { caption: string, fn: () => void }[],
+    children?: ReactNode
 }
 
-export default function GenericDialog({ isOpen, setIsOpen, title, description, actions }: IGenericDialogInput) {
+export default function GenericDialog({ isOpen, setIsOpen, title, description, actions, children }: IGenericDialogInput) {
 
 
     return (
@@ -44,13 +45,15 @@ export default function GenericDialog({ isOpen, setIsOpen, title, description, a
                             </Dialog.Title>
                             <Dialog.Description className="px-2">
                                 {description}
+                                {children}
                             </Dialog.Description>
 
-                            <div className="flex justify-center">
-                                <button className="text-white shadow-lg ring-1 ring-gray-200 bg-orange-600 hover:bg-orange-700 font-medium rounded text-sm px-5 py-1" onClick={() => setIsOpen(false)}>Close</button>
-                                {actions?.map((e,index)=>(
+
+                            <div className="flex flex-wrap-reverse gap-2 justify-center">
+                                {actions?.map((e, index) => (
                                     <button key={index} className="text-white shadow-lg ring-1 ring-gray-200 bg-orange-600 hover:bg-orange-700 font-medium rounded text-sm px-5 py-1" onClick={() => e.fn()}>{e.caption}</button>
                                 ))}
+                                <button className="text-white shadow-lg ring-1 ring-gray-200 bg-orange-600 hover:bg-orange-700 font-medium rounded text-sm px-5 py-1" onClick={() => setIsOpen(false)}>Close</button>
                             </div>
 
                         </Dialog.Panel>

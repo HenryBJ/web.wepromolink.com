@@ -31,6 +31,11 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 </svg>
 )
 
+const editIcon = (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="basis-1/4 w-4 h-4 inline mr-1 my-1 ">
+<path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+</svg>
+)
+
 
 
 export const timeSince = (date: Date): string => {
@@ -80,6 +85,7 @@ const handlePublish = (id: any, status: boolean, reload:()=>void) => {
 }
 
 
+
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Campaign", name: "title", hidden: _ => false },
@@ -92,8 +98,9 @@ export const Columns: IColumnData[] = [
   {
     title: "Actions", name: "", hidden: _ => false, extraActions: (k) => [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/campaigns/detail/${e.id}`) },
+      { title: "Edit", icon: editIcon, action: (e, navigate) => navigate(`/campaigns/edit/${e.id}`) },
       { title: "Statistics", icon: statsIcon, action: (e, navigate) => navigate(`/campaigns/stats/${e.id}`) },
-      { title: "Manage Funds", icon: fundsIcon, action: (e, navigate) => navigate(`/campaigns/funds/${e.id}`) },
+      { title: "Manage Funds", icon: fundsIcon, action: () => {} },
       { title: k.status ? "Unpublish" : "Publish", icon: publishIcon, action: (e,_,reload) => handlePublish(e.id,k.status, reload) },
     ]
   },
