@@ -28,7 +28,6 @@ import Withdraw from './pages/Withdraw';
 import { GetCampaignStats } from './services/CampaignService';
 import CampaignStats from './pages/CampaignStats';
 import SharedStats from './pages/SharedStats';
-import CampaignFunds from './pages/CampaignFunds';
 import EditCampaign from './pages/EditCampaign';
 // import './App.css';
 
