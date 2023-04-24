@@ -3,6 +3,8 @@ import CampaignCard from "../../components/CampaignCard";
 import Spinner from "../../components/Spinner";
 import { ICampaingCard } from "../../interfaces/ViewModels";
 import { GetCampaigns } from "../../services/CampaignService";
+import ReactAdsense from "@pkasila/react-adsense";
+import { DataAdClient, DataAdSlot } from "../../constant";
 
 export default function Dashboard() {
 
@@ -41,6 +43,7 @@ export default function Dashboard() {
   return (
     <>
       <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
+      <ReactAdsense client={DataAdClient} slot={DataAdSlot} />   
         {
           data.map((c) => (
             <CampaignCard
@@ -63,3 +66,12 @@ export default function Dashboard() {
     </>
   )
 }
+
+
+
+{/* <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="fluid"
+     data-ad-layout-key="-fb+5w+4e-db+86"
+     data-ad-client="ca-pub-4464416327386260"
+     data-ad-slot="2800001036"></ins> */}
