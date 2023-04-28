@@ -43,7 +43,7 @@ export default function Dashboard() {
   return (
     <>
       <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
-       <ReactAdsense client={DataAdClient} slot={DataAdSlot} style={{width: 960, height: 64}} layoutKey={DataAdLayoutKey} format={'fluid'} />   
+       {/* <ReactAdsense client={DataAdClient} slot={DataAdSlot} style={{width: 960, height: 64}} layoutKey={DataAdLayoutKey} format={'fluid'} />    */}
         {
           data.map((c) => (
             <CampaignCard

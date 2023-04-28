@@ -89,7 +89,7 @@ export function GetLinkAffDetail(id: string) {
                             id: '1',
                             title: 'HenryDeveloper',
                             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam aliquam voluptatum atque? Maiores veniam placeat accusantium aliquid nisi vel in esse, commodi laborum explicabo soluta eius nihil earum corporis quibusdam.',
-                            url: 'https://henrydeveloper.com',
+                            url: 'https://api.wepromolink.com/Kwxo3pH5Vxq2b-dX',
                             imageUrl: 'https://wepromolink.com/card.png',
                             available: 100,
                             epm: 15,

@@ -78,7 +78,7 @@ export default function ProfileMenu(props: IUserInfo) {
                                 </NotiWrapper>
                             )}
                         </Menu.Item>
-                        <Menu.Item>
+                        {/* <Menu.Item>
                             {({ active }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={GoSettings}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
@@ -89,7 +89,7 @@ export default function ProfileMenu(props: IUserInfo) {
                                     <span>Settings</span>
                                 </button>
                             )}
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item>
                             {({ active, close }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoBilling(close)}>

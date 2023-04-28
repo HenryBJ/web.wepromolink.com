@@ -100,7 +100,6 @@ export const Columns: IColumnData[] = [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/campaigns/detail/${e.id}`) },
       { title: "Edit", icon: editIcon, action: (e, navigate) => navigate(`/campaigns/edit/${e.id}`) },
       { title: "Statistics", icon: statsIcon, action: (e, navigate) => navigate(`/campaigns/stats/${e.id}`) },
-      { title: "Manage Funds", icon: fundsIcon, action: () => {} },
       { title: k.status ? "Unpublish" : "Publish", icon: publishIcon, action: (e,_,reload) => handlePublish(e.id,k.status, reload) },
     ]
   },

@@ -33,8 +33,9 @@ export default function HomeLayout() {
                             <NavBar />
                         </div>
                     </div>
-                    <div className=' bg-orange-500 h-screen flex-initial w-3/12 flex justify-center items-center overflow-hidden'>
+                    <div className=' bg-orange-500 h-screen flex-initial w-3/12 flex flex-col justify-center items-center overflow-hidden'>
                         <Logo scale={1.2} />
+                        
                     </div>
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>

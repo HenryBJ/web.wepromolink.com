@@ -8,6 +8,7 @@ import { ICreateCampaign, IMyCampaignDetail } from "../../interfaces/ViewModels"
 import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
+import { GetAvailableBalanceData } from "../../services/TransactionService";
 
 
 const schema = yup.object({
@@ -30,6 +31,8 @@ export default function Index() {
     const [imgSrc, setImgSrc] = useState(fallbackImg);
     const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [available, setAvailable] = useState(0);
+    const [initialBudget, setInitialBudget] = useState(0);
     const [campaign, setCampaign] = useState<IMyCampaignDetail | undefined>();
     const navigation = useNavigate();
     const { user } = useAuth();
@@ -57,6 +60,11 @@ export default function Index() {
         };
     }
 
+    const handleAvailable = (obj: any) => {
+        let diff = initialBudget - obj.budget;
+        // setAvailable(available + diff);
+    }
+
     const handleImg = (e: string) => {
 
         function validarURL(url: string) {
@@ -70,11 +78,18 @@ export default function Index() {
     }
 
     useEffect(() => {
+        GetAvailableBalanceData()
+            .then(res => setAvailable(res.data))
+            .catch(error => toast.error("Unable to get available amount"))
+    }, []);
+
+    useEffect(() => {
         setLoading(true);
         id && GetCampaignDetail(id)
             .then(res => {
                 setImgSrc(res.data.imageUrl)
                 setCampaign(res.data)
+                setInitialBudget(res.data.budget)
             })
             .catch(error => toast.error(error))
             .finally(() => setLoading(false));
@@ -95,6 +110,25 @@ export default function Index() {
             .finally(() => setLoading(false));
     }
 
+    const onChangeBudget = (e: any, register: any) => {
+        console.log(e.target.value);
+        if (e.target.value >= 0 && e.target.value <= available) {
+            register("budget").onChange(e);
+        } else {
+            e.preventDefault();
+        }
+    };
+
+    const handleBudgetKeyPress = (e:any) => {
+        const currentValue = e.target.value;
+        const keyCode = e.keyCode || e.which;
+        const newValue = parseInt(currentValue + String.fromCharCode(keyCode));
+      
+        if (isNaN(newValue) || newValue < 0 || newValue > available) {
+          e.preventDefault();
+        }
+      };
+
 
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
@@ -114,6 +148,28 @@ export default function Index() {
 
                 <FormItem helpTip="CPM: Cost per mile, This is the cost for 1000 clicks range (10-1000)">
                     {({ register }) => (<input max={1000} min={10} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={60} placeholder="Cost per mile (CPM)" type="number" {...register("epm")} />)}
+                </FormItem>
+
+                <FormItem field="budget" helpTip="Budget: Amount of money assigned to the campaign">
+                    {({ register, watch }) => {
+                        let obj: any = watch();
+                        return <div className="flex flex-row gap-2 md:gap-4">
+                            <input max={available} min={0}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Budget"
+                                type="number"
+                                onKeyDown={handleBudgetKeyPress}
+                                onPaste={(e)=>e.preventDefault()}
+                                onChange={(e) => onChangeBudget(e, register)}
+                                onBlur={register("budget").onBlur}
+                                name={register("budget").name}
+                                ref={register("budget").ref} />
+
+                            <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget}`}</span>
+                            </div>
+                        </div>
+                    }}
                 </FormItem>
 
                 <FormItem field="imageUrl" helpTip="Campaign Image URL">
