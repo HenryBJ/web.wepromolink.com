@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v3.0+ */
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, Outlet } from 'react-router-dom'
 import Graphic from '../../components/Graphic'
 import Logo from '../../components/Logo'
@@ -10,6 +10,7 @@ import { NavButton } from '../../components/NavButton'
 import { AuthProvider, useAuth } from '../../hooks/Auth'
 import AuthLayout from '../AuthLayout'
 import bgImage from '../../images/fondo.png';
+import SocialNetworks from '../../components/SocialNetworks'
 
 
 export default function HomeLayout() {
@@ -17,9 +18,34 @@ export default function HomeLayout() {
     // if (user) {
     //     return <Navigate to="/dashboard" />;
     // }
+    const myRef = useRef(null);
+    const [width, setWidth] = useState<any>(0);
+    const [logoScale, setLogoScale] = useState<any>(1.2);
+
+    const handleResize = () => {
+        myRef.current && setWidth(myRef.current['offsetWidth']);
+    };
+
+    useEffect(() => {
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
+    useEffect(() => handleLogo(), [width]);
+
+    const handleLogo = () => {
+        if (width < 1200 && logoScale !== 1) setLogoScale(0.8);
+        if (width > 1200 && logoScale !== 1.2) setLogoScale(1.2);
+    }
+
+
 
     return (
-        <div className='bg-orange-500 md:bg-orange-100'>
+        <div ref={myRef} className='bg-orange-500 md:bg-orange-100'>
             <div className="mx-auto h-screen">
                 <div className='hidden md:flex'>
                     <div className='h-screen flex-1 w-full flex flex-col bg-center bg-cover bg-hero'>
@@ -27,15 +53,16 @@ export default function HomeLayout() {
                             <AuthProvider>
                                 <Outlet />
                             </AuthProvider>
-
                         </div>
                         <div className='my-2'>
                             <NavBar />
                         </div>
                     </div>
-                    <div className=' bg-orange-500 h-screen flex-initial w-3/12 flex flex-col justify-center items-center overflow-hidden'>
-                        <Logo scale={1.2} />
-                        
+                    <div className=' bg-orange-500 relative h-screen flex-initial w-3/12 flex flex-col justify-center items-center overflow-hidden'>
+                        <Logo scale={logoScale} />
+                        {/* <span>{width}</span> */}
+                        <span className='text-white sm:text-sm md:text-base text-center'>B-Tech Innovation Studios LLC</span>
+                        <div className='absolute bottom-3 flex items-center'><SocialNetworks/></div>
                     </div>
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>
@@ -44,16 +71,13 @@ export default function HomeLayout() {
                     </AuthProvider>
                 </div>
             </div>
-            {/* <div className='hidden md:block md:absolute top-0 left-1'>
-                <Graphic scale={0.5} />
-            </div> */}
             <div className='md:hidden  absolute top-3 right-6'>
                 <MenuHamb>
-                    <MenuOption title='Home' url='/'  />
-                    <MenuOption title='Terms' url='/terms'  />
+                    <MenuOption title='Home' url='/' />
+                    <MenuOption title='Terms' url='/terms' />
                     <MenuOption title='FAQ' url='/faq' />
-                    <MenuOption title='Pricing' url='/pricing'  />
-                    <MenuOption title='Contact Us' url='/contact'  />
+                    <MenuOption title='Pricing' url='/pricing' />
+                    <MenuOption title='Contact Us' url='/contact' />
                 </MenuHamb>
             </div>
         </div>

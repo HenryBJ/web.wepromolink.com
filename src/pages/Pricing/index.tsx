@@ -34,9 +34,9 @@ export default function Pricing() {
           wireBank={false} />
 
         <SubcriptionCard
-          annually={54.89}
-          monthly={4.99}
-          discount={8.34}
+          annually={244}
+          monthly={24}
+          discount={15}
           title="Professional"
           tag="Popular"
           ads={false}

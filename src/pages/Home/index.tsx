@@ -49,8 +49,8 @@ export default function Home() {
         <div className="md:hidden">
           <Logo scale={0.9} />
         </div>
-        <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-2xl w-3/5 text-center">
-          <span>Try the easiest way to advertise your campaign or monetize by sharing on social networks</span>
+        <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-2xl w-4/5 text-center">
+          <span>Boost campaigns or monetize with ease by sharing on social media! Earn money by sharing links from other users' campaigns.</span>
         </div>
 
         <div className="flex flex-col gap-2 justify-center items-center">

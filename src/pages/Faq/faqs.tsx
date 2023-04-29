@@ -26,7 +26,7 @@ export const Faqs = {
     },
     {
       question: "Who owns WePromoLink?",
-      answer: "WePromoLink is owned by B-Tech Innovation Studios LLC, a company based in Delaware with a physical address at 651 N Broad St, Suite 201, city Middletown zip code 19709."
+      answer: "WePromoLink is owned by B-Tech Innovation Studios LLC, a company based in Delaware, USA. The company's physical address is 651 N Broad St, Suite 201, Middletown, with the zip code 19709."
     },
     {
       question: "How can I contact WePromoLink if I have any questions or concerns?",

@@ -1,45 +1,32 @@
-import { faFacebook, faInstagram, faPinterest, faTelegram, faTwitter, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import {  faBolt } from "@fortawesome/free-solid-svg-icons";
+import { faTelegram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Bio } from "./bio";
+import SocialNetworks from "../../components/SocialNetworks";
 
 export default function Contact() {
+
+  const style = 'text-white md:text-orange-800 mr-2 ml-2 text-xl';
+
   return (
-    <div className="container max-w-3xl mx-auto flex gap-8 items-center flex-col justify-start  text-orange-100 md:text-orange-800  z-50  pt-12 md:pt-0 md:mt-5 md:h-[calc(100vh-110px)]">
+    <div className="relative h-screen md:h-auto container max-w-3xl mx-auto flex gap-8 items-center flex-col justify-start  text-orange-100 md:text-orange-800  pt-12 md:pt-0 md:mt-5 ">
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">Contact us</h1>
-      <div className="rounded-full flex-shrink-0 w-28 h-28 overflow-clip ring-2 ring-white md:ring-orange-500 relative">
-        <img src="/images/founder.png" alt="Founder"  />  
-      </div>
-     
-      <div className="mx-4 flex-shrink h-1/4">
-        <p className="px-2 text-orange-100 md:text-orange-800 text-justify text-lg overflow-y-auto md:h-full min-h-0 h-60 ">
-        {Bio}
-        </p>
-        <div className="mt-10  text-center">
-          <a href="#">
-            <FontAwesomeIcon icon={faFacebook} className=" text-orange-100 md:text-orange-500 mr-4 text-3xl hover:text-orange-800" />
-          </a>
-          <a href="#">
-            <FontAwesomeIcon icon={faTwitter} className=" text-orange-100 md:text-orange-500 mr-4 text-3xl hover:text-orange-800" />
-          </a>
-          <a href="#">
-            <FontAwesomeIcon icon={faTelegram} className=" text-orange-100 md:text-orange-500 mr-4 text-3xl hover:text-orange-800" />
-          </a>
-          <a href="#">
-            <FontAwesomeIcon icon={faWhatsapp} className=" text-orange-100 md:text-orange-500 mr-4 text-3xl hover:text-orange-800" />
-          </a>
-          <a href="#">
-            <FontAwesomeIcon icon={faInstagram} className=" text-orange-100 md:text-orange-500 mr-4 text-3xl hover:text-orange-800" />
-          </a>
-          <a href="#">
-            <FontAwesomeIcon icon={faPinterest} className=" text-orange-100 md:text-orange-500 mr-4 text-3xl hover:text-orange-800" />
-          </a>
+
+      <div className="text-lg border-2 border-white md:border-orange-800 p-4 rounded-lg flex flex-col gap-2">
+        <span className="font-bold text-2xl">B-Tech Innovation Studios</span>
+        <div className="flex flex-col gap-1 text-base">
+          <span>651 N Broad St, Suite 201</span>
+          <span>Middletown, DE, USA, 19709</span>
         </div>
+        <div><FontAwesomeIcon icon={faPhone} className={style} /><a href="tel:+13026015704">+1 302 601 5704</a></div>
+        <div><FontAwesomeIcon icon={faEnvelope} className={style} /><a href="mailto:support@wepromolink.com">support@wepromolink.com</a></div>
+        <div><FontAwesomeIcon icon={faWhatsapp} className={style} /><a href="https://chat.whatsapp.com/Itdy4Fgx9ld3UYClzUCPU6">Join us in WhatsApp</a></div>
+        <div><FontAwesomeIcon icon={faTelegram} className={style} /><a href="https://t.me/wepromolink_support">Join us in Telegram</a></div>
       </div>
-      <div className="text-center text-orange-100 md:text-orange-500 mt-auto">
-            Powered by <FontAwesomeIcon icon={faBolt} className="text-orange-100 md:text-orange-500 mx-2" />
-            <a href="https://beniteztechsolutions.com" className="text-orange-100 md:text-orange-500 underline">B-Tech Innovation Studios LLC</a>
-        </div>
+
+      <div className="absolute flex items-center bottom-4 md:hidden">
+        <SocialNetworks />
+      </div>
+
     </div>
   )
 }
