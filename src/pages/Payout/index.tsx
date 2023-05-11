@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import SelectCombo from "../../components/SelectCombo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBtc, faCcMastercard, faCcVisa, faPaypal, faStripe } from "@fortawesome/free-brands-svg-icons";
-import { GetPayoutData, UpdatePayout } from "../../services/PayoutService";
+import { getPayoutData, updatePayout } from "../../services";
 
 
 const billingIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -52,12 +52,12 @@ export default function Index() {
 
     useEffect(() => {
         setLoading('Getting payout data ...');
-        GetPayoutData()
+        getPayoutData()
             .then(res => {
-                setData(res.data);
-                setPayType(res.data.payoutType);
-                setIslocked(res.data.isLockedPayoutType);
-                handleOptions(res.data.payoutType);
+                setData(res.data.value);
+                setPayType(res.data.value.payoutType);
+                setIslocked(res.data.value.isLockedPayoutType);
+                handleOptions(res.data.value.payoutType);
             })
             .finally(() => setLoading(''));
     }, []);
@@ -66,7 +66,7 @@ export default function Index() {
         setLoading('Updating payout data ...');
 
         console.log(data);
-        UpdatePayout(data)
+        updatePayout(data)
             .then(res => navigation(-1))
             .catch(error => console.log(error))
             .finally(() => setLoading(''));

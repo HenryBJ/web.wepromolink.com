@@ -1,16 +1,9 @@
 import React, { Children, createContext, useEffect, useState } from 'react';
-import { GetNotificationBadget, UpdateNotificationBadget } from '../../services/NotificationService';
+import { getNotificationBadget, updateNotificationBadget } from '../../services';
+import { INotificationBadget } from '../../interfaces/ViewModels';
+import { INotificationBadgetResponse } from '../../interfaces/Responses';
 
-export interface INotificationBadget {
-  id: number,
-  notification: number,
-  campaing: number,
-  links: number,
-  clicks: number,
-  deposit: number,
-  withdraw: number,
-  flag: string
-}
+
 
 const INTERVAL = 20000;
 
@@ -31,16 +24,16 @@ export const NotificationContext = createContext<any>(null);
 export default function Index({ children }: any) {
   const [notification, setNotification] = useState<INotificationBadget>(initial);
 
-  const updateNotificationBadget = (data: INotificationBadget) => {
-    UpdateNotificationBadget(data)
-      .then(() => setNotification(data));
+  const updateNotiBadget = (data: INotificationBadget) => {
+    updateNotificationBadget(data)
+      .then(res => setNotification(res.data.value));
   }
 
   useEffect(() => {
     const timer = setInterval(() => {
-      GetNotificationBadget(notification.id)
+      getNotificationBadget(notification.id)
         .then(res => {
-          let newNoti: INotificationBadget = res.data;
+          let newNoti: INotificationBadget = res.data.value;
           if (newNoti.flag !== notification.flag) {
             setNotification(newNoti);
           }
@@ -51,7 +44,7 @@ export default function Index({ children }: any) {
   }, [notification.flag]);
 
   return (
-    <NotificationContext.Provider value={{ notification, updateNotificationBadget }}>
+    <NotificationContext.Provider value={{ notification, updateNotiBadget }}>
       {children}
     </NotificationContext.Provider>
   );

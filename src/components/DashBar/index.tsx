@@ -3,18 +3,14 @@ import { Bar} from "react-chartjs-2";
 import Spinner from "../Spinner";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarElement } from 'chart.js';
 import { AxiosResponse } from "axios";
+import { IStats } from "../../interfaces/ViewModels";
+import { IStatsResponse } from "../../interfaces/Responses";
 
-export interface IStats {
-    title: string,
-    labels: string[],
-    data: number[][],
-    dataLabels:string[]
-}
 
 interface IProps {
     title: string,
     transform?: (value: any) => any,
-    load?(): Promise<AxiosResponse<IStats>>,
+    load?(): Promise<AxiosResponse<IStatsResponse>>,
     data?: IStats
 }
 
@@ -80,9 +76,9 @@ export default function Index({ title, load, transform, data }: IProps) {
             load()
                 .then(res => {
                     if (transform) {
-                        setPData(transformAdapter(transform(res.data)))
+                        setPData(transformAdapter(transform(res.data.value)))
                     } else {
-                        setPData(transformAdapter(res.data))
+                        setPData(transformAdapter(res.data.value))
                     }
                 })
                 .catch(err => console.log(err))

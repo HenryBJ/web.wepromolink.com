@@ -3,11 +3,11 @@ import GenericDetail, { IField, IGenericDetailData } from "../../components/Gene
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
-import { INotification, ISubscriptionPlan } from "../../interfaces/ViewModels";
 import { prepareData } from "./prepare";
-import { GetNotificationDetail } from "../../services/NotificationService";
-import { ChangeToPlan, GetSubscriptionDetail } from "../../services/SubscriptionService";
+import { getNotificationDetail } from "../../services";
+import { changeToPlan, getSubscriptionDetail } from "../../services";
 import { toast } from "react-toastify";
+import { ISubscriptionPlanDetailResponse } from "../../interfaces/Responses";
 
 
 const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -18,13 +18,13 @@ export default function Index() {
 
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [sub, setSub] = useState<ISubscriptionPlan | undefined>();
+    const [sub, setSub] = useState<ISubscriptionPlanDetailResponse | undefined>();
     const navigate = useNavigate();
 
 
     useEffect(() => {
         setLoading(true);
-        id && GetSubscriptionDetail(id)
+        id && getSubscriptionDetail(id)
             .then(res => setSub(res.data))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
@@ -35,7 +35,7 @@ export default function Index() {
         
         // console.log(`Change to sub plan with ID=${subId}`);
         
-        ChangeToPlan(subId)
+        changeToPlan(subId)
             .then(res => {
                 toast.success('Subcription plan changed successfully !!!');
                 navigate('/subcriptions');
@@ -46,7 +46,7 @@ export default function Index() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: subIcon, title: 'Subcriptions', link: '/subcriptions' }, { title: 'Subscription\'s details', link: '' }]} />
-            {sub && <GenericDetail prepare={prepareData(sub)} actions={!sub.inUse ? [{ title: 'Change to this plan', fn: (t) => handleSubChange(t) }] : []} />}
+            {sub && <GenericDetail prepare={prepareData(sub.value)} actions={!sub.value.inUse ? [{ title: 'Change to this plan', fn: (t) => handleSubChange(t) }] : []} />}
             {loading && <Loader text="Loading subcription details ..." />}
         </section>
     )

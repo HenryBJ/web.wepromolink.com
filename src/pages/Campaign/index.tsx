@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import DynamicTable from "../../components/DynamicTable";
 import SearchBar from "../../components/SearchBar";
 import { IMyCampaignsResponse } from "../../interfaces/Responses";
-import { GetMyCampaigns } from "../../services/CampaignService";
+import { getMyCampaigns } from "../../services";
 import { Columns } from "./columns";
-import GenericDialog from "../../components/GenericDialog";
 import { IMyCampaign } from "../../interfaces/ViewModels";
+import SubscribeWrapper from "../../components/SubscribeWrapper";
 
 export default function Campaign() {
     const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ export default function Campaign() {
 
     const handleInfo = () => {
         setLoading(true);
-        GetMyCampaigns(page, filter)
+        getMyCampaigns(page, filter)
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
@@ -41,9 +41,12 @@ export default function Campaign() {
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <div className="w-full flex flex-col-reverse items-center sm:flex-row justify-around gap-2 sm:gap-7">
                 <SearchBar onChange={handleSearch} />
-                <button type="button" onClick={handleClick} className="min-w-[180px] ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Create New Campaign</button>
+                <SubscribeWrapper style="min-w-[180px] ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
+                    <button type="button" onClick={handleClick} className="" >Create New Campaign</button>
+                </SubscribeWrapper>
+
             </div>
-          
+
 
             <DynamicTable
                 reload={() => handleInfo()}
@@ -59,13 +62,13 @@ export default function Campaign() {
                 pagination={
                     {
                         first: () => setPage(1),
-                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
+                        last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
                         next: () => setPage(prev => prev + 1),
                         prev: () => setPage(prev => prev - 1),
-                        ...(data?.pagination!),
+                        ...(data?.value.pagination!),
                     }
                 }
-                rows={data?.items || []} />
+                rows={data?.value.items || []} />
         </section>
     )
 }

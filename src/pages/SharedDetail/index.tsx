@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
 import { IMyAffLinkDetail } from "../../interfaces/ViewModels";
-import { GetCampaignDetail, GetLinkAffDetail } from "../../services/CampaignService";
+import { getCampaignDetail, getLinkAffDetail } from "../../services";
 import { prepareData } from "./prepare";
+import { IMyAffLinkDetailResponse } from "../../interfaces/Responses";
 
 
 const linkIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -16,13 +17,13 @@ export default function Index() {
 
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [linkDetail, setLinkDetail] = useState<IMyAffLinkDetail | undefined>();
+    const [linkDetail, setLinkDetail] = useState<IMyAffLinkDetailResponse | undefined>();
 
     
 
     useEffect(() => {
         setLoading(true);
-        id && GetLinkAffDetail(id)
+        id && getLinkAffDetail(id)
             .then(res => setLinkDetail(res.data))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
@@ -33,7 +34,7 @@ export default function Index() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: linkIcon, title: 'Links', link: '/links' }, { title: 'Link\'s details', link: '' }]} />
-            {linkDetail && <GenericDetail prepare={prepareData(linkDetail)} />}
+            {linkDetail && <GenericDetail prepare={prepareData(linkDetail.value)} />}
             {loading && <Loader text="Loading link details ..." />}
         </section>
     )

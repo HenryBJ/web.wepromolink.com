@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import CampaignCard from "../../components/CampaignCard";
 import Spinner from "../../components/Spinner";
 import { ICampaingCard } from "../../interfaces/ViewModels";
-import { GetCampaigns } from "../../services/CampaignService";
-import ReactAdsense from "@pkasila/react-adsense";
-import { DataAdClient, DataAdLayoutKey, DataAdSlot } from "../../constant";
+import { getCampaigns } from "../../services";
 
 export default function Dashboard() {
 
@@ -21,10 +19,10 @@ export default function Dashboard() {
   useEffect(() => {
     if (!isFetching) return;
 
-    GetCampaigns(page + 1)
+    getCampaigns(page + 1)
       .then(resp => {
-        setPage(resp.data.page);
-        setData(prev => [...prev, ...(resp.data.sponsoredLinks)]);
+        setPage(resp.data.value.page.valueOf());
+        setData(prev => [...prev, ...(resp.data.value.sponsoredLinks)]);
       })
       .catch(err => setError(true))
       .finally(() => setIsFetching(false));
@@ -66,12 +64,3 @@ export default function Dashboard() {
     </>
   )
 }
-
-
-
-{/* <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="fluid"
-     data-ad-layout-key="-fb+5w+4e-db+86"
-     data-ad-client="ca-pub-4464416327386260"
-     data-ad-slot="2800001036"></ins> */}

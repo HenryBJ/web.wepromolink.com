@@ -2,13 +2,13 @@ import GenericForm, { FormItem } from "../../components/GenericForm";
 import * as yup from "yup";
 import { ChangeEvent, ReactEventHandler, useEffect, useState } from "react";
 import Loader from "../../components/Loader";
-import { CreateCampaigns, EditCampaign, GetCampaignDetail } from "../../services/CampaignService";
+import { createCampaigns, editCampaign, getCampaignDetail } from "../../services";
 import { useNavigate, useParams } from "react-router-dom";
 import { ICreateCampaign, IMyCampaignDetail } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
-import { GetAvailableBalanceData } from "../../services/TransactionService";
+import { getAvailableBalanceData } from "../../services";
 
 
 const schema = yup.object({
@@ -32,7 +32,7 @@ export default function Index() {
     const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [available, setAvailable] = useState(0);
-    const [initialBudget, setInitialBudget] = useState(0);
+    const [initialBudget, setInitialBudget] = useState<number>(0);
     const [campaign, setCampaign] = useState<IMyCampaignDetail | undefined>();
     const navigation = useNavigate();
     const { user } = useAuth();
@@ -60,11 +60,6 @@ export default function Index() {
         };
     }
 
-    const handleAvailable = (obj: any) => {
-        let diff = initialBudget - obj.budget;
-        // setAvailable(available + diff);
-    }
-
     const handleImg = (e: string) => {
 
         function validarURL(url: string) {
@@ -78,18 +73,18 @@ export default function Index() {
     }
 
     useEffect(() => {
-        GetAvailableBalanceData()
-            .then(res => setAvailable(res.data))
+        getAvailableBalanceData()
+            .then(res => setAvailable(res.data.value.valueOf()))
             .catch(error => toast.error("Unable to get available amount"))
     }, []);
 
     useEffect(() => {
         setLoading(true);
-        id && GetCampaignDetail(id)
+        id && getCampaignDetail(id)
             .then(res => {
-                setImgSrc(res.data.imageUrl)
-                setCampaign(res.data)
-                setInitialBudget(res.data.budget)
+                setImgSrc(res.data.value.imageUrl)
+                setCampaign(res.data.value)
+                setInitialBudget(res.data.value.budget.valueOf())
             })
             .catch(error => toast.error(error))
             .finally(() => setLoading(false));
@@ -101,7 +96,7 @@ export default function Index() {
         data.imageUrl = imgSrc;
         data.email = user.email
 
-        id && EditCampaign(id, data)
+        id && editCampaign(id, data)
             .then(res => {
                 toast.success('Campaign edited successfully !!!');
                 navigation(-1);

@@ -5,7 +5,7 @@ import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
 import {  INotification } from "../../interfaces/ViewModels";
 import { prepareData } from "./prepare";
-import { GetNotificationDetail } from "../../services/NotificationService";
+import { getNotificationDetail } from "../../services";
 
 
 const notiIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -22,8 +22,8 @@ export default function Index() {
 
     useEffect(() => {
         setLoading(true);
-        id && GetNotificationDetail(id)
-            .then(res => setNotification(res.data))
+        id && getNotificationDetail(id)
+            .then(res => setNotification(res.data.value))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }, []);

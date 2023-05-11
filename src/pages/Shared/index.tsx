@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DynamicTable from "../../components/DynamicTable";
 import SearchBar from "../../components/SearchBar";
 import { IMyAffLinksResponse, IMyCampaignsResponse } from "../../interfaces/Responses";
-import { GetMyAffLinks } from "../../services/AffLinkService";
-import { GetMyCampaigns } from "../../services/CampaignService";
+import { getMyAffLinks } from "../../services";
 import { Columns } from "./columns";
 
 export default function Index() {
@@ -22,7 +21,7 @@ export default function Index() {
 
     useEffect(() => {
         setLoading(true);
-        GetMyAffLinks(page,filter)
+        getMyAffLinks(page,filter)
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
@@ -37,13 +36,13 @@ export default function Index() {
                 pagination={
                     {
                         first: () => setPage(1),
-                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
+                        last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
                         next: () => setPage(prev => prev + 1),
                         prev: () => setPage(prev => prev - 1),
-                        ...(data?.pagination!),
+                        ...(data?.value.pagination!),
                     }
                 }
-                rows={data?.items || []} />
+                rows={data?.value.items || []} />
         </section>
     )
 }

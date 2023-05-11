@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb"
 import DynamicTable from "../../components/DynamicTable";
 import { ISubscriptionResponse } from "../../interfaces/Responses";
-import { GetSubscriptionPlans } from "../../services/SubscriptionService";
+import { getSubscriptionPlans } from "../../services";
 import { Columns } from "./columns";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +24,7 @@ export default function Index() {
 
     useEffect(() => {
         setLoading(true);
-        GetSubscriptionPlans(page)
+        getSubscriptionPlans(page)
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
@@ -36,12 +36,12 @@ export default function Index() {
                 pagination={
                     {
                         first: () => setPage(1),
-                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
+                        last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
                         next: () => setPage(prev => prev + 1),
                         prev: () => setPage(prev => prev - 1),
-                        ...(data?.pagination!),
+                        ...(data?.value.pagination!),
                     }
                 }
-                rows={data?.items || []} />
+                rows={data?.value.items || []} />
     </section>)
 }

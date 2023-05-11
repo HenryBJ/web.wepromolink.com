@@ -4,8 +4,9 @@ import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
 import { IMyCampaignDetail } from "../../interfaces/ViewModels";
-import { GetCampaignDetail } from "../../services/CampaignService";
+import { getCampaignDetail } from "../../services";
 import { prepareData } from "./prepare";
+import { IMyCampaignDetailResponse } from "../../interfaces/Responses";
 
 
 const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -22,8 +23,8 @@ export default function Index() {
 
     useEffect(() => {
         setLoading(true);
-        id && GetCampaignDetail(id)
-            .then(res => setCampaign(res.data))
+        id && getCampaignDetail(id)
+            .then(res => setCampaign(res.data.value))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }, []);

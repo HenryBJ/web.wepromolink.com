@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import GoogleIcon from "../../components/Google";
 import Logo from "../../components/Logo";
-import { auth, fbLogOut, signInWithGoogle } from "../../firebase"
+import firebase, { auth, fbLogOut, signInWithGoogle } from "../../firebase"
 import { useAuth } from "../../hooks/Auth";
+import { User } from "firebase/auth";
+import { getIsEmailSignUp, putFirebaseUid } from "../../services";
 
 export default function Home() {
 
@@ -15,30 +17,31 @@ export default function Home() {
       fbLogOut().then(() => logout())
     }
     else {
+      console.log("here");
       signInWithGoogle()
         .then(result => {
-          console.log(result);
-          login(result.user);
+          console.log(result.user.email)
+          getIsEmailSignUp(result.user.email || '')
+            .then(async res => {
+              if (Boolean(res.data.value)) {
+                const { uid } = result.user;
+                await putFirebaseUid(result.user.email!, uid);
+                login(result.user, await result.user.getIdToken());
+              } else {
+                result.user.email && navigate('/pricing');
+              }
+            })
         })
         .catch(error => {
           console.log(error);
         })
     }
-
   }
 
   const GoToDashBoard = () => {
     navigate('/dashboard');
   }
 
-  // useEffect(() => {
-  //   auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //     }
-  //     else {
-  //     }
-  //   });
-  // }, []);
 
   return (
     <>
@@ -74,11 +77,23 @@ export default function Home() {
               </div>
               <div className="grow">
                 <span>
-                  {user ? 'Logout' : 'Log In with Google'}
+                  {user ? 'Logout' : 'Sign In'}
                 </span>
               </div>
             </div>
           </button>
+          {!user && <button onClick={() => navigate("/pricing")} className="bg-white  md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit ">
+            <div className="flex w-56">
+              <div>
+                <GoogleIcon />
+              </div>
+              <div className="grow">
+                <span>
+                  Sign Up
+                </span>
+              </div>
+            </div>
+          </button>}
         </div>
 
         <div className="text-orange-100 md:text-orange-800 font-semibold text-sm w-3/5 text-center">

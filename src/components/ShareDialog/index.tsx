@@ -2,9 +2,8 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import CopyButton from '../CopyButton'
 import { Link } from 'react-router-dom'
-import { CreateAffLink } from '../../services/AffLinkService';
+import { createAffLink } from '../../services';
 import { useAuth } from '../../hooks/Auth';
-import { IUser } from '../../interfaces/IUser';
 import Spinner from '../Spinner';
 import { ICreateAffLinkResponse } from '../../interfaces/Responses';
 
@@ -27,7 +26,7 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaingId }: ISha
     useEffect(() => {
         if (isOpen) {
             link || setLoading(true);
-            link || CreateAffLink({ SponsoredLinkId: campaingId, BTCAddress: btcAddress, Email: (user as IUser).email })
+            link || createAffLink({ SponsoredLinkId: campaingId, BTCAddress: btcAddress, Email: "" })
                 .then(res => {
                     setLink(res.data);
                     setLoading(false);
@@ -69,9 +68,9 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaingId }: ISha
 
                             <div className="relative w-full rounded-md shadow-sm ">
                                 {loading ? <Spinner text="Generating link ..." /> : <>
-                                    <input type="text" name="link" value={link?.link!} disabled className="cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
+                                    <input type="text" name="link" value={link?.value.link!} disabled className="cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
                                     <div className="absolute inset-y-0 right-0 flex items-center">
-                                        <CopyButton text={link?.link!} />
+                                        <CopyButton text={link?.value.link!} />
                                     </div>
                                 </>}
 

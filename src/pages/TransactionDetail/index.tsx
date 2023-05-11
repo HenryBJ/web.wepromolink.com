@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
 import { IMyCampaignDetail, IMyTransactionDetail } from "../../interfaces/ViewModels";
-import { GetCampaignDetail } from "../../services/CampaignService";
+import { getCampaignDetail } from "../../services";
 import { prepareData } from "./prepare";
-import { GetTransactionDetail } from "../../services/TransactionService";
+import { getTransactionDetail } from "../../services";
+import { IMyTransactionDetailResponse } from "../../interfaces/Responses";
 
 
 const transIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -17,13 +18,13 @@ export default function Index() {
 
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [campaign, setCampaign] = useState<IMyTransactionDetail | undefined>();
+    const [campaign, setCampaign] = useState<IMyTransactionDetailResponse | undefined>();
 
     
 
     useEffect(() => {
         setLoading(true);
-        id && GetTransactionDetail(id)
+        id && getTransactionDetail(id)
             .then(res => setCampaign(res.data))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
@@ -34,7 +35,7 @@ export default function Index() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: transIcon, title: 'Balance', link: '/balance' }, { title: 'Transaction\'s details', link: '' }]} />
-            {campaign && <GenericDetail prepare={prepareData(campaign)} />}
+            {campaign && <GenericDetail prepare={prepareData(campaign.value)} />}
             {loading && <Loader text="Loading transaction details ..." />}
         </section>
     )

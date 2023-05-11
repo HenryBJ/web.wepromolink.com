@@ -113,7 +113,7 @@ export interface INotification {
     created: Date,
 }
 
-export interface ISubscriptionPlan {
+export interface ISubscriptionPlanDetail {
     id: number,
     title: string,
     price: number,
@@ -136,6 +136,7 @@ export interface ICreateCampaign {
     imageUrl: string,
     email: string,
     epm: Number,
+    budget: Number,
 }
 
 export interface IPayoutData {
@@ -154,3 +155,37 @@ export interface IPayoutData {
     isLockedPayoutType:boolean
 }
 
+export interface INotificationBadget {
+    id: number,
+    notification: number,
+    campaing: number,
+    links: number,
+    clicks: number,
+    deposit: number,
+    withdraw: number,
+    flag: string
+  }
+
+  export interface ISubscriptionPlanCard {
+    id: string,
+    title: string,
+    monthly: number,
+    annually: number,
+    discount: number,
+    ads: boolean,
+    depositFee: number,
+    payoutFee: number,
+    payoutMinimun: number,
+    paymentMethod: string,
+    tag?: string
+    monthlyPaymantLink:string,
+    annualyPaymantLink?:string,
+    order:number
+}
+
+export interface ISigUpInfo {
+    fullname?: string,
+    email?: string,
+    firebaseId:string,
+    subscriptionPlanId:string
+}

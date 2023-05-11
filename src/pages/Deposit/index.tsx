@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import { IPayoutData } from "../../interfaces/ViewModels";
-import { GetPayoutData } from "../../services/PayoutService";
+import { getPayoutData } from "../../services";
 import * as yup from "yup";
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import SelectCombo from "../../components/SelectCombo";
@@ -60,11 +60,11 @@ export default function Index() {
 
     useEffect(() => {
         setLoading('Getting deposit method ...');
-        GetPayoutData()
+        getPayoutData()
             .then(res => {
-                setPayType(res.data.payoutType);
-                setIslocked(res.data.isLockedPayoutType);
-                handleOptions(res.data.payoutType);
+                setPayType(res.data.value.payoutType);
+                setIslocked(res.data.value.isLockedPayoutType);
+                handleOptions(res.data.value.payoutType);
             })
             .finally(() => setLoading(''));
     }, []);

@@ -25,10 +25,10 @@ import TransactionDetail from './pages/TransactionDetail';
 import NotificationDetail from './pages/NotificationDetail';
 import SubPlanDetail from './pages/SubPlanDetail';
 import Withdraw from './pages/Withdraw';
-import { GetCampaignStats } from './services/CampaignService';
 import CampaignStats from './pages/CampaignStats';
 import SharedStats from './pages/SharedStats';
 import EditCampaign from './pages/EditCampaign';
+import Thanks from './pages/Thanks';
 // import './App.css';
 
 function App() {
@@ -41,6 +41,7 @@ function App() {
           <Route path="/faq" element={<Faq />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/thanks" element={<Thanks />} />
           {/* <Route path="/login" element={<Login />} /> */}
         </Route>
 

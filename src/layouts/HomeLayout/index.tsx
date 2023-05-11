@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from '../../hooks/Auth'
 import AuthLayout from '../AuthLayout'
 import bgImage from '../../images/fondo.png';
 import SocialNetworks from '../../components/SocialNetworks'
+import { ToastContainer } from 'react-toastify'
 
 
 export default function HomeLayout() {
@@ -51,6 +52,7 @@ export default function HomeLayout() {
                     <div className='h-screen flex-1 w-full flex flex-col bg-center bg-cover bg-hero'>
                         <div className='grow'>
                             <AuthProvider>
+                                <ToastContainer position="bottom-right" />
                                 <Outlet />
                             </AuthProvider>
                         </div>
@@ -62,7 +64,7 @@ export default function HomeLayout() {
                         <Logo scale={logoScale} />
                         {/* <span>{width}</span> */}
                         <span className='text-white sm:text-sm md:text-base text-center'>B-Tech Innovation Studios LLC</span>
-                        <div className='absolute bottom-3 flex items-center'><SocialNetworks/></div>
+                        <div className='absolute bottom-3 flex items-center'><SocialNetworks /></div>
                     </div>
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>

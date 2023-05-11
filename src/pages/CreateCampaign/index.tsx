@@ -2,11 +2,12 @@ import GenericForm, { FormItem } from "../../components/GenericForm";
 import * as yup from "yup";
 import { ChangeEvent, ReactEventHandler, useEffect, useState } from "react";
 import Loader from "../../components/Loader";
-import { CreateCampaigns } from "../../services/CampaignService";
+import { createCampaigns, getAvailableBalanceData } from "../../services";
 import { useNavigate } from "react-router-dom";
 import { ICreateCampaign } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
+import { toast } from "react-toastify";
 
 
 const schema = yup.object({
@@ -27,6 +28,7 @@ const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 
 export default function Index() {
     const fallbackImg: string = "https://wepromolink.com/card.png";
     const [imgSrc, setImgSrc] = useState(fallbackImg);
+    const [available, setAvailable] = useState(0);
     const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigate();
@@ -66,18 +68,43 @@ export default function Index() {
         }
     }
 
+    useEffect(() => {
+        getAvailableBalanceData()
+            .then(res => setAvailable(res.data.value.valueOf()))
+            .catch(error => toast.error("Unable to get available amount"))
+    }, []);
+
     const onSubmit = (data: ICreateCampaign) => {
         setLoading(true);
 
         data.imageUrl = imgSrc;
         data.email = user.email
 
-        CreateCampaigns(data)
+        createCampaigns(data)
             .then(res => navigation(-1))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
 
     }
+
+    const onChangeBudget = (e: any, register: any) => {
+        console.log(e.target.value);
+        if (e.target.value >= 0 && e.target.value <= available) {
+            register("budget").onChange(e);
+        } else {
+            e.preventDefault();
+        }
+    };
+
+    const handleBudgetKeyPress = (e:any) => {
+        const currentValue = e.target.value;
+        const keyCode = e.keyCode || e.which;
+        const newValue = parseInt(currentValue + String.fromCharCode(keyCode));
+      
+        if (isNaN(newValue) || newValue < 0 || newValue > available) {
+          e.preventDefault();
+        }
+      };
 
 
     return (
@@ -98,6 +125,28 @@ export default function Index() {
 
                 <FormItem helpTip="CPM: Cost per mile, This is the cost for 1000 clicks range (10-1000)">
                     {({ register }) => (<input max={1000} min={10} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={60} placeholder="Cost per mile (CPM)" type="number" {...register("epm")} />)}
+                </FormItem>
+
+                <FormItem field="budget" helpTip="Budget: Amount of money assigned to the campaign">
+                    {({ register, watch }) => {
+                        let obj: any = watch();
+                        return <div className="flex flex-row gap-2 md:gap-4">
+                            <input max={available} min={0}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Budget"
+                                type="number"
+                                onKeyDown={handleBudgetKeyPress}
+                                onPaste={(e)=>e.preventDefault()}
+                                onChange={(e) => onChangeBudget(e, register)}
+                                onBlur={register("budget").onBlur}
+                                name={register("budget").name}
+                                ref={register("budget").ref} />
+
+                            <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget}`}</span>
+                            </div>
+                        </div>
+                    }}
                 </FormItem>
 
                 <FormItem field="imageUrl" helpTip="Campaign Image URL">
