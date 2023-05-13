@@ -37,6 +37,15 @@ const options = (title: string, showLegend:boolean = false) => ({
             text: title,
         },
     },
+    // scales: {
+    //     y:{
+    //         ticks:{
+    //             precision:0,
+    //             stepSize:1,
+    //             beginAtZero: true,
+    //         }
+    //     }
+    // }
 });
 
 const generateRandomColors = (n: Number) => {
