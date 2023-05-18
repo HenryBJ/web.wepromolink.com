@@ -11,7 +11,7 @@ interface IProps {
     title: string,
     transform?: (value: any) => any,
     load?(): Promise<AxiosResponse<IStatsResponse>>,
-    data?:IStats
+    data?: IStats
 }
 
 interface IPieData {
@@ -37,24 +37,36 @@ const generateRandomColors = (n: Number) => {
     return colors;
 }
 
-const transformAdapter:(value:IStats)=>IPieData = (value) => {
+const transformAdapter: (value: IStats) => IPieData = (value) => {
     const colorList = generateRandomColors(value.data[0].length);
-    let output:IPieData = {labels:value.labels, datasets:[
-        {
-            data:value.data[0], 
-            backgroundColor:colorList,
-            borderColor:colorList,
-            borderWidth:1,
-            label:''
-        }]}
-    return output    
+
+    const filteredLabels  = value.labels.filter((label) => label !== "");
+    const filteredData = value.data[0].filter((data, index) => value.labels[index] !== "");
+    
+    let output: IPieData = {
+        labels: filteredLabels, 
+        datasets: [
+            {
+                data: filteredData,
+                backgroundColor: colorList,
+                borderColor: colorList,
+                borderWidth: 1,
+                label: ''
+            }]
+    }
+    return output
+}
+
+const hasData = (data: IPieData | undefined): boolean => {
+    if (!data) return false;
+    return !data.labels.every(e => e === "");
 }
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-export default function Index({ title, load, transform, data}: IProps) {
+export default function Index({ title, load, transform, data }: IProps) {
     const [loading, setLoading] = useState(false);
     const [pdata, setPData] = useState<IPieData>();
 
@@ -85,7 +97,7 @@ export default function Index({ title, load, transform, data}: IProps) {
                 {title}
             </div>
             <div className="w-full h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">
-                {loading ? <Spinner text="" /> : pdata && <Pie data={pdata} />}
+                {loading ? <Spinner text="" /> : hasData(pdata) ? <Pie data={pdata!} /> : "No data available"}
             </div>
         </div>)
 }

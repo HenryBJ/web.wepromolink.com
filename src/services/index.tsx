@@ -14,6 +14,7 @@ export const api = AddInterceptors(axios.create({
 
 export const createCampaigns = (data:ICreateCampaign):Promise<AxiosResponse<IResponse>> => api.post('campaign/create', data);
 export const getCampaigns = (page:Number):Promise<AxiosResponse<ICampaignListResponse>> => api.get(`links?page=${page}`);
+
 export const getSubscriptionCards = ():Promise<AxiosResponse<ISubscriptionPlanCardResponse>> => api.get(`pricing/all`);
 export const getIsEmailSignUp = (email: string):Promise<AxiosResponse<IResponse>> => api.get(`user/exits/${email}`);
 export const getIsBlocked = ():Promise<AxiosResponse<IResponse>> => api.get('user/isblocked');
@@ -34,6 +35,13 @@ export const getClicksLastWeekOnCompaignData = ():Promise<AxiosResponse<IRespons
 export const getSharedTodayData = ():Promise<AxiosResponse<IResponseValue<Number>>> => api.get(`data/sharedtoday`);
 export const getSharedLastWeekData = ():Promise<AxiosResponse<IResponse>> => api.get(`data/sharedlastweek`);
 export const getHistoricalClickOnLinks = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalclicksonlink`);
+export const getHistoricalEarnOnLinks = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalearnonlink`);
+export const getHistoricalClickOnCampaigns = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalclickoncampaigns`);
+export const getHistoricalClickOnShares = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalclickonshares`);
+export const getClickOnLinksByCountries = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalclickbycountriesonlinks`);
+export const getEarnByCountries = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalearnbycountries`);
+export const getClickOnCampaignsByCountries = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalclickbycountriesoncampaigns`);
+export const getSharedByUsers = ():Promise<AxiosResponse<IStatsResponse>> => api.get(`data/historicalsharedbyusers`);
 
 
 
@@ -51,13 +59,13 @@ export const createAffLink = (data: ICreateAffLink):Promise<AxiosResponse<ICreat
 export const getMyAffLinks = (page:Number, filter:string, cant:Number=50):Promise<AxiosResponse<IMyAffLinksResponse>> => api.get(`afflinks?page=${page}&cant=${cant}&filter=${filter}`);
 export const getAffLinkStats = (id: string):Promise<AxiosResponse<IResponse>> => api.get(`getafflinkstats?id=${id}`);
 
-export const getHistoricalEarnOnLinks = ():Promise<AxiosResponse<IResponse>> => api.get(`gethistoricalearnonlink`);
-export const getHistoricalClickOnCampaigns = ():Promise<AxiosResponse<IResponse>> => api.get(`gethistoricalearnoncampaigns`);
-export const getHistoricalClickOnShares = ():Promise<AxiosResponse<IResponse>> => api.get(`gethistoricalearnonshares`);
-export const getClickOnLinksByCountries = ():Promise<AxiosResponse<IResponse>> => api.get(`getbarsclickonlinksbycountries`);
-export const getEarnByCountries = ():Promise<AxiosResponse<IResponse>> => api.get(`getearnbycountries`);
-export const getClickOnCampaignsByCountries = ():Promise<AxiosResponse<IResponse>> => api.get(`getclickoncampaignsbycountries`);
-export const getSharedByUsers = ():Promise<AxiosResponse<IResponse>> => api.get(`getsharedbyusers`);
+
+
+
+
+
+
+
 
 
 

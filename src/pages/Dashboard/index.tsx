@@ -10,7 +10,7 @@ import { getClickOnCampaignsByCountries, getClickOnLinksByCountries, getClicksLa
 
 export default function Dashboard() {
     return (
-        <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
+        <section className="container max-w-5xl px-2 mx-auto pt-3 pb-6 h-full flex flex-col gap-2 justify-center items-center">
             <div className="flex gap-2 flex-wrap  justify-center items-start">
                 <Dash title="Available" load={getAvailableBalanceData} transform={(e) => `$${e}`} helpTip={'This is the amount of money from the user\'s budget that has not yet been assigned to any campaigns. It represents the funds that are still available for the user to allocate to new or existing campaigns.'} />
                 <Dash title="Profit" load={getProfitBalanceData} transform={(e) => `$${e}`} helpTip={'This is the amount of money that the user has earned from the clicks received on their shared links. It represents the revenue generated from the user\'s campaigns and is available for withdrawal.'} />
@@ -22,10 +22,10 @@ export default function Dashboard() {
                 <Dash title="Last Week on campaigns" load={getClicksLastWeekOnCompaignData} transform={(e) => `${e} clicks`} />
                 <Dash title="Shared Today" load={getSharedTodayData} transform={(e) => `${e} shared`} />
                 <Dash title="Shared Last Week" load={getSharedLastWeekData} transform={(e) => `${e} shared`} />
-                <DashLine title="Clicks on links" load={getHistoricalClickOnLinks} />
-                <DashLine title="Earn on links" load={getHistoricalEarnOnLinks} />
-                <DashLine title="Clicks on campaigns" load={getHistoricalClickOnCampaigns} />
-                <DashLine title="Clicks on shares" load={getHistoricalClickOnShares} />
+                <DashLine title="Clicks on links" load={getHistoricalClickOnLinks} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
+                <DashLine title="Earn on links" load={getHistoricalEarnOnLinks} precision={4} showXGrid={false} showYGrid={false} stepSize={0.001} />
+                <DashLine title="Clicks on campaigns" load={getHistoricalClickOnCampaigns} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
+                <DashLine title="Clicks on shares" load={getHistoricalClickOnShares} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
                 <DashPie title="Click by countries on links" load={getClickOnLinksByCountries} />
                 <DashPie title="Earn by countries" load={getEarnByCountries} />
                 <DashPie title="Click by countries on campaign" load={getClickOnCampaignsByCountries} />

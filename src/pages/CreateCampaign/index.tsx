@@ -81,8 +81,11 @@ export default function Index() {
         data.email = user.email
 
         createCampaigns(data)
-            .then(res => navigation(-1))
-            .catch(error => console.log(error))
+            .then(res => {
+                toast.success("Campaign created successfully !!!");
+                navigation(-1);
+            })
+            .catch(error => toast.error(error))
             .finally(() => setLoading(false));
 
     }
@@ -96,15 +99,15 @@ export default function Index() {
         }
     };
 
-    const handleBudgetKeyPress = (e:any) => {
+    const handleBudgetKeyPress = (e: any) => {
         const currentValue = e.target.value;
         const keyCode = e.keyCode || e.which;
         const newValue = parseInt(currentValue + String.fromCharCode(keyCode));
-      
+
         if (isNaN(newValue) || newValue < 0 || newValue > available) {
-          e.preventDefault();
+            e.preventDefault();
         }
-      };
+    };
 
 
     return (
@@ -130,20 +133,21 @@ export default function Index() {
                 <FormItem field="budget" helpTip="Budget: Amount of money assigned to the campaign">
                     {({ register, watch }) => {
                         let obj: any = watch();
+                        console.log(obj);
                         return <div className="flex flex-row gap-2 md:gap-4">
                             <input max={available} min={0}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Budget"
                                 type="number"
                                 onKeyDown={handleBudgetKeyPress}
-                                onPaste={(e)=>e.preventDefault()}
+                                onPaste={(e) => e.preventDefault()}
                                 onChange={(e) => onChangeBudget(e, register)}
                                 onBlur={register("budget").onBlur}
                                 name={register("budget").name}
                                 ref={register("budget").ref} />
 
                             <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget}`}</span>
+                                <span className="text-gray-700 font-semibold">{`Available: $${isNaN(obj.budget) ? 0 : available - obj.budget}`}</span>
                             </div>
                         </div>
                     }}
@@ -168,3 +172,5 @@ export default function Index() {
             {loading && <Loader text="Creating campaign ..." />}
         </section>)
 }
+
+//https://picsum.photos/id/33/600/600

@@ -75,7 +75,7 @@ export default function Index({ prepare, actions }: Props) {
                 return <Dash title={item.title} data={item.transform ? item.transform(item.value) : item.value} />
 
             case 'line':
-                return <DashLine title={item.title} data={item.value} />
+                return <DashLine title={item.title} data={item.value} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
 
             case 'bar':
                 return <DashBar title={item.title} data={item.value} />

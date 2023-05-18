@@ -12,7 +12,11 @@ interface IProps {
     title: string,
     transform?: (value: any) => any,
     load?(): Promise<AxiosResponse<IStatsResponse>>,
-    data?: IStats
+    data?: IStats,
+    showXGrid: boolean,
+    showYGrid: boolean,
+    precision: number,
+    stepSize: number
 }
 
 interface ILineData {
@@ -25,28 +29,7 @@ interface ILineData {
     }[];
 }
 
-const options = (title: string, showLegend:boolean = false) => ({
-    responsive: true,
-    plugins: {
-        legend: {
-            display:showLegend, 
-            position: 'top' as const,
-        },
-        title: {
-            display: false,
-            text: title,
-        },
-    },
-    // scales: {
-    //     y:{
-    //         ticks:{
-    //             precision:0,
-    //             stepSize:1,
-    //             beginAtZero: true,
-    //         }
-    //     }
-    // }
-});
+
 
 const generateRandomColors = (n: Number) => {
     const colors = [];
@@ -60,10 +43,27 @@ const generateRandomColors = (n: Number) => {
     return colors;
 }
 
+const convertLabel = (k:string[]) => {
+    return k.map((label) => {
+        const date = new Date(label);
+        if (isNaN(date.getTime())) {
+            // No es Date
+            return label;
+        } else {
+            // Si es Date
+            const day = date.toLocaleDateString('en', { day: '2-digit' });
+            const month = date.toLocaleDateString('en', { month: 'short' });
+            return `${month} ${day}`;
+        }
+    });
+};
+
+
+
 const transformAdapter: (value: IStats) => ILineData = (value) => {
     let colors = generateRandomColors(value.data.length);
     let output: ILineData = {
-        labels: value.labels, datasets:value.data.map((e, index)=>({
+        labels: convertLabel(value.labels), datasets: value.data.map((e, index) => ({
             data: e,
             backgroundColor: colors[index],
             borderColor: colors[index],
@@ -76,9 +76,44 @@ const transformAdapter: (value: IStats) => ILineData = (value) => {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
-export default function Index({ title, load, transform, data }: IProps) {
+export default function Index({ title, load, transform, data, precision, showXGrid, showYGrid, stepSize }: IProps) {
     const [loading, setLoading] = useState(false);
     const [pdata, setPData] = useState<ILineData>();
+
+    const options = (title: string, showLegend: boolean = false) => ({
+        responsive: true,
+        plugins: {
+            legend: {
+                display: showLegend,
+                position: 'top' as const,
+            },
+            title: {
+                display: false,
+                text: title,
+            },
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: showXGrid
+                },
+            },
+            y: {
+                ticks: {
+                    precision: precision,
+                    stepSize: stepSize,
+                    beginAtZero: true,
+                },
+                min: 0,
+                grid: {
+                    display: showYGrid
+                }
+            }
+        }
+    });
+
+
+
 
     useEffect(() => {
         if (load) {
@@ -102,7 +137,7 @@ export default function Index({ title, load, transform, data }: IProps) {
 
 
     return (
-        <div className="flex-grow bg-white rounded shadow-lg cursor-pointer">
+        <div className="flex-grow max-w-lg  bg-white rounded shadow-lg cursor-pointer">
             <div className="h-10 bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
                 {title}
             </div>

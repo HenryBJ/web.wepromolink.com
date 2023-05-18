@@ -19,8 +19,8 @@ interface IBarData {
     datasets: {
         label: string;
         data: number[];
-        backgroundColor: string;
-        borderColor: string;
+        backgroundColor: string[];
+        borderColor: string[];
     }[];
 }
 
@@ -51,19 +51,28 @@ const generateRandomColors = (n: Number) => {
 
 const transformAdapter: (value: IStats) => IBarData = (value) => {
     let colors = generateRandomColors(value.data.length);
+    
+    const filteredLabels  = value.labels.filter((label) => label !== "");
+    const filteredData = value.data[0].filter((data, index) => value.labels[index] !== "");
+
     let output: IBarData = {
-        labels: value.labels, datasets:value.data.map((e, index)=>({
-            data: e,
-            backgroundColor: colors[index],
-            borderColor: colors[index],
-            label: value.dataLabels[index]
-        }))
+        labels: filteredLabels, datasets:[{
+            data: filteredData,
+            backgroundColor: colors,
+            borderColor: colors,
+            label: ''
+        }]
     }
     return output
 }
 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const hasData = (data: IBarData | undefined): boolean => {
+    if (!data) return false;
+    return !data.labels.every(e => e === "");
+}
 
 
 export default function Index({ title, load, transform, data }: IProps) {
@@ -97,7 +106,7 @@ export default function Index({ title, load, transform, data }: IProps) {
                 {title}
             </div>
             <div className="h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">
-                {loading ? <Spinner text="" /> : pdata && <Bar className="w-full" options={options(data?.title || 'Stats', data && data?.data.length > 1)} data={pdata} />}
+                {loading ? <Spinner text="" /> : hasData(pdata) ? <Bar className="w-full" options={options(data?.title || 'Stats', data && data?.data.length > 1)} data={pdata!} /> : "No data available"}
             </div>
         </div>)
 }
