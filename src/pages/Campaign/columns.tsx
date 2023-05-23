@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { IColumnData } from "../../components/DynamicTable";
 import { toast } from "react-toastify";
-import { publishCampaign, unpublishCampaign } from "../../services";
+import { deleteCampaign, publishCampaign } from "../../services";
 
 const statsIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
   <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -32,15 +32,21 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 )
 
 const editIcon = (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="basis-1/4 w-4 h-4 inline mr-1 my-1 ">
-<path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+  <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+</svg>
+)
+
+const deleteIcon = (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="basis-1/4 w-4 h-4 inline mr-1 my-1">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
 </svg>
 )
 
 
 
-export const timeSince = (date: Date): string => {
+export const timeSince = (date: Date | null): string => {
+  if (date === null) return "never";
   let now = new Date();
-  let dif = now.getTime() - date.getTime();
+  let dif = now.getTime() - date!.getTime();
   const seconds = Math.floor(dif / 1000);
   let interval = Math.floor(seconds / 31536000);
 
@@ -66,30 +72,38 @@ export const timeSince = (date: Date): string => {
   return "just now";
 }
 
-const handlePublish = (id: any, status: boolean, reload:()=>void) => {
-  if (!status) {
-    publishCampaign(id)
-      .then(res => {
+const handlePublish = (id: any, status: boolean, reload: () => void, setLoading: (value: React.SetStateAction<boolean>) => void) => {
+  setLoading(true);
+  publishCampaign(id, status)
+    .then(res => {
+      if (status) {
         toast.success("Campaign published successfully!!!");
-        reload();
-      })
-      .catch(error => toast.error(error));
-  } else {
-    unpublishCampaign(id)
-      .then(res => {
+      } else {
         toast.success("Campaign unpublished successfully!!!");
-        reload();
+      }
+      reload();
     })
-      .catch(error => toast.error(error));
-  }
+    .catch(error => toast.error(error.response?.data))
+    .finally(() => setLoading(false));
+}
+
+const handleDelete = (id: string, reload: () => void, setLoading: (value: React.SetStateAction<boolean>) => void) => {
+  setLoading(true);
+  deleteCampaign(id)
+    .then(res => {
+      toast.success("Campaign deleted !!!");
+      reload();
+    })
+    .catch(error => toast.error(error.response?.data))
+    .finally(() => setLoading(false));
 }
 
 
 
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
-  { title: "Campaign", name: "title", hidden: _ => false },
-  { title: "Url", name: "url", hidden: w => w < 984 },
+  { title: "Campaign", name: "title", hidden: _ => false, maxWidth: e => 150 },
+  { title: "Url", name: "url", hidden: w => w < 984, maxWidth: e => 300 },
   { title: "Status", name: "status", hidden: w => w < 390, transform: e => e ? (activeIcon) : (deactiveIcon) },
   { title: "Budget", name: "budget", hidden: w => w < 490, transform: e => `$${e}` },
   { title: "EPM", name: "epm", hidden: w => w < 570, transform: e => `$${e}` },
@@ -100,7 +114,8 @@ export const Columns: IColumnData[] = [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/campaigns/detail/${e.id}`) },
       { title: "Edit", icon: editIcon, action: (e, navigate) => navigate(`/campaigns/edit/${e.id}`) },
       { title: "Statistics", icon: statsIcon, action: (e, navigate) => navigate(`/campaigns/stats/${e.id}`) },
-      { title: k.status ? "Unpublish" : "Publish", icon: publishIcon, action: (e,_,reload) => handlePublish(e.id,k.status, reload) },
+      { title: "Delete", icon: deleteIcon, requiredConfirmation: true, confirmationText: "Do you want to delete this campaign?", action: (e, _, reload, setLoading) => handleDelete(e.id, reload, setLoading) },
+      { title: k.status ? "Unpublish" : "Publish", icon: publishIcon, confirmationText: k.status ? "Do you want to unpublish this campaign?" : "Do you want to publish this campaign?", requiredConfirmation: true, action: (e, _, reload, setLoading) => handlePublish(e.id, !k.status, reload, setLoading) },
     ]
   },
 ];

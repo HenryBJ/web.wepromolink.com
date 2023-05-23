@@ -72,7 +72,7 @@ export default function Index() {
 
         getAvailableBalanceData()
             .then(res => {
-                setAvailable(res.data.value.valueOf());
+                setAvailable(res.data.valueOf());
             });
     }, []);
 

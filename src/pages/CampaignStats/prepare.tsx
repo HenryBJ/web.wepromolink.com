@@ -1,8 +1,93 @@
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
-import { IMyCampaignDetail, IMyCampaignStats } from "../../interfaces/ViewModels";
+import { IMyCampaignDetail } from "../../interfaces/ViewModels";
+import { getClicksLastWeekOnCampaign, getClicksTodayOnCampaign, getHistoryClicksByCountriesOnCampaign, getHistoryClicksOnCampaign, getHistorySharedByUsersOnCampaign, getHistorySharedOnCampaign, getSharedLastWeekOnCampaign, getSharedTodayOnCampaignModel } from "../../services";
 
-export const prepareData = (campaign: IMyCampaignStats) => (): IGenericDetailData | undefined => {
+export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailData | undefined => {
     if (campaign) {
+        let stats: IField[] = [
+            {
+                title: "Clicks Last Week",
+                load: () => getClicksLastWeekOnCampaign(campaign.id),
+                order: 7,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks Today",
+                load: () => getClicksTodayOnCampaign(campaign.id),
+                order: 4,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Shared Last Week",
+                load: () => getSharedLastWeekOnCampaign(campaign.id),
+                order: 5,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Shared Today",
+                load: () => getSharedTodayOnCampaignModel(campaign.id),
+                order: 6,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks",
+                load: () => getHistoryClicksOnCampaign(campaign.id),
+                order: 3,
+                valueType: 'line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Shared",
+                load: () => getHistorySharedOnCampaign(campaign.id),
+                order: 8,
+                valueType: 'line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks By Countries",
+                load: () => getHistoryClicksByCountriesOnCampaign(campaign.id),
+                order: 9,
+                valueType: 'pie',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+
+            {
+                title: "Shared By Users",
+                load: () => getHistorySharedByUsersOnCampaign(campaign.id),
+                order: 10,
+                valueType: 'bar',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+
+        ];
         const properties = Object.entries(campaign);
         let ifields = properties.map(([key, value]) => {
             switch (key) {
@@ -34,112 +119,10 @@ export const prepareData = (campaign: IMyCampaignStats) => (): IGenericDetailDat
                         title: 'Campaign name',
                         value: value,
                         valueType: 'string',
-                        isHidden: false,
+                        isHidden: true,
                         order: 2
                     }
                     return f_title;
-
-
-
-                case 'todayClicks':
-                    let f_todayClicks: IField = {
-                        isImage: false,
-                        title: 'Today Click',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        order: 3,
-                        hideTitle:true,
-                        transform: (e: number) => `${e} clicks`
-                    }
-                    return f_todayClicks;
-
-                case 'lastWeekClicks':
-                    let f_lastWeekClicks: IField = {
-                        isImage: false,
-                        title: 'Last Week Clicks',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        order: 4,
-                        hideTitle:true,
-                        transform: (e: number) => `${e} clicks`
-                    }
-                    return f_lastWeekClicks;
-
-                case 'sharedTodayOnCampaings':
-                    let f_sharedTodayOnCampaings: IField = {
-                        isImage: false,
-                        title: 'Shared Today',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        order: 5,
-                        hideTitle:true,
-                        transform: (e: number) => `${e} shared`
-                    }
-                    return f_sharedTodayOnCampaings;
-
-                case 'sharedLastWeekOnCampaings':
-                    let f_sharedLastWeekOnCampaings: IField = {
-                        isImage: false,
-                        title: 'Shared Last Week',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        order: 6,
-                        hideTitle:true,
-                        transform: (e: number) => `${e} shared`
-                    }
-                    return f_sharedLastWeekOnCampaings;
-
-                case 'historicalClicks':
-                    let f_historicalClicks: IField = {
-                        isImage: false,
-                        title: 'Clicks',
-                        value: value,
-                        valueType: 'line',
-                        isHidden: false,
-                        order: 7,
-                        hideTitle:true
-                    }
-                    return f_historicalClicks;
-
-                case 'clickByCountries':
-                    let f_clickByCountries: IField = {
-                        isImage: false,
-                        title: 'Clicks by Countries',
-                        value: value,
-                        valueType: 'pie',
-                        isHidden: false,
-                        order: 8,
-                        hideTitle:true
-                    }
-                    return f_clickByCountries;
-
-                case 'historicalShared':
-                    let f_historicalShared: IField = {
-                        isImage: false,
-                        title: 'Shared',
-                        value: value,
-                        valueType: 'line',
-                        isHidden: false,
-                        order: 9,
-                        hideTitle:true
-                    }
-                    return f_historicalShared;
-
-                case 'sharedByUsers':
-                    let f_sharedByUsers: IField = {
-                        isImage: false,
-                        title: 'Shared by Users',
-                        value: value,
-                        valueType: 'bar',
-                        isHidden: false,
-                        order: 10,
-                        hideTitle:true
-                    }
-                    return f_sharedByUsers;
 
                 default:
                     let other: IField = {
@@ -154,7 +137,7 @@ export const prepareData = (campaign: IMyCampaignStats) => (): IGenericDetailDat
             }
         });
         return {
-            fields: ifields,
+            fields: [...ifields, ...stats],
             title: campaign.title
         }
     }

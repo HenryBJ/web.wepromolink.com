@@ -3,10 +3,10 @@ import GenericDetail, { IField, IGenericDetailData } from "../../components/Gene
 import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
-import { IMyCampaignDetail, IMyCampaignStats } from "../../interfaces/ViewModels";
-import { getCampaignDetail, getCampaignStats } from "../../services";
+import { IMyCampaignDetail} from "../../interfaces/ViewModels";
+import { getCampaignDetail } from "../../services";
 import { prepareData } from "./prepare";
-import { IMyCampaignStatsResponse } from "../../interfaces/Responses";
+import { toast } from "react-toastify";
 
 
 const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -17,15 +17,15 @@ export default function Index() {
 
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [campaign, setCampaign] = useState<IMyCampaignStatsResponse | undefined>();
+    const [campaign, setCampaign] = useState<IMyCampaignDetail | undefined>();
 
     
 
     useEffect(() => {
         setLoading(true);
-        id && getCampaignStats(id)
+        id && getCampaignDetail(id)
             .then(res => setCampaign(res.data))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response?.data))
             .finally(() => setLoading(false));
     }, []);
 
@@ -34,7 +34,7 @@ export default function Index() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: campIcon, title: 'Campaigns', link: '/campaigns' }, { title: 'Campaign\'s statistics', link: '' }]} />
-            {campaign && <GenericDetail prepare={prepareData(campaign.value)} />}
+            {campaign && <GenericDetail prepare={prepareData(campaign)} />}
             {loading && <Loader text="Loading campaign stats ..." />}
         </section>
     )

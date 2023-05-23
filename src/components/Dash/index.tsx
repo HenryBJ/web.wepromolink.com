@@ -32,9 +32,9 @@ export default function Index({ title, data, transform, load, trend, helpTip }: 
             load()
                 .then(res => {
                     if (transform) {
-                        setPData(transform(res.data.value.valueOf()))
+                        setPData(transform(res.data))
                     } else {
-                        setPData(res.data.value.valueOf())
+                        setPData(res.data)
                     }
                 })
                 .catch(err => console.log(err))

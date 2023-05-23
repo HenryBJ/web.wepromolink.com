@@ -12,7 +12,7 @@ export interface IResponseValue<T> {
     contentType: string,
     value: T
 }
-export interface ICampaignListResponse extends IResponse {
+export interface ICampaignListResponse {
     value: {
         page: Number,
         sponsoredLinks: ICampaingCard[],
@@ -20,11 +20,9 @@ export interface ICampaignListResponse extends IResponse {
     }
 }
 
-export interface IMyCampaignsResponse extends IResponse {
-    value: {
-        pagination: IPagination,
-        items: IMyCampaign[]
-    }
+export interface IMyCampaignsResponse {
+    pagination: IPagination,
+    items: IMyCampaign[],
 }
 
 export interface IMyCampaignDetailResponse extends IResponse {

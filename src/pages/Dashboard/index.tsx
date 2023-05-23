@@ -23,7 +23,7 @@ export default function Dashboard() {
                 <Dash title="Shared Today" load={getSharedTodayData} transform={(e) => `${e} shared`} />
                 <Dash title="Shared Last Week" load={getSharedLastWeekData} transform={(e) => `${e} shared`} />
                 <DashLine title="Clicks on links" load={getHistoricalClickOnLinks} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
-                <DashLine title="Earn on links" load={getHistoricalEarnOnLinks} precision={4} showXGrid={false} showYGrid={false} stepSize={0.001} />
+                <DashLine title="Earn on links" load={getHistoricalEarnOnLinks} precision={3} showXGrid={false} showYGrid={false} stepSize={0.01} />
                 <DashLine title="Clicks on campaigns" load={getHistoricalClickOnCampaigns} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
                 <DashLine title="Clicks on shares" load={getHistoricalClickOnShares} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
                 <DashPie title="Click by countries on links" load={getClickOnLinksByCountries} />

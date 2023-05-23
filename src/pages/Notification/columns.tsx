@@ -13,9 +13,10 @@ const deleteIcon = (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox=
 )
 
 
-const timeSince = (date: Date): string => {
+const timeSince = (date: Date | null): string => {
+  if(date === null) return "never";
   let now = new Date();
-  let dif = now.getTime() - date.getTime();
+  let dif = now.getTime() - date!.getTime();
   const seconds = Math.floor(dif / 1000);
   let interval = Math.floor(seconds / 31536000);
 
@@ -50,7 +51,7 @@ export const Columns: IColumnData[] = [
   { title: "Status", name: "status", hidden: _ => true },
   { title: "Created", name: "created", hidden: w => w < 984, transform: e => timeSince(e) },
   {
-    title: "Actions", name: "", hidden: _ => false, extraActions:_=> [
+    title: "Actions", name: "", hidden: _ => false, extraActions: _ => [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/notifications/detail/${e.id}`) },
       { title: "Delete", icon: deleteIcon, action: (e) => toast.success("Notification deleted") },
     ]

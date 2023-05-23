@@ -10,7 +10,7 @@ import { IStatsResponse } from "../../interfaces/Responses";
 interface IProps {
     title: string,
     transform?: (value: any) => any,
-    load?(): Promise<AxiosResponse<IStatsResponse>>,
+    load?(): Promise<AxiosResponse<IStats>>,
     data?: IStats
 }
 
@@ -76,9 +76,9 @@ export default function Index({ title, load, transform, data }: IProps) {
             load()
                 .then(res => {
                     if (transform) {
-                        setPData(transformAdapter(transform(res.data.value)))
+                        setPData(transformAdapter(transform(res.data)))
                     } else {
-                        setPData(transformAdapter(res.data.value))
+                        setPData(transformAdapter(res.data))
                     }
                 })
                 .catch(err => console.log(err))

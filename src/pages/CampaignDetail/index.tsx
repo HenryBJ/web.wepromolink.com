@@ -7,6 +7,7 @@ import { IMyCampaignDetail } from "../../interfaces/ViewModels";
 import { getCampaignDetail } from "../../services";
 import { prepareData } from "./prepare";
 import { IMyCampaignDetailResponse } from "../../interfaces/Responses";
+import { toast } from "react-toastify";
 
 
 const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -24,8 +25,8 @@ export default function Index() {
     useEffect(() => {
         setLoading(true);
         id && getCampaignDetail(id)
-            .then(res => setCampaign(res.data.value))
-            .catch(error => console.log(error))
+            .then(res => setCampaign(res.data))
+            .catch(error => toast.error(error.response?.data))
             .finally(() => setLoading(false));
     }, []);
 

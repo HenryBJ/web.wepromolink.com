@@ -4,6 +4,7 @@ import { IPagination, IPaginationExtended } from "../../interfaces/IPagination";
 import ActionMenu from "../ActionMenu"
 import Loader from "../Loader";
 import Pagination from "../Pagination";
+import { set } from "react-hook-form";
 
 
 
@@ -12,6 +13,7 @@ export interface IColumnData {
     name: string,
     hidden: (value?: any) => boolean,
     transform?: (value: any) => any,
+    maxWidth?: (value: any) => number,
     extraActions?: (value: any) => IExtraActions[],
 }
 
@@ -22,11 +24,12 @@ interface IDynamicTable {
     defaultAction?: (value: any) => void,
     pagination?: IPaginationExtended,
     loading: boolean,
+    setLoading?: (value: React.SetStateAction<boolean>) => void,
     reload?: () => void,
     onTap?: (item: any, option: Number) => void
 }
 
-export default function Index({ title, columns, rows, defaultAction, pagination, loading = false, reload, onTap }: IDynamicTable) {
+export default function Index({ title, columns, rows, defaultAction, pagination, loading = false, setLoading, reload, onTap }: IDynamicTable) {
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
 
@@ -98,14 +101,14 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
                                         if (column.extraActions) {
                                             return (
                                                 <td key={index} className="px-6 py-2 text-center">
-                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} onTap={(option) => onTap && onTap(row, option)} />
+                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} onTap={(option) => onTap && onTap(row, option)} setLoading={setLoading}  />
                                                 </td>)
                                         }
                                         else
                                             return (index === 0 ?
-                                                <th key={index} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
+                                                <th key={index} style={column.maxWidth ? { maxWidth: column.maxWidth(width) } : {}} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"truncate px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
                                                     {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                                </th> : <td key={index} onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2"}>
+                                                </th> : <td key={index} style={column.maxWidth ? { maxWidth: column.maxWidth(width) } : {}}  onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2 truncate whitespace-nowrap"}>
                                                     {column.transform ? column.transform(row[column.name]) : row[column.name]}
                                                 </td>)
                                     }
@@ -115,11 +118,9 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
                             ))}
                         </tbody>
                     </table>}
-                {pagination && rows.length !== 0 &&
-                    <Pagination pagination={pagination} />}
+                {pagination && rows.length !== 0 && <Pagination pagination={pagination} />}
             </div>
-            {loading && <Loader />
-            }
+            {loading && <Loader />}
         </>
     )
 }

@@ -5,7 +5,7 @@ import { INotificationBadgetResponse } from '../../interfaces/Responses';
 
 
 
-const INTERVAL = 20000;
+const INTERVAL = 200000;
 
 // All field are relaed to unread notifications
 const initial: INotificationBadget = {

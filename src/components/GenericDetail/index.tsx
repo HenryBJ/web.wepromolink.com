@@ -5,6 +5,9 @@ import CopyButton from "../CopyButton";
 import Dash from "../Dash";
 import DashLine from "../DashLine";
 import DashBar from "../DashBar";
+import DashPie from "../DashPie";
+import { AxiosResponse } from "axios";
+import { IStats } from "../../interfaces/ViewModels";
 
 
 export interface IField {
@@ -17,6 +20,7 @@ export interface IField {
     order: number;
     fnwidth?: (value: number) => number;
     transform?: (value: any) => any;
+    load?(): Promise<AxiosResponse<any>>;
 }
 
 export interface IGenericDetailData {
@@ -72,16 +76,28 @@ export default function Index({ prepare, actions }: Props) {
                 )
 
             case 'dash':
+                if (item.load) {
+                    return <Dash title={item.title} load={item.load} transform={item.transform ? item.transform : (e) => e} />
+                }
                 return <Dash title={item.title} data={item.transform ? item.transform(item.value) : item.value} />
 
             case 'line':
+                if (item.load) {
+                    return <DashLine title={item.title} load={item.load} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
+                }
                 return <DashLine title={item.title} data={item.value} precision={0} showXGrid={false} showYGrid={false} stepSize={1} />
 
             case 'bar':
+                if (item.load) {
+                    return <DashBar title={item.title} load={item.load} />
+                }
                 return <DashBar title={item.title} data={item.value} />
 
             case 'pie':
-                return <DashBar title={item.title} data={item.value} />
+                if (item.load) {
+                    return <DashPie title={item.title} load={item.load} />
+                }
+                return <DashPie title={item.title} data={item.value} />
 
             case 'url':
                 return (
@@ -135,8 +151,8 @@ export default function Index({ prepare, actions }: Props) {
                 })}
                 <div className="min-h-[60px] bg-white shadow px-2 py-2 flex flex-wrap-reverse items-center justify-center w-full gap-2">
                     <button type="button" onClick={handleBack} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Back</button>
-                    {actions && actions.map((item:IExtraAction,index)=>(
-                        <button key={index} type="button" onClick={()=>item.fn(data)} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{item.title}</button>
+                    {actions && actions.map((item: IExtraAction, index) => (
+                        <button key={index} type="button" onClick={() => item.fn(data)} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{item.title}</button>
                     ))}
                 </div>
             </div>

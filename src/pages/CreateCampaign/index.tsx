@@ -70,7 +70,7 @@ export default function Index() {
 
     useEffect(() => {
         getAvailableBalanceData()
-            .then(res => setAvailable(res.data.value.valueOf()))
+            .then(res => setAvailable(res.data.valueOf()))
             .catch(error => toast.error("Unable to get available amount"))
     }, []);
 
@@ -85,7 +85,9 @@ export default function Index() {
                 toast.success("Campaign created successfully !!!");
                 navigation(-1);
             })
-            .catch(error => toast.error(error))
+            .catch(error => {
+                toast.error(error.response?.data);
+            })
             .finally(() => setLoading(false));
 
     }

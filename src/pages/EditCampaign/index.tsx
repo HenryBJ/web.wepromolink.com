@@ -74,7 +74,7 @@ export default function Index() {
 
     useEffect(() => {
         getAvailableBalanceData()
-            .then(res => setAvailable(res.data.value.valueOf()))
+            .then(res => setAvailable(res.data.valueOf()))
             .catch(error => toast.error("Unable to get available amount"))
     }, []);
 
@@ -82,9 +82,9 @@ export default function Index() {
         setLoading(true);
         id && getCampaignDetail(id)
             .then(res => {
-                setImgSrc(res.data.value.imageUrl)
-                setCampaign(res.data.value)
-                setInitialBudget(res.data.value.budget.valueOf())
+                setImgSrc(res.data.imageUrl)
+                setCampaign(res.data)
+                setInitialBudget(res.data.budget.valueOf())
             })
             .catch(error => toast.error(error))
             .finally(() => setLoading(false));
@@ -101,7 +101,7 @@ export default function Index() {
                 toast.success('Campaign edited successfully !!!');
                 navigation(-1);
             })
-            .catch(error => toast.error(error))
+            .catch(error => toast.error(error.response?.data))
             .finally(() => setLoading(false));
     }
 
@@ -114,15 +114,15 @@ export default function Index() {
         }
     };
 
-    const handleBudgetKeyPress = (e:any) => {
+    const handleBudgetKeyPress = (e: any) => {
         const currentValue = e.target.value;
         const keyCode = e.keyCode || e.which;
         const newValue = parseInt(currentValue + String.fromCharCode(keyCode));
-      
+
         if (isNaN(newValue) || newValue < 0 || newValue > available) {
-          e.preventDefault();
+            e.preventDefault();
         }
-      };
+    };
 
 
     return (
@@ -154,14 +154,14 @@ export default function Index() {
                                 placeholder="Budget"
                                 type="number"
                                 onKeyDown={handleBudgetKeyPress}
-                                onPaste={(e)=>e.preventDefault()}
+                                onPaste={(e) => e.preventDefault()}
                                 onChange={(e) => onChangeBudget(e, register)}
                                 onBlur={register("budget").onBlur}
                                 name={register("budget").name}
                                 ref={register("budget").ref} />
 
                             <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget}`}</span>
+                                <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget + (campaign?.budget?.valueOf() ?? 0)}`}</span>
                             </div>
                         </div>
                     }}

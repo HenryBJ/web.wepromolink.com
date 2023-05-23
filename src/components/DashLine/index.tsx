@@ -11,7 +11,7 @@ import { IStats } from "../../interfaces/ViewModels";
 interface IProps {
     title: string,
     transform?: (value: any) => any,
-    load?(): Promise<AxiosResponse<IStatsResponse>>,
+    load?(): Promise<AxiosResponse<IStats>>,
     data?: IStats,
     showXGrid: boolean,
     showYGrid: boolean,
@@ -121,9 +121,9 @@ export default function Index({ title, load, transform, data, precision, showXGr
             load()
                 .then(res => {
                     if (transform) {
-                        setPData(transformAdapter(transform(res.data.value)))
+                        setPData(transformAdapter(transform(res.data)))
                     } else {
-                        setPData(transformAdapter(res.data.value))
+                        setPData(transformAdapter(res.data))
                     }
                 })
                 .catch(err => console.log(err))
