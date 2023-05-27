@@ -14,7 +14,8 @@ export interface ICampaingCard {
     budget: Number,
     imageUrl: string,
     autorImageUrl: string,
-    autorName: string
+    autorName: string,
+    lastModified: number
 }
 
 export interface IMyCampaign {

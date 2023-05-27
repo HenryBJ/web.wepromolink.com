@@ -27,7 +27,7 @@ export default function Campaign() {
 
     const handleInfo = () => {
         setLoading(true);
-        getMyCampaigns(page, filter)
+        getMyCampaigns(page, filter, Number(11))
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
@@ -63,7 +63,7 @@ export default function Campaign() {
                 pagination={
                     {
                         first: () => setPage(1),
-                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
+                        last: () => setPage(data?.pagination.totalPages.valueOf() || 1),
                         next: () => setPage(prev => prev + 1),
                         prev: () => setPage(prev => prev - 1),
                         ...(data?.pagination!),

@@ -4,12 +4,33 @@ import Spinner from "../../components/Spinner";
 import { ICampaingCard } from "../../interfaces/ViewModels";
 import { getCampaigns } from "../../services";
 
-export default function Dashboard() {
+export default function Feed() {
 
-  const [page, setPage] = useState(-1);
+  const limit: number = 15;
   const [data, setData] = useState<ICampaingCard[]>([]);
   const [error, setError] = useState(false);
+  const [offsset, setOffset] = useState(0);
+  const [timestamp, setTimestamp] = useState(0);
   const [isFetching, setIsFetching] = useState(true);
+
+  const handleData = (incommingData: ICampaingCard[]) => {
+    if (incommingData.length === 0) return;
+    console.log(incommingData[0])
+    try {
+      
+      const newTimestamp = incommingData
+        .sort((a: ICampaingCard, b: ICampaingCard) => b.lastModified - a.lastModified)[0]
+        .lastModified;
+
+      setTimestamp(newTimestamp);
+      setOffset(prev => prev + incommingData.length);
+      setData(prev => [...prev, ...(incommingData)]);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -18,15 +39,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!isFetching) return;
-
-    getCampaigns(page + 1)
+    getCampaigns(offsset, limit, timestamp)
       .then(resp => {
-        setPage(resp.data.value.page.valueOf());
-        setData(prev => [...prev, ...(resp.data.value.sponsoredLinks)]);
+        handleData(resp.data);
       })
       .catch(err => setError(true))
       .finally(() => setIsFetching(false));
-  }, [isFetching]);
+  }, [isFetching, data.length]);
 
   const handleScroll = () => {
     if (
@@ -51,6 +70,7 @@ export default function Dashboard() {
               epm={c.epm}
               autorImageUrl={c.autorImageUrl}
               autorName={c.autorName}
+              lastModified={c.lastModified}
               imageUrl={c.imageUrl} />))
         }
       </section>
