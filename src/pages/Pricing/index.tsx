@@ -20,13 +20,14 @@ export default function Pricing() {
       .catch(error => console.log(error));
   }, []);
 
-  const signningUp = (email: string, fullname: string, firebaseId: string, planId: string, user: User) => {
+  const signningUp = (photoUrl:string, email: string, fullname: string, firebaseId: string, planId: string, user: User) => {
 
     let data: ISigUpInfo = {
       email: email,
       fullname: fullname,
       firebaseId: firebaseId,
-      subscriptionPlanId: planId
+      subscriptionPlanId: planId,
+      photoUrl: photoUrl
     };
 
     signUp(data)
@@ -48,9 +49,9 @@ export default function Pricing() {
       // empty paymentlink mean free plan
       if (!user) {
         signInWithGoogle()
-          .then(async result => signningUp(result.user.email || "", result.user.displayName || "", result.user.uid, id || "", result.user))
+          .then(async result => signningUp(result.user.photoURL || "", result.user.email || "", result.user.displayName || "", result.user.uid, id || "", result.user))
       } else {
-        signningUp(user.email || "", user.displayName || "", user.uid, id || "", user);
+        signningUp(user.photoURL || "",user.email || "", user.displayName || "", user.uid, id || "", user);
       }
     }
   }

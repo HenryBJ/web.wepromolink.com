@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CampaignCard from "../../components/CampaignCard";
 import Spinner from "../../components/Spinner";
 import { ICampaingCard } from "../../interfaces/ViewModels";
 import { getCampaigns } from "../../services";
+import NoData from "../../components/NoData";
 
 export default function Feed() {
 
@@ -11,57 +12,93 @@ export default function Feed() {
   const [error, setError] = useState(false);
   const [offsset, setOffset] = useState(0);
   const [timestamp, setTimestamp] = useState(0);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  
+
+  const loadImages = (urls: string[]): Promise<void[]> => {
+    const promises: Promise<void>[] = [];
+    for (const url of urls) {
+      const promise = new Promise<void>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve();
+        image.onerror = () => reject(new Error(`Error loading image: ${url}`));
+        image.src = url;
+      });
+      promises.push(promise);
+    }
+    return Promise.all(promises);
+  }
+
 
   const handleData = (incommingData: ICampaingCard[]) => {
-    if (incommingData.length === 0) return;
-    console.log(incommingData[0])
+    if (incommingData.length === 0) {
+      setIsFetching(false);
+      return;
+    }
+
     try {
-      
+
       const newTimestamp = incommingData
         .sort((a: ICampaingCard, b: ICampaingCard) => b.lastModified - a.lastModified)[0]
         .lastModified;
 
-      setTimestamp(newTimestamp);
-      setOffset(prev => prev + incommingData.length);
-      setData(prev => [...prev, ...(incommingData)]);
+      loadImages(incommingData.map(e => e.imageUrl))
+        .then(() => {
+          setTimestamp(newTimestamp);
+          setOffset(prev => prev + incommingData.length);
+          setData(prev => [...prev, ...(incommingData)]);
+        })
+        .catch(error => console.log(error))
+        .finally(() => setIsFetching(false));
 
     } catch (error) {
       console.log(error);
     }
   }
 
-
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    observerRef.current = new IntersectionObserver(
+      entries => {
+        const target = entries[0];
+        if (target.isIntersecting) {
+          setIsFetching(true);
+        }
+      },
+      { rootMargin: "0px 0px 1000px 0px" }
+    );
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
   }, []);
 
+
   useEffect(() => {
-    if (!isFetching) return;
+    if (isFetching) return;
     getCampaigns(offsset, limit, timestamp)
       .then(resp => {
         handleData(resp.data);
       })
-      .catch(err => setError(true))
-      .finally(() => setIsFetching(false));
-  }, [isFetching, data.length]);
+      .catch(err => setError(true));
+      console.log(`'isFetching=' ${isFetching} offsset=${offsset} timestamp=${timestamp}`);
+  }, [isFetching, offsset, timestamp]);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight
-    )
-      return;
-    setIsFetching(true);
-  };
+  useEffect(() => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+    observerRef.current?.observe(document.getElementById("loadMoreTrigger")!);
+    console.log(`'data=' ${data}`);
+  }, [data]);
 
 
   return (
     <>
       <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-6 justify-start items-center">
         {
-          data.map((c) => (
+          data.length !== 0 ? data.map((c) => (
             <CampaignCard
               key={c.id}
               budget={c.budget}
@@ -71,8 +108,9 @@ export default function Feed() {
               autorImageUrl={c.autorImageUrl}
               autorName={c.autorName}
               lastModified={c.lastModified}
-              imageUrl={c.imageUrl} />))
+              imageUrl={c.imageUrl} />)) : <NoData />
         }
+        <div id="loadMoreTrigger" style={{ marginTop: "30px" }} />
       </section>
       {
         isFetching &&

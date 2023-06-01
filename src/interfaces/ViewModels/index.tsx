@@ -188,5 +188,6 @@ export interface ISigUpInfo {
     fullname?: string,
     email?: string,
     firebaseId:string,
-    subscriptionPlanId:string
+    subscriptionPlanId:string,
+    photoUrl:string
 }
