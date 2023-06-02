@@ -33,10 +33,10 @@ export default function CampaignCard(data: ICampaingCard) {
                     </div>
                     <div className="flex flex-row justify-between md:flex-col items-center">
                         <p className="text-sm text-gray-400"><span className="text-lg font-bold text-orange-900 md:block">{`$${data.epm} USD`}</span> /1k clicks</p>
-                        <SubscribeWrapper style="focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-5 py-2 mb-2">
-                            <button onClick={OpenDialog} type="button">Promote</button>
+                        <SubscribeWrapper style="focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-5 py-2 mb-2 cursor-pointer">
+                            <button onClick={OpenDialog} type="button" >Promote</button>
                         </SubscribeWrapper>
-                        <ShareDialog isOpen={isOpen} setIsOpen={setIsOpen} campaingId={data.id!} epm={data.epm} />
+                        <ShareDialog isOpen={isOpen} setIsOpen={setIsOpen} campaignId={data.id} epm={data.epm} />
                     </div>
                 </div>
             </div>

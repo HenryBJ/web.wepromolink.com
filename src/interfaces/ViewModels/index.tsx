@@ -7,7 +7,7 @@ export interface IStats {
 }
 
 export interface ICampaingCard {
-    id?: string,
+    id: string,
     title: string,
     description: string,
     epm: Number,

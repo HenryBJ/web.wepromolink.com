@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import CopyButton from '../CopyButton'
-import { Link } from 'react-router-dom'
-import { createAffLink } from '../../services';
+import { createLink } from '../../services';
 import { useAuth } from '../../hooks/Auth';
 import Spinner from '../Spinner';
 import { ICreateAffLinkResponse } from '../../interfaces/Responses';
@@ -11,26 +10,24 @@ interface IShareDialogInput {
     isOpen: boolean;
     setIsOpen: (value: boolean) => void;
     epm: Number;
-    campaingId: string;
+    campaignId: string;
 }
 
-export default function ShareDialog({ isOpen, setIsOpen, epm, campaingId }: IShareDialogInput) {
+export default function ShareDialog({ isOpen, setIsOpen, epm, campaignId }: IShareDialogInput) {
 
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
-    const [link, setLink] = useState<ICreateAffLinkResponse | null>();
-    const [btcAddress, setBTCAddress] = useState("tb1qjnmw0ydwgekl6mr5k4agtme0q6l0vw0rmh0xfq");
+    const [link, setLink] = useState<string>();
 
     const { user } = useAuth();
 
     useEffect(() => {
         if (isOpen) {
             link || setLoading(true);
-            link || createAffLink({ SponsoredLinkId: campaingId, BTCAddress: btcAddress, Email: "" })
+            link || createLink(campaignId)
                 .then(res => {
                     setLink(res.data);
                     setLoading(false);
-                    console.log(res.data);
                 })
                 .catch((e) => { setError(e); console.log(e) });
         }
@@ -63,14 +60,14 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaingId }: ISha
                         <Dialog.Panel className="flex flex-col justify-between items-center mx-auto p-2 max-w-md w-full h-56 rounded bg-orange-500 text-white ring-1 ring-white">
                             <Dialog.Title className="text-center font-bold text-lg">Promote Link</Dialog.Title>
                             <Dialog.Description className="px-2">
-                                Copy the link on social networks or any website, for every 1000 clicks you will get ${epm.toString()} usd, you can check the statistics <Link to={'/links'}><u>here</u></Link>
+                                Copy the link on social networks or any website, for every 1000 clicks you will get ${epm.toString()} usd.
                             </Dialog.Description>
 
                             <div className="relative w-full rounded-md shadow-sm ">
                                 {loading ? <Spinner text="Generating link ..." /> : <>
-                                    <input type="text" name="link" value={link?.value.link!} disabled className="cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
+                                    <input type="text" name="link" value={link!} disabled className="cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
                                     <div className="absolute inset-y-0 right-0 flex items-center">
-                                        <CopyButton text={link?.value.link!} />
+                                        <CopyButton text={link!} />
                                     </div>
                                 </>}
 

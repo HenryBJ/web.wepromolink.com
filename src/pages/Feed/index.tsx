@@ -101,6 +101,7 @@ export default function Feed() {
           data.length !== 0 ? data.map((c) => (
             <CampaignCard
               key={c.id}
+              id={c.id}
               budget={c.budget}
               title={c.title}
               description={c.description}

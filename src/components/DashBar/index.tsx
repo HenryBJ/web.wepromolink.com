@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Bar} from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import Spinner from "../Spinner";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarElement } from 'chart.js';
 import { AxiosResponse } from "axios";
@@ -24,17 +24,34 @@ interface IBarData {
     }[];
 }
 
-const options = (title: string, showLegend:boolean = false) => ({
+const options = (title: string, showLegend: boolean = false) => ({
     responsive: true,
     plugins: {
         legend: {
-            display:showLegend, 
+            display: showLegend,
             position: 'top' as const,
         },
         title: {
             display: false,
             text: title,
         },
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                },
+            },
+            y: {
+                ticks: {
+                    stepSize: 1,
+                    beginAtZero: true,
+                },
+                min: 0,
+                grid: {
+                    display: false
+                }
+            }
+        }
     },
 });
 const generateRandomColors = (n: Number) => {
@@ -51,12 +68,12 @@ const generateRandomColors = (n: Number) => {
 
 const transformAdapter: (value: IStats) => IBarData = (value) => {
     let colors = generateRandomColors(value.data.length);
-    
-    const filteredLabels  = value.labels.filter((label) => label !== "");
+
+    const filteredLabels = value.labels.filter((label) => label !== "");
     const filteredData = value.data[0].filter((data, index) => value.labels[index] !== "");
 
     let output: IBarData = {
-        labels: filteredLabels, datasets:[{
+        labels: filteredLabels, datasets: [{
             data: filteredData,
             backgroundColor: colors,
             borderColor: colors,

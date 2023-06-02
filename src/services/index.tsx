@@ -54,10 +54,10 @@ export const getSharedLastWeekOnCampaign = (id: string): Promise<AxiosResponse<N
 export const getSharedTodayOnCampaignModel = (id: string): Promise<AxiosResponse<Number>> => api.get(`data/sharedtodayoncampaignmodel/${id}`);
 export const deleteCampaign = (id: string): Promise<AxiosResponse<IResponse>> => api.delete(`campaign/delete/${id}`);
 export const publishCampaign = (id: string, status: boolean): Promise<AxiosResponse<IResponse>> => api.post(`campaign/publish/${id}/${status}`);
+export const createLink = (id: string): Promise<AxiosResponse<string>> => api.post(`link/create/${id}`, {});
 
 
 export const getLinkAffDetail = (id: string): Promise<AxiosResponse<IResponse>> => api.get(`mylinkaffdetail?id=${id}`);
-export const createAffLink = (data: ICreateAffLink): Promise<AxiosResponse<ICreateAffLinkResponse>> => api.post("/afflink", data);
 export const getMyAffLinks = (page: Number, filter: string, cant: Number = 50): Promise<AxiosResponse<IMyAffLinksResponse>> => api.get(`afflinks?page=${page}&cant=${cant}&filter=${filter}`);
 export const getAffLinkStats = (id: string): Promise<AxiosResponse<IResponse>> => api.get(`getafflinkstats?id=${id}`);
 
