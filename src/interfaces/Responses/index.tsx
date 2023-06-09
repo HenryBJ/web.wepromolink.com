@@ -1,17 +1,7 @@
 import { IPagination } from "../IPagination";
-import { ICampaingCard, IMyAffLink, IMyAffLinkDetail, IMyAffLinkStats, IMyCampaign, IMyCampaignDetail, IMyCampaignStats, IMyTransactionDetail, INotification, INotificationBadget, IPayoutData, IStats, ISubscriptionPlanCard, ISubscriptionPlanDetail, ITransaction } from "../ViewModels";
+import { ICampaingCard, IMyAffLinkStats, IMyCampaign, IMyCampaignDetail, IMyCampaignStats, IMyTransactionDetail, INotification, INotificationBadget, IPayoutData, IStats, ISubscriptionPlanCard, ISubscriptionPlanDetail, ITransaction } from "../ViewModels";
 
-export interface IResponse {
-    statusCode: number,
-    contentType: string,
-    value: any
-}
 
-export interface IResponseValue<T> {
-    statusCode: number,
-    contentType: string,
-    value: T
-}
 export interface ICampaignListResponse {
     value: {
         page: Number,
@@ -20,74 +10,61 @@ export interface ICampaignListResponse {
     }
 }
 
-export interface IMyCampaignsResponse {
+export interface IPaginationResponse<T> {
     pagination: IPagination,
-    items: IMyCampaign[],
+    items: T[],
 }
 
-export interface IMyCampaignDetailResponse extends IResponse {
+export interface IMyCampaignDetailResponse   {
     value: IMyCampaignDetail
 }
 
-export interface IMyCampaignStatsResponse extends IResponse {
+export interface IMyCampaignStatsResponse   {
     value: IMyCampaignStats
 }
 
-export interface IStatsResponse extends IResponse {
+export interface IStatsResponse   {
     value: IStats
 }
 
-export interface ISubscriptionPlanCardResponse extends IResponse {
-    value: ISubscriptionPlanCard[]
-}
-
-export interface IPayoutDataResponse extends IResponse {
+export interface IPayoutDataResponse   {
     value: IPayoutData
 }
 
-export interface INotificationResponse extends IResponse {
+export interface INotificationResponse   {
     value: {
         pagination: IPagination,
         items: INotification[]
     }
 }
 
-export interface INotificationDetailResponse extends IResponse {
+export interface INotificationDetailResponse   {
     value: INotification
 }
 
-export interface IMyAffLinksResponse extends IResponse {
-    value: {
-        pagination: IPagination,
-        items: IMyAffLink[]
-    }
-}
 
-export interface IMyAffLinkDetailResponse extends IResponse {
-    value: IMyAffLinkDetail
-}
 
-export interface IMyAffLinkStatsResponse extends IResponse {
+export interface IMyAffLinkStatsResponse   {
     value: IMyAffLinkStats
 }
 
-export interface ISubscriptionResponse extends IResponse {
+export interface ISubscriptionResponse   {
     value: {
         pagination: IPagination,
         items: ISubscriptionPlanDetail[]
     }
 }
 
-export interface ISubscriptionPlanDetailResponse extends IResponse {
+export interface ISubscriptionPlanDetailResponse   {
     value: ISubscriptionPlanDetail
 }
 
 
-export interface IMyTransactionDetailResponse extends IResponse {
+export interface IMyTransactionDetailResponse   {
     value: IMyTransactionDetail
 }
 
-export interface ITransactionResponse extends IResponse {
+export interface ITransactionResponse {
     value: {
         pagination: IPagination,
         items: ITransaction[]
@@ -101,7 +78,7 @@ export interface ICreateAffLinkResponse {
     }
 }
 
-export interface INotificationBadgetResponse extends IResponse {
+export interface INotificationBadgetResponse{
     value: INotificationBadget
 }
 

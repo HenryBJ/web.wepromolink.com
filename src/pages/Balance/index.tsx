@@ -34,9 +34,11 @@ export default function Index() {
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
         <div className="w-full flex items-center flex-wrap flex-row justify-center gap-2">
 
-            <SubscribeWrapper style="min-w-[180px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2" >
-                <button type="button" onClick={() => goToDeposit()} >Deposit</button>
-            </SubscribeWrapper>
+            <button type="button">
+                <SubscribeWrapper onClick={() => goToDeposit()} style="min-w-[180px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2" >
+                    Deposit
+                </SubscribeWrapper>
+            </button>
             <button type="button" onClick={() => goToWithdraw()} className="min-w-[180px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Withdraw</button>
 
         </div>

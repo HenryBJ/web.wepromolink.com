@@ -1,8 +1,93 @@
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
-import { IMyAffLinkDetail, IMyAffLinkStats, IMyCampaignDetail } from "../../interfaces/ViewModels";
+import {ILinkDetail} from "../../interfaces/ViewModels";
+import { getClicksLastWeekOnLink, getClicksLastWeekOnLinkData, getClicksTodayOnLink, getEarnLastWeekOnLink, getEarnTodayOnLink, getHistoryClicksByCountriesOnLink, getHistoryClicksOnLink, getHistoryEarnByCountriesOnLink, getHistoryEarnOnLink } from "../../services";
 
-export const prepareData = (linkdetail: IMyAffLinkStats) => (): IGenericDetailData | undefined => {
+export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData | undefined => {
     if (linkdetail) {
+        let stats: IField[] = [
+            {
+                title: "Clicks Last Week",
+                load: () => getClicksLastWeekOnLink(linkdetail.id),
+                order: 5,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks Today",
+                load: () => getClicksTodayOnLink(linkdetail.id),
+                order: 4,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Earn Last Week",
+                load: () => getEarnLastWeekOnLink(linkdetail.id),
+                order: 7,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Earn Today",
+                load: () => getEarnTodayOnLink(linkdetail.id),
+                order: 6,
+                valueType: 'dash',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks by Countries",
+                load: () => getHistoryClicksByCountriesOnLink(linkdetail.id),
+                order: 9,
+                valueType: 'pie',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Earn by Countries",
+                load: () => getHistoryEarnByCountriesOnLink(linkdetail.id),
+                order: 10,
+                valueType: 'pie',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Earn",
+                load: () => getHistoryEarnOnLink(linkdetail.id),
+                order: 5,
+                valueType: 'line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+
+            {
+                title: "Clicks",
+                load: () => getHistoryClicksOnLink(linkdetail.id),
+                order: 3,
+                valueType: 'line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+
+        ];
         const properties = Object.entries(linkdetail);
         let ifields = properties.map(([key, value]) => {
             switch (key) {
@@ -23,7 +108,7 @@ export const prepareData = (linkdetail: IMyAffLinkStats) => (): IGenericDetailDa
                         title: 'Campaign name',
                         value: value,
                         valueType: 'string',
-                        isHidden: false,
+                        isHidden: true,
                         order: 2
                     }
                     return f_title;
@@ -39,16 +124,16 @@ export const prepareData = (linkdetail: IMyAffLinkStats) => (): IGenericDetailDa
                     }
                     return f_url;
 
-                case 'todayClicks':
+                case 'profit':
                     let f_todayClicks: IField = {
                         isImage: false,
-                        title: 'Today Clicks',
+                        title: 'Profit',
                         value: value,
                         valueType: 'dash',
                         isHidden: false,
                         hideTitle: true,
-                        order: 3,
-                        transform: (e: number) => `${e} clicks`
+                        order: 4,
+                        transform: (e: number) => `$${e}`
                     }
                     return f_todayClicks;
 
@@ -152,7 +237,7 @@ export const prepareData = (linkdetail: IMyAffLinkStats) => (): IGenericDetailDa
             }
         });
         return {
-            fields: ifields,
+            fields: [...ifields, ...stats],
             title: linkdetail.title
         }
     }

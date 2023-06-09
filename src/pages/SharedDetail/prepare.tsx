@@ -1,7 +1,7 @@
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
-import { IMyAffLinkDetail, IMyCampaignDetail } from "../../interfaces/ViewModels";
+import { ILinkDetail, IMyCampaignDetail } from "../../interfaces/ViewModels";
 
-export const prepareData = (linkdetail: IMyAffLinkDetail) => (): IGenericDetailData | undefined => {
+export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData | undefined => {
     if (linkdetail) {
         const properties = Object.entries(linkdetail);
         let ifields = properties.map(([key, value]) => {
@@ -38,7 +38,7 @@ export const prepareData = (linkdetail: IMyAffLinkDetail) => (): IGenericDetailD
                         order: 2,
                         fnwidth: (e) => {
                             if (e < 742) return 200
-                            if (e < 910) return 400                            
+                            if (e < 910) return 400
                             return 568
                         }
 
@@ -67,9 +67,20 @@ export const prepareData = (linkdetail: IMyAffLinkDetail) => (): IGenericDetailD
                         order: 4
                     }
                     return f_url2;
-             
 
-                case 'available':
+                case 'status':
+                    let f_status: IField = {
+                        isImage: false,
+                        title: 'Status',
+                        value: value ? "Active" : "Deactivated",
+                        valueType: 'boolean',
+                        isHidden: false,
+                        order: 5
+                    }
+                    return f_status;
+
+
+                case 'profit':
                     let f_bud: IField = {
                         isImage: false,
                         title: 'Profit',
@@ -77,7 +88,7 @@ export const prepareData = (linkdetail: IMyAffLinkDetail) => (): IGenericDetailD
                         valueType: 'number',
                         isHidden: false,
                         order: 6,
-                        transform:(e:number)=>`$${e}`
+                        transform: (e: number) => `$${e}`
                     }
                     return f_bud;
 
@@ -88,7 +99,8 @@ export const prepareData = (linkdetail: IMyAffLinkDetail) => (): IGenericDetailD
                         value: value,
                         valueType: 'number',
                         isHidden: false,
-                        order: 7
+                        order: 7,
+                        transform: (e: number) => `$${e}`
                     }
                     return f_epm;
 

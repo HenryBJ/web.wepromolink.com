@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DynamicTable from "../../components/DynamicTable";
 import SearchBar from "../../components/SearchBar";
-import { IMyAffLinksResponse, IMyCampaignsResponse } from "../../interfaces/Responses";
-import { getMyAffLinks } from "../../services";
 import { Columns } from "./columns";
+import { getMyLinks } from "../../services";
+import { IMyLink } from "../../interfaces/ViewModels";
+import { IPaginationResponse } from "../../interfaces/Responses";
 
 export default function Index() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [page, setPage] = useState(1);
     const [filter, setFilter] = useState("");
-    const [data, setData] = useState<IMyAffLinksResponse>()
+    const [data, setData] = useState<IPaginationResponse<IMyLink>>()
     
     const navigate = useNavigate();
     
@@ -21,7 +22,7 @@ export default function Index() {
 
     useEffect(() => {
         setLoading(true);
-        getMyAffLinks(page,filter)
+        getMyLinks(page,filter, Number(11))
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
@@ -36,13 +37,13 @@ export default function Index() {
                 pagination={
                     {
                         first: () => setPage(1),
-                        last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
+                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
                         next: () => setPage(prev => prev + 1),
                         prev: () => setPage(prev => prev - 1),
-                        ...(data?.value.pagination!),
+                        ...(data?.pagination!),
                     }
                 }
-                rows={data?.value.items || []} />
+                rows={data?.items || []} />
         </section>
     )
 }

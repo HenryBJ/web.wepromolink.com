@@ -65,13 +65,14 @@ export interface IMyTransactionDetail {
 
 }
 
-export interface IMyAffLinkDetail {
+export interface ILinkDetail {
     id: string,
     title: string,
     imageUrl: string,
     description: string,
     url: string,
-    available: Number,
+    profit: Number,
+    status:boolean,
     epm: Number,
     lastClick: Date,
 }
@@ -90,11 +91,13 @@ export interface IMyAffLinkStats {
     earnByCountries:IStats
 }
 
-export interface IMyAffLink {
+export interface IMyLink {
     id?: string,
     title: string,
     url: string,
-    available: Number,
+    imageUrl: string,
+    profit: Number,
+    status:Boolean,
     lastClick: Date,
 }
 

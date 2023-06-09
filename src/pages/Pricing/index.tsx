@@ -16,11 +16,11 @@ export default function Pricing() {
 
   useEffect(() => {
     getSubscriptionCards()
-      .then(res => setPricingPlans(res.data.value))
+      .then(res => setPricingPlans(res.data))
       .catch(error => console.log(error));
   }, []);
 
-  const signningUp = (photoUrl:string, email: string, fullname: string, firebaseId: string, planId: string, user: User) => {
+  const signningUp = (photoUrl: string, email: string, fullname: string, firebaseId: string, planId: string, user: User) => {
 
     let data: ISigUpInfo = {
       email: email,
@@ -32,7 +32,7 @@ export default function Pricing() {
 
     signUp(data)
       .then(async response => {
-        if (response.data.value) {
+        if (response.data) {
           login(user, await user.getIdToken());
         } else {
           toast.error("Registration failed - email may already be registered.");
@@ -51,7 +51,7 @@ export default function Pricing() {
         signInWithGoogle()
           .then(async result => signningUp(result.user.photoURL || "", result.user.email || "", result.user.displayName || "", result.user.uid, id || "", result.user))
       } else {
-        signningUp(user.photoURL || "",user.email || "", user.displayName || "", user.uid, id || "", user);
+        signningUp(user.photoURL || "", user.email || "", user.displayName || "", user.uid, id || "", user);
       }
     }
   }

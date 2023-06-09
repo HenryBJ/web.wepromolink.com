@@ -123,7 +123,7 @@ export default function Index() {
 
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
         <Breadcrumb levels={[{ icon: balanceIcon, title: 'Balance', link: '/balance' }, { title: 'Withdraw', link: '' }]} />
-        <GenericForm schema={schema} title="Create withdraw request" onSubmit={onSubmit} buttonTitle="Withdraw" >
+        <GenericForm schema={schema} title="Create withdraw request" onSubmit={onSubmit} buttonTitle="Withdraw" requiredSubscription={false} >
             <FormItem>
                 <div className="min-h-[60px] bg-white shadow px-2 py-2 flex-grow flex flex-col gap-1">
                     <span className="font-semibold text-gray-800">Available</span>

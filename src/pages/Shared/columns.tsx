@@ -15,12 +15,12 @@ const fundsIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="ht
 </svg>)
 
 const activeIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46" />
+  <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
 </svg>
 )
 
 const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46" />
+  <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
 </svg>
 )
 
@@ -33,7 +33,8 @@ const sharedIcon = (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox=
 
 
 
-const timeSince = (date: Date): string => {
+const timeSince = (date: Date | null): string => {
+  if (date === null) return "never";
   let now = new Date();
   let dif = now.getTime() - date.getTime();
   const seconds = Math.floor(dif / 1000);
@@ -69,6 +70,10 @@ const handleShare = (title: string, shareUrl: string) => {
     })
       .then(() => toast.success('Link ready to be shared!'))
       .catch((error) => toast.error(error));
+  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl)
+      .then(() => toast.success('Link copied to clipboard!'))
+      .catch((error) => toast.error(error));
   } else {
     console.error('El API de Share no está disponible en este navegador');
   }
@@ -80,7 +85,8 @@ export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Title", name: "title", hidden: _ => false },
   { title: "Url", name: "url", hidden: w => w < 850 },
-  { title: "Profit", name: "available", hidden: w => w < 390, transform: e => `$${e}` },
+  { title: "Status", name: "status", hidden: w => w < 390, transform: e => e ? (activeIcon) : (deactiveIcon) },
+  { title: "Profit", name: "profit", hidden: w => w < 390, transform: e => `$${e}` },
   { title: "Last Click", name: "lastClick", hidden: w => w < 984, transform: e => timeSince(e) },
   {
     title: "Actions", name: "", hidden: _ => false, extraActions: _ => [

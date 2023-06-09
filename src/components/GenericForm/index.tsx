@@ -5,8 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import React from "react";
 import WarningTip from "../WarningTip";
 import { useNavigate } from "react-router-dom";
+import SubscribeWrapper from "../SubscribeWrapper";
 
-type FormProps = (props: { register: UseFormRegister<FieldValues>, watch: UseFormWatch<FieldValues>, control: Control<FieldValues, any>, setValue:UseFormSetValue<FieldValues> }) => React.ReactNode;
+type FormProps = (props: { register: UseFormRegister<FieldValues>, watch: UseFormWatch<FieldValues>, control: Control<FieldValues, any>, setValue: UseFormSetValue<FieldValues> }) => React.ReactNode;
 
 
 export interface IFormItems {
@@ -23,10 +24,11 @@ interface IProps {
     onSubmit: (data: any) => void,
     children: ReactNode,
     back?: boolean,
-    initialValue?:any
+    initialValue?: any,
+    requiredSubscription?: boolean
 }
 
-export function FormItem({helpTip, children }: IFormItems) {
+export function FormItem({ helpTip, children }: IFormItems) {
     return (
         <>
             {helpTip && <InfoTip text={helpTip} />}
@@ -36,7 +38,7 @@ export function FormItem({helpTip, children }: IFormItems) {
 }
 
 
-export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true, initialValue }: IProps) {
+export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true, initialValue, requiredSubscription = true }: IProps) {
 
     const { register, handleSubmit, formState: { errors }, watch, control, setValue } = useForm({
         resolver: yupResolver(schema)
@@ -48,20 +50,20 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
         navigation(-1);
     }
 
-    const handleError =(error:any)=>{
+    const handleError = (error: any) => {
         console.log(errors);
     }
 
-    useEffect(()=>{
-        if(initialValue){
+    useEffect(() => {
+        if (initialValue) {
             for (const prop in initialValue) {
                 if (Object.prototype.hasOwnProperty.call(initialValue, prop)) {
-                  const value = initialValue[prop];
-                  setValue(prop, value);
+                    const value = initialValue[prop];
+                    setValue(prop, value);
                 }
-              }
+            }
         }
-    },[initialValue]);
+    }, [initialValue]);
 
 
     return (
@@ -84,7 +86,7 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
                             let fn: FormProps = echild.props.children;
                             return (
                                 <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
-                                    {fn({ register: register, watch: watch, control: control, setValue:setValue })}
+                                    {fn({ register: register, watch: watch, control: control, setValue: setValue })}
                                     {helpTip && <InfoTip text={helpTip} />}
                                     {error && <WarningTip text={error} />}
                                 </div>);
@@ -98,7 +100,14 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
 
                     })}
                     <div className="min-h-[60px] bg-white shadow px-2 py-2 flex items-center justify-center">
-                        <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
+                        {requiredSubscription ?
+                            <SubscribeWrapper style="">
+                                <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
+                            </SubscribeWrapper>
+                            :
+                            <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
+                        }
+
                     </div>
                 </form>
             </div>

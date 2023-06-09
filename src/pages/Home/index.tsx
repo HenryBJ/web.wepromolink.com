@@ -23,7 +23,7 @@ export default function Home() {
           console.log(result.user.email)
           getIsEmailSignUp(result.user.email || '')
             .then(async res => {
-              if (Boolean(res.data.value)) {
+              if (Boolean(res.data)) {
                 const { uid } = result.user;
                 await putFirebaseUid(result.user.email!, uid);
                 login(result.user, await result.user.getIdToken());
