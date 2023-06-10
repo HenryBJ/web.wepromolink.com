@@ -46,6 +46,7 @@ export default function Pricing() {
       window.open(paymentLink, "_self");
     }
     else {
+      
       // empty paymentlink mean free plan
       if (!user) {
         signInWithGoogle()
