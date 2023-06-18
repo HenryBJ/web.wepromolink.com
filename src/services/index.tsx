@@ -67,14 +67,6 @@ export const createDepositBTCLink = (amount: string): Promise<AxiosResponse<stri
 
 
 
-
-
-
-
-
-
-
-
 export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotificationBadgetResponse>> => api.get(`notification/badget?id=${id}`);
 export const getNotifications = (page: Number): Promise<AxiosResponse<INotificationResponse>> => api.get(`notification?page=${page}`);
 export const updateNotificationBadget = (data: INotificationBadget): Promise<AxiosResponse<INotificationBadgetResponse>> => api.post("/badget", data);
