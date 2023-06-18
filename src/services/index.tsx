@@ -61,6 +61,7 @@ export const getHistoryClicksByCountriesOnLink = (id: string): Promise<AxiosResp
 export const getHistoryEarnByCountriesOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyearnbycountriesonlink/${id}`);
 export const getHistoryEarnOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyearnonlink/${id}`);
 export const getHistoryClicksOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyclicksonlink/${id}`);
+export const createDepositBTCLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`btc/invoice/${amount}`);
 
 
 

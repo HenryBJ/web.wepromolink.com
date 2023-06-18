@@ -6,6 +6,7 @@ import React from "react";
 import WarningTip from "../WarningTip";
 import { useNavigate } from "react-router-dom";
 import SubscribeWrapper from "../SubscribeWrapper";
+import Spinner from "../Spinner";
 
 type FormProps = (props: { register: UseFormRegister<FieldValues>, watch: UseFormWatch<FieldValues>, control: Control<FieldValues, any>, setValue: UseFormSetValue<FieldValues> }) => React.ReactNode;
 
@@ -25,7 +26,8 @@ interface IProps {
     children: ReactNode,
     back?: boolean,
     initialValue?: any,
-    requiredSubscription?: boolean
+    requiredSubscription?: boolean,
+    loading?: boolean
 }
 
 export function FormItem({ helpTip, children }: IFormItems) {
@@ -38,7 +40,7 @@ export function FormItem({ helpTip, children }: IFormItems) {
 }
 
 
-export default function Index({ children, schema, title, buttonTitle = "Submit", onSubmit, back = true, initialValue, requiredSubscription = true }: IProps) {
+export default function Index({ loading, children, schema, title, buttonTitle = "Submit", onSubmit, back = true, initialValue, requiredSubscription = true }: IProps) {
 
     const { register, handleSubmit, formState: { errors }, watch, control, setValue } = useForm({
         resolver: yupResolver(schema)
@@ -102,10 +104,17 @@ export default function Index({ children, schema, title, buttonTitle = "Submit",
                     <div className="min-h-[60px] bg-white shadow px-2 py-2 flex items-center justify-center">
                         {requiredSubscription ?
                             <SubscribeWrapper style="">
-                                <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
+                                <button disabled={loading} type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
+                                    <div className="flex justify-center">
+                                        {loading && <Spinner text="" />}
+                                        {buttonTitle}
+                                    </div>
+                                </button>
                             </SubscribeWrapper>
                             :
-                            <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{buttonTitle}</button>
+                            <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
+                                {buttonTitle}
+                            </button>
                         }
 
                     </div>
