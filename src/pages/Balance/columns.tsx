@@ -23,10 +23,14 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 </svg>
 )
 
-const timeSince = (date: Date | null): string => {
+const timeSince = (date: Date | null | string): string => {
   if (date === null) return "never";
+
+  const parsedDate = typeof date === 'string' ? new Date(date) : date;
+  const localDate = new Date(parsedDate.getTime() + (parsedDate.getTimezoneOffset() * 60000));
+
   let now = new Date();
-  let dif = now.getTime() - date!.getTime();
+  let dif = now.getTime() - localDate.getTime();
   const seconds = Math.floor(dif / 1000);
   let interval = Math.floor(seconds / 31536000);
 
@@ -59,12 +63,5 @@ export const Columns: IColumnData[] = [
   { title: "Title", name: "title", hidden: _ => false },
   { title: "Amount", name: "amount", hidden: w => false, transform: e => `$${e}` },
   { title: "Status", name: "status", hidden: w => w < 390, },
-  { title: "Created", name: "created", hidden: w => w < 984, transform: e => timeSince(e) },
-  // {
-  //     title: "Actions", name: "", hidden:_=> false, extraActions: [
-  //         { title: "Details", icon: detailsIcon, action: (e) => alert(e.id) },
-  //         { title: "Statistics", icon: statsIcon, action: (e) => alert(e.id) },
-  //         { title: "Withdraw", icon: fundsIcon, action: (e) => alert(e.id) },
-  //     ]
-  // },
+  { title: "Created", name: "createdAt", hidden: w => w < 984, transform: e => timeSince(e) },
 ];

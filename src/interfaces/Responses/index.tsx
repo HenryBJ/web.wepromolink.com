@@ -15,60 +15,58 @@ export interface IPaginationResponse<T> {
     items: T[],
 }
 
-export interface IMyCampaignDetailResponse   {
+export interface IMyCampaignDetailResponse {
     value: IMyCampaignDetail
 }
 
-export interface IMyCampaignStatsResponse   {
+export interface IMyCampaignStatsResponse {
     value: IMyCampaignStats
 }
 
-export interface IStatsResponse   {
+export interface IStatsResponse {
     value: IStats
 }
 
-export interface IPayoutDataResponse   {
+export interface IPayoutDataResponse {
     value: IPayoutData
 }
 
-export interface INotificationResponse   {
+export interface INotificationResponse {
     value: {
         pagination: IPagination,
         items: INotification[]
     }
 }
 
-export interface INotificationDetailResponse   {
+export interface INotificationDetailResponse {
     value: INotification
 }
 
 
 
-export interface IMyAffLinkStatsResponse   {
+export interface IMyAffLinkStatsResponse {
     value: IMyAffLinkStats
 }
 
-export interface ISubscriptionResponse   {
+export interface ISubscriptionResponse {
     value: {
         pagination: IPagination,
         items: ISubscriptionPlanDetail[]
     }
 }
 
-export interface ISubscriptionPlanDetailResponse   {
+export interface ISubscriptionPlanDetailResponse {
     value: ISubscriptionPlanDetail
 }
 
 
-export interface IMyTransactionDetailResponse   {
+export interface IMyTransactionDetailResponse {
     value: IMyTransactionDetail
 }
 
 export interface ITransactionResponse {
-    value: {
-        pagination: IPagination,
-        items: ITransaction[]
-    }
+    pagination: IPagination,
+    items: ITransaction[]
 }
 
 export interface ICreateAffLinkResponse {
@@ -78,7 +76,7 @@ export interface ICreateAffLinkResponse {
     }
 }
 
-export interface INotificationBadgetResponse{
+export interface INotificationBadgetResponse {
     value: INotificationBadget
 }
 

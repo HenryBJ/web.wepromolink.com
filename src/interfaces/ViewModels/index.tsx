@@ -106,7 +106,7 @@ export interface ITransaction {
     title: string,
     amount: number,
     status: string,
-    created: Date,
+    createdAt: Date,
 }
 
 export interface INotification {

@@ -62,7 +62,7 @@ export const getHistoryEarnByCountriesOnLink = (id: string): Promise<AxiosRespon
 export const getHistoryEarnOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyearnonlink/${id}`);
 export const getHistoryClicksOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyclicksonlink/${id}`);
 export const createDepositBTCLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`btc/invoice/${amount}`);
-
+export const getTransactions = (page: Number): Promise<AxiosResponse<ITransactionResponse>> => api.get(`transaction/get/${page}`);
 
 
 
@@ -76,7 +76,7 @@ export const updatePayout = (data: IPayoutData): Promise<AxiosResponse<void>> =>
 export const getSubscriptionPlans = (page: Number): Promise<AxiosResponse<ISubscriptionResponse>> => api.get(`badget?page=${page}`);
 export const getSubscriptionDetail = (id: string): Promise<AxiosResponse<ISubscriptionPlanDetailResponse>> => api.get(`mysubscriptiondetail?id=${id}`);
 export const changeToPlan = (id: string): Promise<AxiosResponse<void>> => api.post('changetoplan', id);
-export const getTransactions = (page: Number): Promise<AxiosResponse<ITransactionResponse>> => api.get(`trans?page=${page}`);
+
 export const getTransactionDetail = (id: string): Promise<AxiosResponse<IMyTransactionDetailResponse>> => api.get(`mytransactiondetail?id=${id}`);
 
 

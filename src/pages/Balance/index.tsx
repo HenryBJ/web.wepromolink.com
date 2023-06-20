@@ -53,12 +53,12 @@ export default function Index() {
             pagination={
                 {
                     first: () => setPage(1),
-                    last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
+                    last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
                     next: () => setPage(prev => prev + 1),
                     prev: () => setPage(prev => prev - 1),
-                    ...(data?.value.pagination!),
+                    ...(data?.pagination!),
                 }
             }
-            rows={data?.value.items || []} />
+            rows={data?.items || []} />
     </section>)
 }
