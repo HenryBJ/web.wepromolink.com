@@ -32,10 +32,8 @@ export interface IPayoutDataResponse {
 }
 
 export interface INotificationResponse {
-    value: {
-        pagination: IPagination,
-        items: INotification[]
-    }
+    pagination: IPagination,
+    items: INotification[]
 }
 
 export interface INotificationDetailResponse {
@@ -59,10 +57,6 @@ export interface ISubscriptionPlanDetailResponse {
     value: ISubscriptionPlanDetail
 }
 
-
-export interface IMyTransactionDetailResponse {
-    value: IMyTransactionDetail
-}
 
 export interface ITransactionResponse {
     pagination: IPagination,

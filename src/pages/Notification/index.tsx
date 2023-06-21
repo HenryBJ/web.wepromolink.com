@@ -18,28 +18,38 @@ export default function Index() {
     const [data, setData] = useState<INotificationResponse>();
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const handleInfo = () => {
         setLoading(true);
         getNotifications(page)
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
+    }
+
+    useEffect(() => {
+        handleInfo();
     }, [page]);
 
 
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
             <Breadcrumb levels={[{ icon: notiIcon, title: 'Notifications', link: '/notifications' }, { title: 'Notifications', link: '' }]} />
-            <DynamicTable title='Notifications' defaultAction={(e: any) => navigate(`/notifications/detail/${e.id}`)} columns={Columns} loading={loading}
+            <DynamicTable
+                title='Notifications'
+                defaultAction={(e: any) => navigate(`/notifications/detail/${e.id}`)}
+                columns={Columns}
+                loading={loading}
+                setLoading={setLoading}
+                reload={() => handleInfo()}
                 pagination={
                     {
                         first: () => setPage(1),
-                        last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
+                        last: () => setPage(data?.pagination.lastPage.valueOf() || 1),
                         next: () => setPage(prev => prev + 1),
                         prev: () => setPage(prev => prev - 1),
-                        ...(data?.value.pagination!),
+                        ...(data?.pagination!),
                     }
                 }
-                rows={data?.value.items || []} />
+                rows={data?.items || []} />
         </section>)
 }

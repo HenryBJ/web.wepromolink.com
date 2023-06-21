@@ -1,7 +1,7 @@
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
-import {INotification } from "../../interfaces/ViewModels";
+import {INotificationDetail } from "../../interfaces/ViewModels";
 
-export const prepareData = (noti: INotification) => (): IGenericDetailData | undefined => {
+export const prepareData = (noti: INotificationDetail) => (): IGenericDetailData | undefined => {
     if (noti) {
         const properties = Object.entries(noti);
         let ifields = properties.map(([key, value]) => {
@@ -33,7 +33,7 @@ export const prepareData = (noti: INotification) => (): IGenericDetailData | und
                         isImage: false,
                         title: 'Message',
                         value: value,
-                        valueType: 'string',
+                        valueType: 'html',
                         isHidden: false,
                         order: 2,
                     }
@@ -52,10 +52,10 @@ export const prepareData = (noti: INotification) => (): IGenericDetailData | und
                     return f_status;
 
 
-                case 'created':
+                case 'createdAt':
                     let f_last: IField = {
                         isImage: false,
-                        title: 'Created',
+                        title: 'Created At',
                         value: value,
                         valueType: 'date',
                         isHidden: false,

@@ -71,7 +71,7 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
                                 </tr> : ''}
                             <tr>
                                 {columns.filter(e => !e.hidden(width)).map(Column =>
-                                (<th key={Column.name} scope="col" className="px-6 py-3 text-[0.7rem]">
+                                (<th key={Column.name} scope="col" className={Column.name === "" ? "px-6 py-3 text-[0.7rem] text-center" : "px-6 py-3 text-[0.7rem]"}>
                                     {Column.title}
                                 </th>))}
                             </tr>
@@ -83,16 +83,17 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
                                         if (column.extraActions) {
                                             return (
                                                 <td key={index} className="px-6 py-2 text-center">
-                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} onTap={(option) => onTap && onTap(row, option)} setLoading={setLoading}  />
+                                                    <ActionMenu key={rowIndex} item={row} actions={column.extraActions(row)} reload={reload} onTap={(option) => onTap && onTap(row, option)} setLoading={setLoading} />
                                                 </td>)
                                         }
                                         else
                                             return (index === 0 ?
                                                 <th key={index} style={column.maxWidth ? { maxWidth: column.maxWidth(width) } : {}} onClick={() => defaultAction && defaultAction(row)} scope="row" className={"truncate px-6 py-2 font-medium text-gray-900 whitespace-nowrap"}>
                                                     {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                                </th> : <td key={index} style={column.maxWidth ? { maxWidth: column.maxWidth(width) } : {}}  onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2 truncate whitespace-nowrap"}>
-                                                    {column.transform ? column.transform(row[column.name]) : row[column.name]}
-                                                </td>)
+                                                </th> :
+                                                <td dangerouslySetInnerHTML={{ __html: column.transform ? column.transform(row[column.name]) : row[column.name] }} key={index} style={column.maxWidth ? { maxWidth: column.maxWidth(width) } : {}} onClick={() => defaultAction && defaultAction(row)} className={"px-6 py-2 truncate whitespace-nowrap"} />
+
+                                            )
                                     }
 
                                     )}

@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 import { IColumnData } from "../../components/DynamicTable";
+import { timeSince } from "../../common";
+import { deleteNotification } from "../../services";
 
 
 const detailsIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
@@ -12,48 +14,26 @@ const deleteIcon = (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox=
 </svg>
 )
 
-
-const timeSince = (date: Date | null): string => {
-  if(date === null) return "never";
-  let now = new Date();
-  let dif = now.getTime() - date!.getTime();
-  const seconds = Math.floor(dif / 1000);
-  let interval = Math.floor(seconds / 31536000);
-
-  if (interval >= 1) {
-    return interval + " year" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 2592000);
-  if (interval >= 1) {
-    return interval + " month" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval >= 1) {
-    return interval + " day" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval >= 1) {
-    return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval >= 1) {
-    return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
-  }
-  return "just now";
+const handleDelete = (id: string, reload: () => void, setLoading: (value: React.SetStateAction<boolean>) => void) => {
+  setLoading(true);
+  deleteNotification(id)
+    .then(res => {
+      toast.success("Notification deleted !!!");
+      reload();
+    })
+    .catch(error => toast.error(error.response?.data))
+    .finally(() => setLoading(false));
 }
-
-
 
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Title", name: "title", hidden: _ => false },
-  { title: "Message", name: "message", hidden: w => w < 370 },
-  { title: "Status", name: "status", hidden: _ => true },
-  { title: "Created", name: "created", hidden: w => w < 984, transform: e => timeSince(e) },
+  { title: "Status", name: "status", hidden: _ => false, transform: e => e === 'Unread'? `<b>${e}</b>`: e},
+  { title: "Created", name: "created", hidden: w => w < 630, transform: e => timeSince(e) },
   {
     title: "Actions", name: "", hidden: _ => false, extraActions: _ => [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/notifications/detail/${e.id}`) },
-      { title: "Delete", icon: deleteIcon, action: (e) => toast.success("Notification deleted") },
+      { title: "Delete", icon: deleteIcon, requiredConfirmation: true, confirmationText: "Do you want to delete this notification?", action: (e, _, reload, setLoading) => handleDelete(e.id, reload, setLoading) },
     ]
   },
 ];

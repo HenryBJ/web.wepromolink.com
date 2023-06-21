@@ -3,9 +3,9 @@ import GenericDetail, { IField, IGenericDetailData } from "../../components/Gene
 import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
-import {  INotification } from "../../interfaces/ViewModels";
+import { INotification, INotificationDetail } from "../../interfaces/ViewModels";
 import { prepareData } from "./prepare";
-import { getNotificationDetail } from "../../services";
+import { getNotificationDetail, markAsRead } from "../../services";
 
 
 const notiIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -14,19 +14,29 @@ const notiIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 
 
 export default function Index() {
 
+    const INTERVAL = 3000;
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [notification, setNotification] = useState<INotification | undefined>();
+    const [notification, setNotification] = useState<INotificationDetail | undefined>();
 
-    
+
 
     useEffect(() => {
         setLoading(true);
         id && getNotificationDetail(id)
-            .then(res => setNotification(res.data.value))
+            .then(res => setNotification(res.data))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }, []);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            id && markAsRead(id)
+                .then(() => setNotification(prevState => prevState && { ...prevState, read: true, status:'Read' }))
+                .catch(error => console.log(error));
+        }, INTERVAL);
+        return () => clearTimeout(timer);
+    }, [id]);
 
 
 

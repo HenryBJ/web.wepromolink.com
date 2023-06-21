@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import GenericDetail, { IField, IGenericDetailData } from "../../components/GenericDetail";
+import GenericDetail from "../../components/GenericDetail";
 import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
-import { IMyCampaignDetail, IMyTransactionDetail } from "../../interfaces/ViewModels";
-import { getCampaignDetail } from "../../services";
+import { IMyTransactionDetail } from "../../interfaces/ViewModels";
 import { prepareData } from "./prepare";
 import { getTransactionDetail } from "../../services";
-import { IMyTransactionDetailResponse } from "../../interfaces/Responses";
 
 
 const transIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -18,14 +16,14 @@ export default function Index() {
 
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
-    const [campaign, setCampaign] = useState<IMyTransactionDetailResponse | undefined>();
+    const [transaction, setTransaction] = useState<IMyTransactionDetail | undefined>();
 
     
 
     useEffect(() => {
         setLoading(true);
         id && getTransactionDetail(id)
-            .then(res => setCampaign(res.data))
+            .then(res => setTransaction(res.data))
             .catch(error => console.log(error))
             .finally(() => setLoading(false));
     }, []);
@@ -35,7 +33,7 @@ export default function Index() {
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: transIcon, title: 'Balance', link: '/balance' }, { title: 'Transaction\'s details', link: '' }]} />
-            {campaign && <GenericDetail prepare={prepareData(campaign.value)} />}
+            {transaction && <GenericDetail prepare={prepareData(transaction)} />}
             {loading && <Loader text="Loading transaction details ..." />}
         </section>
     )

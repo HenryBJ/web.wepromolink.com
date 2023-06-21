@@ -59,10 +59,15 @@ export interface IMyCampaignStats {
 export interface IMyTransactionDetail {
     id: string,
     title: string,
+    transactionType: string,
     amount: number,
     status: string,
-    created: Date,
-
+    campaignName: string,
+    campaignImageUrl: string,
+    linkImageUrl: string,
+    createdAt: Date,
+    expiredAt?: Date,
+    completedAt?: Date
 }
 
 export interface ILinkDetail {
@@ -112,9 +117,18 @@ export interface ITransaction {
 export interface INotification {
     id: number,
     title: string,
-    message: string,
     status: string,
-    created: Date,
+    read: boolean,
+    createdAt: Date,
+}
+
+export interface INotificationDetail {
+    id: number,
+    title: string,
+    status: string,
+    message: string,
+    read: boolean,
+    createdAt: Date,
 }
 
 export interface ISubscriptionPlanDetail {

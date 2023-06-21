@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import { ICampaingCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, INotificationBadget, IPayoutData, ISigUpInfo, IStats, ISubscriptionPlanCard } from "../interfaces/ViewModels";
-import { IMyTransactionDetailResponse, INotificationBadgetResponse, INotificationDetailResponse, INotificationResponse, IPaginationResponse, IPayoutDataResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
+import { ICampaingCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPayoutData, ISigUpInfo, IStats, ISubscriptionPlanCard } from "../interfaces/ViewModels";
+import { INotificationBadgetResponse, INotificationDetailResponse, INotificationResponse, IPaginationResponse, IPayoutDataResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
 
 export const api = AddInterceptors(axios.create({
@@ -63,21 +63,28 @@ export const getHistoryEarnOnLink = (id: string): Promise<AxiosResponse<IStats>>
 export const getHistoryClicksOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyclicksonlink/${id}`);
 export const createDepositBTCLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`btc/invoice/${amount}`);
 export const getTransactions = (page: Number): Promise<AxiosResponse<ITransactionResponse>> => api.get(`transaction/get/${page}`);
+export const getTransactionDetail = (id: string): Promise<AxiosResponse<IMyTransactionDetail>> => api.get(`transaction/detail/${id}`);
+export const getNotifications = (page: Number): Promise<AxiosResponse<INotificationResponse>> => api.get(`notification/get/${page}`);
+export const getNotificationDetail = (id: string): Promise<AxiosResponse<INotificationDetail>> => api.get(`notification/detail/${id}`);
+export const deleteNotification = (id: string): Promise<AxiosResponse<any>> => api.delete(`notification/delete/${id}`);
+export const markAsRead = (id: string): Promise<AxiosResponse<any>> => api.put(`notification/read/${id}`);
+
+
 
 
 
 
 export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotificationBadgetResponse>> => api.get(`notification/badget?id=${id}`);
-export const getNotifications = (page: Number): Promise<AxiosResponse<INotificationResponse>> => api.get(`notification?page=${page}`);
+
 export const updateNotificationBadget = (data: INotificationBadget): Promise<AxiosResponse<INotificationBadgetResponse>> => api.post("/badget", data);
-export const getNotificationDetail = (id: string): Promise<AxiosResponse<INotificationDetailResponse>> => api.get(`mynotificationdetail?id=${id}`);
+
 export const getPayoutData = (): Promise<AxiosResponse<IPayoutDataResponse>> => api.get(`payout`);
 export const updatePayout = (data: IPayoutData): Promise<AxiosResponse<void>> => api.post("/payout", data);
 export const getSubscriptionPlans = (page: Number): Promise<AxiosResponse<ISubscriptionResponse>> => api.get(`badget?page=${page}`);
 export const getSubscriptionDetail = (id: string): Promise<AxiosResponse<ISubscriptionPlanDetailResponse>> => api.get(`mysubscriptiondetail?id=${id}`);
 export const changeToPlan = (id: string): Promise<AxiosResponse<void>> => api.post('changetoplan', id);
 
-export const getTransactionDetail = (id: string): Promise<AxiosResponse<IMyTransactionDetailResponse>> => api.get(`mytransactiondetail?id=${id}`);
+
 
 
 

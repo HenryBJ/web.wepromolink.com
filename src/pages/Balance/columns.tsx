@@ -1,3 +1,4 @@
+import { timeSince } from "../../common";
 import { IColumnData } from "../../components/DynamicTable";
 
 const statsIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
@@ -23,45 +24,13 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 </svg>
 )
 
-const timeSince = (date: Date | null | string): string => {
-  if (date === null) return "never";
-
-  const parsedDate = typeof date === 'string' ? new Date(date) : date;
-  const localDate = new Date(parsedDate.getTime() + (parsedDate.getTimezoneOffset() * 60000));
-
-  let now = new Date();
-  let dif = now.getTime() - localDate.getTime();
-  const seconds = Math.floor(dif / 1000);
-  let interval = Math.floor(seconds / 31536000);
-
-  if (interval >= 1) {
-    return interval + " year" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 2592000);
-  if (interval >= 1) {
-    return interval + " month" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval >= 1) {
-    return interval + " day" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval >= 1) {
-    return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval >= 1) {
-    return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
-  }
-  return "just now";
-}
 
 
 
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Title", name: "title", hidden: _ => false },
-  { title: "Amount", name: "amount", hidden: w => false, transform: e => `$${e}` },
+  { title: "Amount", name: "amount", hidden: w => false, transform: (e: number) => e < 0 ? `-$${Math.abs(e)}` : `$${e}` },
   { title: "Status", name: "status", hidden: w => w < 390, },
   { title: "Created", name: "createdAt", hidden: w => w < 984, transform: e => timeSince(e) },
 ];

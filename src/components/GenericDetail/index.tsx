@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { timeSince } from "../../pages/Campaign/columns";
 import CopyButton from "../CopyButton";
 import Dash from "../Dash";
 import DashLine from "../DashLine";
@@ -8,6 +7,7 @@ import DashBar from "../DashBar";
 import DashPie from "../DashPie";
 import { AxiosResponse } from "axios";
 import { IStats } from "../../interfaces/ViewModels";
+import { timeSince } from "../../common";
 
 
 export interface IField {
@@ -65,6 +65,10 @@ export default function Index({ prepare, actions }: Props) {
 
     const Draw = (item: IField) => {
         switch (item.valueType) {
+
+            case 'html':
+                return <div dangerouslySetInnerHTML={{ __html: item.transform ? item.transform(item.value) : item.value }} />;
+
             case 'string':
                 return item.transform ? item.transform(item.value) : item.value;
 
