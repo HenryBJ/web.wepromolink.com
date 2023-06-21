@@ -27,7 +27,7 @@ export default function Index() {
     }
 
     useEffect(() => {
-        handleInfo(); 
+        handleInfo();   
     }, [page]);
 
 
