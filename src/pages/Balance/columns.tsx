@@ -29,7 +29,7 @@ const deactiveIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1 text-gr
 
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
-  { title: "Title", name: "title", hidden: _ => false },
+  { title: "Title", name: "title", hidden: _ => false, maxWidth: e => 150 },
   { title: "Amount", name: "amount", hidden: w => false, transform: (e: number) => e < 0 ? `-$${Math.abs(e)}` : `$${e}` },
   { title: "Status", name: "status", hidden: w => w < 390, },
   { title: "Created", name: "createdAt", hidden: w => w < 984, transform: e => timeSince(e) },

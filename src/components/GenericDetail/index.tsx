@@ -141,7 +141,9 @@ export default function Index({ prepare, actions }: Props) {
                 </svg>
             </div>
             <div className="h-9 w-full rounded-t bg-orange-500 uppercase text-white flex items-center justify-center font-bold  ">
-                {title}
+                <div style={{ width: width - 100 }} className='truncate text-center'>
+                    {title}
+                </div>
             </div>
             <div className="flex flex-wrap gap-1 justify-between bg-white">
                 {data?.fields.filter(k => !k.isHidden).sort((a, b) => a.order - b.order).map((e, index) => {
