@@ -84,17 +84,18 @@ export default function Index({ loading, children, schema, title, buttonTitle = 
                         let echild = child as ReactElement;
                         let error = echild.props['field'] && errors[`${echild.props['field']}`]?.message;
                         let helpTip = echild.props['helpTip'];
+                        let myStyle: string = `relative min-h-[60px] bg-white shadow ${(error || helpTip) ? "pr-10 px-2" : "px-2"} py-2 flex`
                         if (typeof echild.props.children === "function") {
                             let fn: FormProps = echild.props.children;
                             return (
-                                <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
+                                <div key={index} style={{ zIndex: `${45 - index}` }} className={myStyle}>
                                     {fn({ register: register, watch: watch, control: control, setValue: setValue })}
                                     {helpTip && <InfoTip text={helpTip} />}
                                     {error && <WarningTip text={error} />}
                                 </div>);
                         } else {
                             return (
-                                <div key={index} style={{ zIndex: `${45 - index}` }} className="relative min-h-[60px] bg-white shadow pr-16 px-2 py-2">
+                                <div key={index} style={{ zIndex: `${45 - index}` }} className={myStyle}>
                                     {child}
                                     {error && <WarningTip text={error} />}
                                 </div>);

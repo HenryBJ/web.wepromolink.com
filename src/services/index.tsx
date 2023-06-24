@@ -68,6 +68,7 @@ export const getNotifications = (page: Number): Promise<AxiosResponse<INotificat
 export const getNotificationDetail = (id: string): Promise<AxiosResponse<INotificationDetail>> => api.get(`notification/detail/${id}`);
 export const deleteNotification = (id: string): Promise<AxiosResponse<any>> => api.delete(`notification/delete/${id}`);
 export const markAsRead = (id: string): Promise<AxiosResponse<any>> => api.put(`notification/read/${id}`);
+export const uploadImage = (data: FormData, signal: AbortSignal): Promise<AxiosResponse<string>> => api.post('image/upload', data, { signal: signal });
 
 
 

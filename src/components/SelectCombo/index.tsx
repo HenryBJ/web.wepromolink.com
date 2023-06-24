@@ -32,7 +32,7 @@ export default function Index({ items, isDisabled, onChange }: IProps) {
         < Listbox value={itemSelected} onChange={doChange} disabled={isDisabled} >
             {({ open }) => (
                 <>
-                    <div className="relative mt-2">
+                    <div className="relative mt-2 flex-grow">
                         <Listbox.Button className="relative w-full cursor-pointer rounded bg-white py-1.5 pl-3 pr-10 text-left text-gray-700 shadow ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:leading-6">
                             {itemSelected && <span className="flex items-center">
                                 {itemSelected?.icon}

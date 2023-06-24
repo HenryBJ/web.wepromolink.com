@@ -8,6 +8,7 @@ import { ICreateCampaign } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
+import ImageLoader from "../../components/ImageLoader";
 
 
 const schema = yup.object({
@@ -132,11 +133,11 @@ export default function Index() {
                     {({ register }) => (<input max={1000} min={10} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={60} placeholder="Cost per mile (CPM)" type="number" {...register("epm")} />)}
                 </FormItem>
 
-                <FormItem field="budget" helpTip="Budget: Amount of money assigned to the campaign">
+                <FormItem field="budget">
                     {({ register, watch }) => {
                         let obj: any = watch();
                         console.log(obj);
-                        return <div className="flex flex-row gap-2 md:gap-4">
+                        return <div className="flex flex-row gap-2 md:gap-4 flex-grow">
                             <input max={available} min={0}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Budget"
@@ -148,23 +149,29 @@ export default function Index() {
                                 name={register("budget").name}
                                 ref={register("budget").ref} />
 
-                            <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <div className=" flex flex-col justify-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <span className="text-gray-700 font-semibold">{`Available: $${isNaN(obj.budget) ? 0 : available - obj.budget}`}</span>
                             </div>
                         </div>
                     }}
                 </FormItem>
 
-                <FormItem field="imageUrl" helpTip="Campaign Image URL">
-                    {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Image URL" type="text" {...register("imageUrl")} />)}
+                <FormItem field="imageUrl">
+                    {({ setValue }) =>
+                    (
+                        <ImageLoader
+                            onImageLoad={e => setValue("imageUrl", e)}
+                            cssClass="shadow appearance-none border rounded flex-grow py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    )
+                    }
                 </FormItem>
 
-                <FormItem helpTip="Campaign Image Preview: if the image url provided is not valid a default image is used">
+                <FormItem>
                     {({ watch }) => {
                         let obj: any = watch();
                         handleImg(obj.imageUrl);
                         return (
-                            <div className="flex justify-start items-center px-0">
+                            <div className="flex justify-center items-center px-0 w-full">
                                 <img className="h-full w-80 rounded ring-2 ring-orange-500" onError={onImgError} src={imgSrc} alt="Image preview" />
                             </div>
                         )
