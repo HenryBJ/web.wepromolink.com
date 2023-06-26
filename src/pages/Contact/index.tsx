@@ -2,9 +2,12 @@ import { faTelegram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SocialNetworks from "../../components/SocialNetworks";
+import useVisit from "../../hooks/Visit";
 
 export default function Contact() {
 
+  useVisit('visit_contact');
+    
   const style = 'text-white md:text-orange-800 mr-2 ml-2 text-xl';
 
     const contacts = [

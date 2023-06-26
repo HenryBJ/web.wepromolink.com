@@ -1,23 +1,25 @@
-import { useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import GoogleIcon from "../../components/Google";
 import Logo from "../../components/Logo";
-import firebase, { auth, fbLogOut, signInWithGoogle } from "../../firebase"
+import firebase, { fbLogOut, signInWithGoogle } from "../../firebase"
 import { useAuth } from "../../hooks/Auth";
 import { User } from "firebase/auth";
 import { getIsEmailSignUp, putFirebaseUid } from "../../services";
+import useVisit from "../../hooks/Visit";
 
 export default function Home() {
 
   const { user, login, logout } = useAuth();
   const navigate = useNavigate();
 
+  useVisit('visit_home');
+
   const Click = () => {
     if (user) {
       fbLogOut().then(() => logout())
     }
     else {
-      console.log("here"); 
+      console.log("here");
       signInWithGoogle()
         .then(result => {
           console.log(result.user.email)

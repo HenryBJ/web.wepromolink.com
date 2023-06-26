@@ -6,6 +6,7 @@ import { Columns } from "./columns";
 import { getMyLinks } from "../../services";
 import { IMyLink } from "../../interfaces/ViewModels";
 import { IPaginationResponse } from "../../interfaces/Responses";
+import useVisit from "../../hooks/Visit";
 
 export default function Index() {
     const [loading, setLoading] = useState(false);
@@ -19,6 +20,8 @@ export default function Index() {
     const handleSearch = (keyword:string)=>{
         setFilter(keyword)
     }
+
+    useVisit('visit_shared');
 
     useEffect(() => {
         setLoading(true);

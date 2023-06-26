@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import FAQItem from "./faqItem";
 import { Faqs } from "./faqs";
+import useVisit from "../../hooks/Visit";
 
 export default function Faq() {
   const myRef = useRef(null);
+
+  useVisit('visit_faq');
 
   useEffect(() => {
     if (myRef.current) {

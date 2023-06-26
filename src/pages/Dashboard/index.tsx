@@ -5,10 +5,13 @@ import DashLine from "../../components/DashLine";
 import DashPie from "../../components/DashPie";
 import { getAvailableBalanceData, getProfitBalanceData } from "../../services";
 import { getClickOnCampaignsByCountries, getClickOnLinksByCountries, getClicksLastWeekOnCompaignData, getClicksLastWeekOnLinkData, getClicksTodayOnCompaignData, getClicksTodayOnLinkData, getEarnByCountries, getEarnLastWeekData, getEarnTodayData, getHistoricalClickOnCampaigns, getHistoricalClickOnLinks, getHistoricalClickOnShares, getHistoricalEarnOnLinks, getSharedByUsers, getSharedLastWeekData, getSharedTodayData } from "../../services";
+import useVisit from "../../hooks/Visit";
 
 
 
 export default function Dashboard() {
+    useVisit('visit_dashboard');
+
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 pb-6 h-full flex flex-col gap-2 justify-center items-center">
             <div className="flex gap-2 flex-wrap  justify-center items-start">
@@ -30,7 +33,7 @@ export default function Dashboard() {
                 <DashPie title="Earn by countries" load={getEarnByCountries} />
                 <DashPie title="Click by countries on campaign" load={getClickOnCampaignsByCountries} />
                 <DashBar title="Shared by users" load={getSharedByUsers} />
-                
+
                 {/* <DashPie title={stats.title} data={stats} />
                 <DashLine title={stats.title} data={stats} />
                 <DashBar title={stats.title} data={stats} /> */}

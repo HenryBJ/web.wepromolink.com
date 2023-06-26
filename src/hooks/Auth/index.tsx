@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../LocalStorage";
 import { User, UserCredential } from "firebase/auth";
+import { gTag } from "../../firebase";
 
 const AuthContext = createContext<any>(null);
 
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }: any) => {
     setUser(data);
     setIdToken(idToken);
     navigate("/dashboard");
+    gTag("login", { method: 'Google' })
   };
 
 
@@ -22,6 +24,7 @@ export const AuthProvider = ({ children }: any) => {
   const logout = () => {
     setUser(null);
     setIdToken(null);
+    gTag("logout", {})
     navigate("/", { replace: true });
   };
 

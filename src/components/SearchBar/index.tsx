@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { gTag } from "../../firebase";
 
 
 interface IProps {
     placeholder?: string,
-    onChange: (key:string)=>void,
+    onChange: (key: string) => void,
     interval?: number
 }
 
@@ -13,7 +14,7 @@ export default function Index({ placeholder, onChange, interval = 2000 }: IProps
 
     const [searchTerm, setSearchTerm] = useState("");
 
-    const handleClear = (e:any)=> {
+    const handleClear = (e: any) => {
         clearTimeout(typingTimer);
         setSearchTerm("");
     }
@@ -27,11 +28,14 @@ export default function Index({ placeholder, onChange, interval = 2000 }: IProps
         e.preventDefault();
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         clearTimeout(typingTimer);
-        typingTimer = setTimeout(() => onChange(searchTerm), interval);
-    },[searchTerm])
-    
+        typingTimer = setTimeout(() => {
+            onChange(searchTerm);
+            searchTerm && gTag('search', { search_term: searchTerm })
+        }, interval);
+    }, [searchTerm])
+
     return (
         <div className="w-full">
             <form onSubmit={handleSubmit}>
@@ -59,7 +63,7 @@ export default function Index({ placeholder, onChange, interval = 2000 }: IProps
                         value={searchTerm}
                         onChange={handleOnChange}
                     />
-                    <span className={searchTerm? "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-orange-500":"hidden"} onClick={handleClear}>
+                    <span className={searchTerm ? "absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-orange-500" : "hidden"} onClick={handleClear}>
                         <svg
                             className="h-3 w-3 "
                             fill="none"

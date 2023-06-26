@@ -1,9 +1,10 @@
-import { User } from "firebase/auth";
+import { getAuth, User } from "firebase/auth";
 import axios from "axios";
 
 export default function AddInterceptors(axiosInstance: any) {
 
     const user: User | null = JSON.parse(localStorage.getItem("user_wepromolink")!);
+    const auth = getAuth(); // Obtén la instancia de autenticación de Firebase
 
     axiosInstance.interceptors.request.use(
         async (config: any) => {
@@ -30,7 +31,8 @@ export default function AddInterceptors(axiosInstance: any) {
         async (error: any) => {
             if (error?.response?.status === 401) {
                 try {
-                    const newAccessToken = await user?.getIdToken(true);
+                    
+                    const newAccessToken = await auth.currentUser?.getIdToken(true);
                     localStorage.setItem("user_wepromolink_idToken", JSON.stringify(newAccessToken));
                     console.log(`token refresh: ${newAccessToken}`);
 

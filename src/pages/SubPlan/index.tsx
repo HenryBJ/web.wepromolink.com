@@ -6,6 +6,7 @@ import { ISubscriptionResponse } from "../../interfaces/Responses";
 import { getSubscriptionPlans } from "../../services";
 import { Columns } from "./columns";
 import { useNavigate } from "react-router-dom";
+import useVisit from "../../hooks/Visit";
 
 
 const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -21,6 +22,8 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<ISubscriptionResponse>();
     const navigate = useNavigate();
+
+    useVisit('visit_subplan');
 
     useEffect(() => {
         setLoading(true);

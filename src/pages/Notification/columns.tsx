@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { IColumnData } from "../../components/DynamicTable";
 import { timeSince } from "../../common";
 import { deleteNotification } from "../../services";
+import { gTag } from "../../firebase";
 
 
 const detailsIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
@@ -19,6 +20,7 @@ const handleDelete = (id: string, reload: () => void, setLoading: (value: React.
   deleteNotification(id)
     .then(res => {
       toast.success("Notification deleted !!!");
+      gTag('notification_deleted', { notificationId: id })
       reload();
     })
     .catch(error => toast.error(error.response?.data))
@@ -27,7 +29,7 @@ const handleDelete = (id: string, reload: () => void, setLoading: (value: React.
 
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
-  { title: "Title", name: "title", hidden: _=> false, maxWidth: e => 150 },
+  { title: "Title", name: "title", hidden: _ => false, maxWidth: e => 150 },
   { title: "Status", name: "status", hidden: w => w < 350, transform: e => e === 'Unread' ? `<b>${e}</b>` : e },
   { title: "Created", name: "created", hidden: w => w < 630, transform: e => timeSince(e) },
   {

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { browserLocalPersistence, getAuth, GoogleAuthProvider, signInWithPopup, signOut} from "firebase/auth"; 
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { browserLocalPersistence, getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,11 +22,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+export const gTag = (event: string, parameters: any) => {
+  if (process.env.REACT_APP_ENV === 'production') {
+    logEvent(analytics, event, parameters)
+  } else {
+    console.log(`logEvent(${event}, ${parameters})`);
+  }
+}
+
+
 export const auth = getAuth(app);
 auth.setPersistence(browserLocalPersistence);
 
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({prompt:'select_account'});
+provider.setCustomParameters({ prompt: 'select_account' });
 
 export const signInWithGoogle = () => signInWithPopup(auth, provider)
 export const fbLogOut = () => signOut(auth);

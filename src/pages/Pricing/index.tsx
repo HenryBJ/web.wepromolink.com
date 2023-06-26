@@ -3,16 +3,19 @@ import SubcriptionCard from "../../components/SubcriptionCard";
 import { getSubscriptionCards, signUp } from "../../services";
 import { ISigUpInfo, ISubscriptionPlanCard } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
-import { signInWithGoogle } from "../../firebase";
+import { gTag, signInWithGoogle } from "../../firebase";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { User, UserCredential } from "firebase/auth";
+import useVisit from "../../hooks/Visit";
 
 export default function Pricing() {
 
   const [pricingPlans, setPricingPlans] = useState<ISubscriptionPlanCard[]>();
   const { user, login } = useAuth();
   const navigate = useNavigate();
+
+  useVisit('visit_pricing');
 
   useEffect(() => {
     getSubscriptionCards()
@@ -33,6 +36,7 @@ export default function Pricing() {
     signUp(data)
       .then(async response => {
         if (response.data) {
+          gTag("sign_up", { method: 'Google', planId: planId, userName: fullname, email: email })
           login(user, await user.getIdToken());
         } else {
           toast.error("Registration failed - email may already be registered.");
@@ -46,7 +50,7 @@ export default function Pricing() {
       window.open(paymentLink, "_self");
     }
     else {
-      
+
       // empty paymentlink mean free plan
       if (!user) {
         signInWithGoogle()

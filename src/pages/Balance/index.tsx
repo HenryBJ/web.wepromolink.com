@@ -6,6 +6,7 @@ import { ITransactionResponse } from "../../interfaces/Responses";
 import { getAvailableBalanceData, getBudgetBalanceData, getLockedBalanceData, getPayoutBalanceData, getProfitBalanceData, getTransactions } from "../../services";
 import { Columns } from "./columns";
 import SubscribeWrapper from "../../components/SubscribeWrapper";
+import useVisit from "../../hooks/Visit";
 
 export default function Index() {
     const [loading, setLoading] = useState(false);
@@ -13,6 +14,8 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<ITransactionResponse>()
     const navigation = useNavigate();
+
+    useVisit('visit_balance');    
 
     useEffect(() => {
         setLoading(true);

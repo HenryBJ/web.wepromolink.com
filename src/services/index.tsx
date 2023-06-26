@@ -8,7 +8,7 @@ export const api = AddInterceptors(axios.create({
 }))
 
 
-export const createCampaigns = (data: ICreateCampaign): Promise<AxiosResponse<void>> => api.post('campaign/create', data);
+export const createCampaigns = (data: ICreateCampaign): Promise<AxiosResponse<string>> => api.post('campaign/create', data);
 export const getCampaigns = (offset: number, limit: number, timestamp: number): Promise<AxiosResponse<ICampaingCard[]>> => api.get(`campaign/explore/${offset}/${limit}/${timestamp}`);
 export const getSubscriptionCards = (): Promise<AxiosResponse<ISubscriptionPlanCard[]>> => api.get(`pricing/all`);
 export const getIsEmailSignUp = (email: string): Promise<AxiosResponse<Boolean>> => api.get(`user/exits/${email}`);
@@ -69,10 +69,6 @@ export const getNotificationDetail = (id: string): Promise<AxiosResponse<INotifi
 export const deleteNotification = (id: string): Promise<AxiosResponse<any>> => api.delete(`notification/delete/${id}`);
 export const markAsRead = (id: string): Promise<AxiosResponse<any>> => api.put(`notification/read/${id}`);
 export const uploadImage = (data: FormData, signal: AbortSignal): Promise<AxiosResponse<string>> => api.post('image/upload', data, { signal: signal });
-
-
-
-
 
 
 export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotificationBadgetResponse>> => api.get(`notification/badget?id=${id}`);

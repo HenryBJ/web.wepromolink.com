@@ -1,6 +1,8 @@
+import useVisit from "../../hooks/Visit";
 import TermsAndConditions from "./terms";
 
 export default function Terms() {
+  useVisit('visit_terms');
   return (
     <div className="container max-w-3xl mx-auto z-50 pt-12 md:pt-0 md:mt-5">
       <h1 className="font-bold text-2xl text-center">Terms & Conditions</h1>

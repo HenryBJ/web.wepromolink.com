@@ -9,6 +9,7 @@ import SelectCombo from "../../components/SelectCombo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBtc, faCcMastercard, faCcVisa, faPaypal, faStripe } from "@fortawesome/free-brands-svg-icons";
 import { getPayoutData, updatePayout } from "../../services";
+import useVisit from "../../hooks/Visit";
 
 
 const billingIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -49,6 +50,8 @@ export default function Index() {
             })
         });
     }
+
+    useVisit('visit_billing');
 
     useEffect(() => {
         setLoading('Getting payout data ...');

@@ -5,6 +5,7 @@ import { INotificationResponse } from "../../interfaces/Responses";
 import { getNotifications } from "../../services";
 import { Columns } from "./columns";
 import { useNavigate } from "react-router-dom";
+import useVisit from "../../hooks/Visit";
 
 export default function Index() {
 
@@ -17,6 +18,8 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<INotificationResponse>();
     const navigate = useNavigate();
+
+    useVisit('visit_notification');
 
     const handleInfo = () => {
         setLoading(true);

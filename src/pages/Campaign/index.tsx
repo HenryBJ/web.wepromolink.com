@@ -7,6 +7,7 @@ import { Columns } from "./columns";
 import { IMyCampaign } from "../../interfaces/ViewModels";
 import SubscribeWrapper from "../../components/SubscribeWrapper";
 import { IPaginationResponse } from "../../interfaces/Responses";
+import useVisit from "../../hooks/Visit";
 
 export default function Campaign() {
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ export default function Campaign() {
     const handleSearch = (keyword: string) => {
         setFilter(keyword)
     }
+
+    useVisit('visit_campaign_list');
 
     const handleClick = () => {
         navigate("/create");

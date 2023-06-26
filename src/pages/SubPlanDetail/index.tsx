@@ -8,6 +8,7 @@ import { getNotificationDetail } from "../../services";
 import { changeToPlan, getSubscriptionDetail } from "../../services";
 import { toast } from "react-toastify";
 import { ISubscriptionPlanDetailResponse } from "../../interfaces/Responses";
+import useVisit from "../../hooks/Visit";
 
 
 const subIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -21,6 +22,7 @@ export default function Index() {
     const [sub, setSub] = useState<ISubscriptionPlanDetailResponse | undefined>();
     const navigate = useNavigate();
 
+    useVisit('visit_subplan_detail');
 
     useEffect(() => {
         setLoading(true);

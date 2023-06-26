@@ -10,6 +10,8 @@ import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
 import { getAvailableBalanceData } from "../../services";
 import ImageLoader from "../../components/ImageLoader";
+import useVisit from "../../hooks/Visit";
+import { gTag } from "../../firebase";
 
 
 const schema = yup.object({
@@ -44,6 +46,8 @@ export default function Index() {
             .catch(error => toast.error("Unable to get available amount"))
     }, []);
 
+    useVisit('visit_campaign_edit');
+
     useEffect(() => {
         setLoading(true);
         id && getCampaignDetail(id)
@@ -63,6 +67,7 @@ export default function Index() {
         id && editCampaign(id, data)
             .then(res => {
                 toast.success('Campaign edited successfully !!!');
+                gTag('campaign_edited', { campaignid: id })
                 navigation(-1);
             })
             .catch(error => toast.error(error.response?.data))

@@ -6,12 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../firebase";
 import { getIsEmailSignUp, putFirebaseUid } from "../../services";
 import GoogleIcon from "../../components/Google";
+import useVisit from "../../hooks/Visit";
 
 export default function Faq() {
   const myRef = useRef(null);
 
   const { user, login, logout } = useAuth();
   const navigate = useNavigate();
+
+  useVisit('visit_thanks');
 
   useEffect(() => {
     if (myRef.current) {

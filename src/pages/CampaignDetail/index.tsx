@@ -8,6 +8,7 @@ import { getCampaignDetail } from "../../services";
 import { prepareData } from "./prepare";
 import { IMyCampaignDetailResponse } from "../../interfaces/Responses";
 import { toast } from "react-toastify";
+import useVisit from "../../hooks/Visit";
 
 
 const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -20,7 +21,7 @@ export default function Index() {
     const [loading, setLoading] = useState(false);
     const [campaign, setCampaign] = useState<IMyCampaignDetail | undefined>();
 
-    
+    useVisit('visit_campaign_detail');    
 
     useEffect(() => {
         setLoading(true);

@@ -6,6 +6,7 @@ import Loader from "../../components/Loader";
 import { ILinkDetail} from "../../interfaces/ViewModels";
 import { getCampaignDetail, getLinkDetail } from "../../services";
 import { prepareData } from "./prepare";
+import useVisit from "../../hooks/Visit";
 
 
 const linkIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -18,7 +19,7 @@ export default function Index() {
     const [loading, setLoading] = useState(false);
     const [linkDetail, setLinkDetail] = useState<ILinkDetail | undefined>();
 
-    
+    useVisit('visit_shared_detail');
 
     useEffect(() => {
         setLoading(true);

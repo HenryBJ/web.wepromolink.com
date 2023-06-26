@@ -9,6 +9,8 @@ import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
 import ImageLoader from "../../components/ImageLoader";
+import { gTag } from "../../firebase";
+import useVisit from "../../hooks/Visit";
 
 
 const schema = yup.object({
@@ -32,6 +34,8 @@ export default function Index() {
     const navigation = useNavigate();
     const { user } = useAuth();
 
+    useVisit('visit_campaign_create');
+
     useEffect(() => {
         getAvailableBalanceData()
             .then(res => setAvailable(res.data.valueOf()))
@@ -46,6 +50,7 @@ export default function Index() {
         createCampaigns(data)
             .then(res => {
                 toast.success("Campaign created successfully !!!");
+                gTag('campaign_created', { id: res.data });
                 navigation(-1);
             })
             .catch(error => {

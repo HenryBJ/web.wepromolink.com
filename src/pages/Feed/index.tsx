@@ -4,6 +4,7 @@ import Spinner from "../../components/Spinner";
 import { ICampaingCard } from "../../interfaces/ViewModels";
 import { getCampaigns } from "../../services";
 import NoData from "../../components/NoData";
+import useVisit from "../../hooks/Visit";
 
 export default function Feed() {
 
@@ -15,6 +16,7 @@ export default function Feed() {
   const [isFetching, setIsFetching] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
   
+  useVisit('visit_feed');
 
   const loadImages = (urls: string[]): Promise<void[]> => {
     const promises: Promise<void>[] = [];

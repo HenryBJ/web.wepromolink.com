@@ -5,6 +5,7 @@ import { createLink } from '../../services';
 import { useAuth } from '../../hooks/Auth';
 import Spinner from '../Spinner';
 import { ICreateAffLinkResponse } from '../../interfaces/Responses';
+import { gTag } from '../../firebase';
 
 interface IShareDialogInput {
     isOpen: boolean;
@@ -28,6 +29,7 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaignId }: ISha
                 .then(res => {
                     setLink(res.data);
                     setLoading(false);
+                    gTag('create_link', { campaignId: campaignId });
                 })
                 .catch((e) => { setError(e); console.log(e) });
         }
