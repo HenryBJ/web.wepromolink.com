@@ -1,14 +1,15 @@
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import * as yup from "yup";
-import { ChangeEvent, ReactEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
-import { createCampaigns, editCampaign, getCampaignDetail } from "../../services";
+import { editCampaign, getCampaignDetail } from "../../services";
 import { useNavigate, useParams } from "react-router-dom";
 import { ICreateCampaign, IMyCampaignDetail } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
 import { getAvailableBalanceData } from "../../services";
+import ImageLoader from "../../components/ImageLoader";
 
 
 const schema = yup.object({
@@ -27,9 +28,6 @@ const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 
 </svg>
 
 export default function Index() {
-    const fallbackImg: string = "https://wepromolink.com/card.png";
-    const [imgSrc, setImgSrc] = useState(fallbackImg);
-    const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [available, setAvailable] = useState(0);
     const [initialBudget, setInitialBudget] = useState<number>(0);
@@ -38,39 +36,6 @@ export default function Index() {
     const { user } = useAuth();
     const { id } = useParams();
 
-
-    const onImgError = () => {
-        console.log('error');
-        if (!imgError) {
-            setImgSrc(fallbackImg);
-            setImgError(true);
-        }
-    };
-
-    const checkImg = async (imageUrl: string) => {
-        const imagen = new Image();
-        imagen.src = imageUrl;
-
-        imagen.onload = () => {
-            setImgSrc(imageUrl);
-        };
-
-        imagen.onerror = () => {
-            setImgSrc(fallbackImg);
-        };
-    }
-
-    const handleImg = (e: string) => {
-
-        function validarURL(url: string) {
-            const regex = /^(http|https):\/\/[^ "]+$/;
-            return regex.test(url);
-        }
-
-        if (validarURL(e)) {
-            checkImg(e);
-        }
-    }
 
     useEffect(() => {
         getAvailableBalanceData()
@@ -82,7 +47,6 @@ export default function Index() {
         setLoading(true);
         id && getCampaignDetail(id)
             .then(res => {
-                setImgSrc(res.data.imageUrl)
                 setCampaign(res.data)
                 setInitialBudget(res.data.budget.valueOf())
             })
@@ -93,7 +57,6 @@ export default function Index() {
     const onSubmit = (data: ICreateCampaign) => {
         setLoading(true);
 
-        data.imageUrl = imgSrc;
         data.email = user.email
 
         id && editCampaign(id, data)
@@ -148,7 +111,7 @@ export default function Index() {
                 <FormItem field="budget" helpTip="Budget: Amount of money assigned to the campaign">
                     {({ register, watch }) => {
                         let obj: any = watch();
-                        return <div className="flex flex-row gap-2 md:gap-4">
+                        return <div className="flex flex-row gap-2 md:gap-4 flex-grow">
                             <input max={available} min={0}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Budget"
@@ -160,28 +123,17 @@ export default function Index() {
                                 name={register("budget").name}
                                 ref={register("budget").ref} />
 
-                            <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <div className="flex flex-col justify-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget + (campaign?.budget?.valueOf() ?? 0)}`}</span>
                             </div>
                         </div>
                     }}
                 </FormItem>
 
-                <FormItem field="imageUrl" helpTip="Campaign Image URL">
-                    {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Image URL" type="text" {...register("imageUrl")} />)}
+                <FormItem field="imageUrl">
+                    {({ setValue }) => <ImageLoader initialUrl={campaign?.imageUrl} onImageLoad={e => setValue("imageUrl", e)} />}
                 </FormItem>
-
-                <FormItem helpTip="Campaign Image Preview: if the image url provided is not valid a default image is used">
-                    {({ watch }) => {
-                        let obj: any = watch();
-                        handleImg(obj.imageUrl);
-                        return (
-                            <div className="flex justify-start items-center px-0">
-                                <img className="h-full w-80 rounded ring-2 ring-orange-500" onError={onImgError} src={imgSrc} alt="Image preview" />
-                            </div>
-                        )
-                    }}
-                </FormItem>
+ 
             </GenericForm>
             {loading && <Loader text="Loading..." />}
         </section>)

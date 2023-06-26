@@ -1,6 +1,6 @@
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import * as yup from "yup";
-import { ChangeEvent, ReactEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import { createCampaigns, getAvailableBalanceData } from "../../services";
 import { useNavigate } from "react-router-dom";
@@ -27,47 +27,10 @@ const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 
 </svg>
 
 export default function Index() {
-    const fallbackImg: string = "https://wepromolink.com/card.png";
-    const [imgSrc, setImgSrc] = useState(fallbackImg);
     const [available, setAvailable] = useState(0);
-    const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigate();
     const { user } = useAuth();
-
-
-    const onImgError = () => {
-        console.log('error');
-        if (!imgError) {
-            setImgSrc(fallbackImg);
-            setImgError(true);
-        }
-    };
-
-    const checkImg = async (imageUrl: string) => {
-        const imagen = new Image();
-        imagen.src = imageUrl;
-
-        imagen.onload = () => {
-            setImgSrc(imageUrl);
-        };
-
-        imagen.onerror = () => {
-            setImgSrc(fallbackImg);
-        };
-    }
-
-    const handleImg = (e: string) => {
-
-        function validarURL(url: string) {
-            const regex = /^(http|https):\/\/[^ "]+$/;
-            return regex.test(url);
-        }
-
-        if (validarURL(e)) {
-            checkImg(e);
-        }
-    }
 
     useEffect(() => {
         getAvailableBalanceData()
@@ -78,7 +41,6 @@ export default function Index() {
     const onSubmit = (data: ICreateCampaign) => {
         setLoading(true);
 
-        data.imageUrl = imgSrc;
         data.email = user.email
 
         createCampaigns(data)
@@ -157,29 +119,11 @@ export default function Index() {
                 </FormItem>
 
                 <FormItem field="imageUrl">
-                    {({ setValue }) =>
-                    (
-                        <ImageLoader
-                            onImageLoad={e => setValue("imageUrl", e)}
-                            cssClass="shadow appearance-none border rounded flex-grow py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                    )
-                    }
-                </FormItem>
-
-                <FormItem>
-                    {({ watch }) => {
-                        let obj: any = watch();
-                        handleImg(obj.imageUrl);
-                        return (
-                            <div className="flex justify-center items-center px-0 w-full">
-                                <img className="h-full w-80 rounded ring-2 ring-orange-500" onError={onImgError} src={imgSrc} alt="Image preview" />
-                            </div>
-                        )
-                    }}
+                    {({ setValue }) => <ImageLoader initialUrl="" onImageLoad={e => setValue("imageUrl", e)} />}
                 </FormItem>
             </GenericForm>
             {loading && <Loader text="Creating campaign ..." />}
         </section>)
 }
 
-//https://picsum.photos/id/33/600/600
+//https://picsum.photos/id/49/1200/630
