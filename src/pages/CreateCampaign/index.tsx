@@ -112,7 +112,7 @@ export default function Index() {
                                 ref={register("budget").ref} />
 
                             <div className=" flex flex-col justify-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <span className="text-gray-700 font-semibold">{`Available: $${isNaN(obj.budget) ? 0 : available - obj.budget}`}</span>
+                                <span className="text-gray-700 font-semibold">{`Available: $${isNaN(obj.budget) ? 0 : (available - obj.budget).toFixed(2)}`}</span>
                             </div>
                         </div>
                     }}

@@ -35,6 +35,7 @@ export default function Index() {
     const navigation = useNavigate();
     const { user } = useAuth();
     const { id } = useParams();
+    let max: number = Math.floor(available + (campaign?.budget?.valueOf() ?? 0));
 
 
     useEffect(() => {
@@ -70,7 +71,7 @@ export default function Index() {
 
     const onChangeBudget = (e: any, register: any) => {
         console.log(e.target.value);
-        if (e.target.value >= 0 && e.target.value <= available) {
+        if (e.target.value >= 0 && e.target.value <= max) {
             register("budget").onChange(e);
         } else {
             e.preventDefault();
@@ -82,7 +83,7 @@ export default function Index() {
         const keyCode = e.keyCode || e.which;
         const newValue = parseInt(currentValue + String.fromCharCode(keyCode));
 
-        if (isNaN(newValue) || newValue < 0 || newValue > available) {
+        if (isNaN(newValue) || newValue < 0 || newValue > max) {
             e.preventDefault();
         }
     };
@@ -112,7 +113,7 @@ export default function Index() {
                     {({ register, watch }) => {
                         let obj: any = watch();
                         return <div className="flex flex-row gap-2 md:gap-4 flex-grow">
-                            <input max={available} min={0}
+                            <input max={max} min={0}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Budget"
                                 type="number"
@@ -124,7 +125,7 @@ export default function Index() {
                                 ref={register("budget").ref} />
 
                             <div className="flex flex-col justify-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <span className="text-gray-700 font-semibold">{`Available: $${available - obj.budget + (campaign?.budget?.valueOf() ?? 0)}`}</span>
+                                <span className="text-gray-700 font-semibold">{`Available: $${(available - obj.budget + (campaign?.budget?.valueOf() ?? 0)).toFixed(2)}`}</span>
                             </div>
                         </div>
                     }}
@@ -133,7 +134,7 @@ export default function Index() {
                 <FormItem field="imageUrl">
                     {({ setValue }) => <ImageLoader initialUrl={campaign?.imageUrl} onImageLoad={e => setValue("imageUrl", e)} />}
                 </FormItem>
- 
+
             </GenericForm>
             {loading && <Loader text="Loading..." />}
         </section>)

@@ -29,19 +29,19 @@ export default function Index() {
             .catch(err => setError(true))
             .finally(() => setLoading(false))
     }, [page]);
-    
+
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
         <Breadcrumb levels={[{ icon: subIcon, title: 'Subcriptions', link: '/subcriptions' }, { title: 'Subcriptions', link: '' }]} />
         <DynamicTable title='Subscription Plans' defaultAction={(e: any) => navigate(`/subcriptions/detail/${e.id}`)} columns={Columns} loading={loading}
-                pagination={
-                    {
-                        first: () => setPage(1),
-                        last: () => setPage(data?.value.pagination.lastPage.valueOf() || 1),
-                        next: () => setPage(prev => prev + 1),
-                        prev: () => setPage(prev => prev - 1),
-                        ...(data?.value.pagination!),
-                    }
+            pagination={
+                {
+                    first: () => setPage(1),
+                    last: () => setPage(data?.value.pagination.totalPages.valueOf() || 1),
+                    next: () => setPage(prev => prev + 1),
+                    prev: () => setPage(prev => prev - 1),
+                    ...(data?.value.pagination!),
                 }
-                rows={data?.value.items || []} />
+            }
+            rows={data?.value.items || []} />
     </section>)
 }

@@ -84,7 +84,7 @@ const handleShare = (title: string, shareUrl: string) => {
 
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
-  { title: "Title", name: "title", hidden: _ => false },
+  { title: "Title", name: "title", hidden: _ => false, maxWidth: e => 150 },
   { title: "Url", name: "url", hidden: w => w < 850 },
   { title: "Status", name: "status", hidden: w => w < 390, transform: e => e ? ReactDOMServer.renderToString(activeIcon) : ReactDOMServer.renderToString(deactiveIcon) },
   { title: "Profit", name: "profit", hidden: w => w < 390, transform: e => `$${e}` },
