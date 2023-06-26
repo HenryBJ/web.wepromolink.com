@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 export const gTag = (event: string, parameters: any) => {
-  if (process.env.REACT_APP_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     logEvent(analytics, event, parameters)
   } else {
     console.log(`logEvent(${event}, ${parameters})`);
