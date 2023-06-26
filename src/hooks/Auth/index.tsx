@@ -11,11 +11,12 @@ export const AuthProvider = ({ children }: any) => {
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
-  const login = async (data: User, idToken:string) => {
+  const login = async (data: User, idToken: string) => {
     setUser(data);
     setIdToken(idToken);
     navigate("/dashboard");
   };
+
 
   // call this function to sign out logged in user
   const logout = () => {
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }: any) => {
   const value = useMemo(
     () => ({
       user,
+      idToken,
       login,
       logout
     }),

@@ -17,7 +17,7 @@ export default function Home() {
       fbLogOut().then(() => logout())
     }
     else {
-      console.log("here");
+      console.log("here"); 
       signInWithGoogle()
         .then(result => {
           console.log(result.user.email)
