@@ -29,6 +29,7 @@ import CampaignStats from './pages/CampaignStats';
 import SharedStats from './pages/SharedStats';
 import EditCampaign from './pages/EditCampaign';
 import Thanks from './pages/Thanks';
+import NotFound from './pages/NotFound';
 // import './App.css';
 
 function App() {
@@ -66,9 +67,10 @@ function App() {
             <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} />
             <Route path='/create' element={<CreateCampaign />} />
             <Route path="/links" element={<Shared />} />
-            <Route path="/balance" element={<Balance />} />
+            <Route path="/balance" element={<Balance/>}/>
           </Route>
         </Route>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </Router>
 
