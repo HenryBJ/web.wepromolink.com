@@ -33,7 +33,7 @@ export default function AddInterceptors(axiosInstance: any) {
                 try {
                     
                     const newAccessToken = await auth.currentUser?.getIdToken(true);
-                    localStorage.setItem("user_wepromolink_idToken", JSON.stringify(newAccessToken));
+                    newAccessToken && localStorage.setItem("user_wepromolink_idToken", JSON.stringify(newAccessToken));
                     console.log(`token refresh: ${newAccessToken}`);
 
                     // Repetir la solicitud original con el nuevo token

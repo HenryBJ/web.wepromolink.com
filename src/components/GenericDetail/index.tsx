@@ -8,6 +8,7 @@ import DashPie from "../DashPie";
 import { AxiosResponse } from "axios";
 import { IStats } from "../../interfaces/ViewModels";
 import { timeSince } from "../../common";
+import ImageViewer from "../ImageViewer";
 
 
 export interface IField {
@@ -74,9 +75,10 @@ export default function Index({ prepare, actions }: Props) {
 
             case 'image':
                 return (
-                    <div className="flex justify-start items-center px-0">
-                        <img className="h-full w-80 rounded ring-2 ring-orange-500" src={item.value} alt="Image preview" />
-                    </div>
+                    <ImageViewer ImageBundle={item.value} Scale={8} />
+                    // <div className="flex justify-start items-center px-0">
+                    //     <img className="h-full w-80 rounded ring-2 ring-orange-500" src={item.value} alt="Image preview" />
+                    // </div>
                 )
 
             case 'dash':

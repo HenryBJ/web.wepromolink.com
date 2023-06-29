@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { ICampaingCard } from "../../interfaces/ViewModels";
+import { ICampaignCard } from "../../interfaces/ViewModels";
 import ShareDialog from "../ShareDialog";
 import SubscribeWrapper from "../SubscribeWrapper";
 import ImageWithFallback from "../ImageWithFallback";
+import ImageViewer from "../ImageViewer";
 
+interface IProps {
+    data: ICampaignCard
+}
 
-export default function CampaignCard(data: ICampaingCard) {
+export default function CampaignCard({ data }: IProps) {
 
     let [isOpen, setIsOpen] = useState(false);
 
@@ -16,8 +20,8 @@ export default function CampaignCard(data: ICampaingCard) {
     return (
         <>
             <div className="max-w-sm w-full md:max-w-full md:flex justify-center h-auto md:max-h-56 shadow-lg">
-                {/* <img className="w-full md:max-w-sm" alt={data.title} src={data.imageUrl} /> */}
-                <ImageWithFallback alt={data.title} src={data.imageUrl} style={"w-full md:max-w-sm"} />
+                {/* <ImageWithFallback alt={data.title} src={data.imageUrl} style={"w-full md:max-w-sm"} /> */}
+                <ImageViewer ImageBundle={data.imageBundle ?? undefined} Scale={4} />
                 <div className="md:flex justify-between w-full border-r border-b border-l border-gray-400 md:border-l-0 md:border-t md:border-gray-400 bg-white rounded-b md:rounded-b-none md:rounded-r p-4">
                     <div className="flex flex-col justify-between leading-normal">
                         <div className="mb-8 overflow-hidden">

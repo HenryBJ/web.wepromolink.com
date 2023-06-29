@@ -18,7 +18,7 @@ const schema = yup.object({
     title: yup.string().trim().required(),
     description: yup.string().required(),
     url: yup.string().url().required(),
-    imageUrl: yup.string().url().required(),
+    imageBundleId: yup.string().nullable(),
     epm: yup.number().required()
         .min(10, "CPM must be greater than 10")
         .max(1000, "CPM must be lower than 1000")
@@ -136,8 +136,8 @@ export default function Index() {
                     }}
                 </FormItem>
 
-                <FormItem field="imageUrl">
-                    {({ setValue }) => <ImageLoader initialUrl={campaign?.imageUrl} onImageLoad={e => setValue("imageUrl", e)} />}
+                <FormItem field="imageBundleId">
+                    {({ setValue }) => <ImageLoader initialImageBundleId={campaign?.imageBundle?.externalId} onImageLoaded={e => setValue("imageBundleId", e)} />}
                 </FormItem>
 
             </GenericForm>

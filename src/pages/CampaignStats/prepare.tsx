@@ -102,7 +102,7 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
                     }
                     return f_id;
 
-                case 'imageUrl':
+                case 'imageBundle':
                     let f_url: IField = {
                         isImage: true,
                         title: '',

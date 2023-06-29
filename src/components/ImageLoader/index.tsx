@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { uploadImage } from "../../services";
+import { getImage, uploadImage } from "../../services";
 import Spinner, { SpinnerType } from "../Spinner";
 import { NO_IMAGEN_AVAILABLE } from "../../constant";
 
 interface IProps {
-    onImageLoad: (url: string) => void,
-    initialUrl: string | undefined
+    onImageLoaded: (url: string | null) => void,
+    initialImageBundleId?: string | null
 }
 
 const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
@@ -24,16 +24,20 @@ const trashIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0
 
 
 
-export default function Index({ onImageLoad, initialUrl = "" }: IProps) {
+export default function Index({ onImageLoaded, initialImageBundleId }: IProps) {
     const [loading, setLoading] = useState<boolean>(false)
     const [imgError, setImgError] = useState(false);
-
+    const inputFileRef = useRef<HTMLInputElement>(null);
     const fallbackImg: string = NO_IMAGEN_AVAILABLE;
-    const [imageUrl, setImageURL] = useState<string>(initialUrl ? initialUrl : fallbackImg);
+    const [imageUrl, setImageURL] = useState<string>(fallbackImg);
 
     useEffect(() => {
-        handleUpdateImageURL(initialUrl ? initialUrl : fallbackImg)
-    }, [initialUrl])
+        if (initialImageBundleId) {
+            setLoading(true);
+            getImage(initialImageBundleId)
+                .then(res => setImageURL(res.data.compressed))
+        }
+    }, [initialImageBundleId])
 
     const controller = new AbortController();
 
@@ -54,10 +58,21 @@ export default function Index({ onImageLoad, initialUrl = "" }: IProps) {
         setLoading(false);
     };
 
-    const handleUpdateImageURL = (url: string) => {
-        console.log(url);
-        onImageLoad(url);
-        setImageURL(url);
+    const handleUpdateImageURL = (imageBundleId: string) => {
+        console.log(imageBundleId);
+        getImage(imageBundleId)
+            .then(res => {
+                onImageLoaded(imageBundleId);
+                setImageURL(res.data.compressed);
+            });
+    }
+
+    const handleClearImage = () => {
+        onImageLoaded(null);
+        setImageURL(fallbackImg);
+        if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+        }
     }
 
     const validateImageDimensions = (file: any) => {
@@ -105,32 +120,13 @@ export default function Index({ onImageLoad, initialUrl = "" }: IProps) {
     };
 
 
-    // const handleImageChange = (event: any) => {
-    //     const file = event.target.files[0];
-    //     const signal = controller.signal;
-
-    //     if (file && file.size <= 4 * 1024 * 1024) {
-    //         const formData = new FormData();
-    //         formData.append('image', file);
-
-    //         setLoading(true);
-    //         uploadImage(formData, signal)
-    //             .then(res => handleUpdateImageURL(res.data))
-    //             .catch(_ => { toast.error('Error saving image'); setLoading(false) })
-
-    //     } else {
-    //         toast.error('The image exceeds the allowed size limit (4 MB)')
-    //     }
-    // };
-
-
     return (
         <>
             <div className="flex flex-col justify-center items-center px-0 w-full gap-2">
                 <div className="flex justify-center items-center gap-4 w-full">
                     <label htmlFor="upload-input" className="cursor-pointer  text-black/40 hover:text-orange-700" >{uploadIcon}</label>
-                    <input disabled={loading} id="upload-input" type="file" onChange={handleImageChange} accept=".jpeg, .jpg, .png, .svg" className="hidden" />
-                    <button disabled={loading} onClick={() => handleUpdateImageURL(fallbackImg)} type="button" className="cursor-pointer  text-black/40 hover:text-orange-700" >{trashIcon}</button>
+                    <input ref={inputFileRef} disabled={loading} id="upload-input" type="file" onChange={handleImageChange} accept=".jpeg, .jpg, .png" className="hidden" />
+                    <button disabled={loading} onClick={handleClearImage} type="button" className="cursor-pointer  text-black/40 hover:text-orange-700" >{trashIcon}</button>
                 </div>
 
                 <div className="relative">

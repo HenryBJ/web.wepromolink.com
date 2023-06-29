@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ICampaingCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPayoutData, ISigUpInfo, IStats, ISubscriptionPlanCard } from "../interfaces/ViewModels";
+import { ICampaignCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPayoutData, ISigUpInfo, IStats, ISubscriptionPlanCard, ImageBundle } from "../interfaces/ViewModels";
 import { INotificationBadgetResponse, INotificationDetailResponse, INotificationResponse, IPaginationResponse, IPayoutDataResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
 
@@ -9,7 +9,7 @@ export const api = AddInterceptors(axios.create({
 
 
 export const createCampaigns = (data: ICreateCampaign): Promise<AxiosResponse<string>> => api.post('campaign/create', data);
-export const getCampaigns = (offset: number, limit: number, timestamp: number): Promise<AxiosResponse<ICampaingCard[]>> => api.get(`campaign/explore/${offset}/${limit}/${timestamp}`);
+export const getCampaigns = (offset: number, limit: number, timestamp: number): Promise<AxiosResponse<ICampaignCard[]>> => api.get(`campaign/explore/${offset}/${limit}/${timestamp}`);
 export const getSubscriptionCards = (): Promise<AxiosResponse<ISubscriptionPlanCard[]>> => api.get(`pricing/all`);
 export const getIsEmailSignUp = (email: string): Promise<AxiosResponse<Boolean>> => api.get(`user/exits/${email}`);
 export const getIsBlocked = (): Promise<AxiosResponse<Boolean>> => api.get('user/isblocked');
@@ -69,6 +69,7 @@ export const getNotificationDetail = (id: string): Promise<AxiosResponse<INotifi
 export const deleteNotification = (id: string): Promise<AxiosResponse<any>> => api.delete(`notification/delete/${id}`);
 export const markAsRead = (id: string): Promise<AxiosResponse<any>> => api.put(`notification/read/${id}`);
 export const uploadImage = (data: FormData, signal: AbortSignal): Promise<AxiosResponse<string>> => api.post('image/upload', data, { signal: signal });
+export const getImage = (id: string): Promise<AxiosResponse<ImageBundle>> => api.get(`image/get/${id}`);
 
 
 export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotificationBadgetResponse>> => api.get(`notification/badget?id=${id}`);

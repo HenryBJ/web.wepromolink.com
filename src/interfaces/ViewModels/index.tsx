@@ -1,18 +1,38 @@
 
+export interface ImageBundle {
+    externalId: string,
+    original: string,
+    originalWidth: number,
+    originalHeight: number,
+    originalAspectRatio: number,
+    compressed: string,
+    compressedWidth: number,
+    compressedHeight: number,
+    compressedAspectRatio: number,
+    medium: string,
+    mediumWidth: number,
+    mediumHeight: number,
+    mediumAspectRatio: number,
+    thumbnail: string,
+    thumbnailWidth: number,
+    thumbnailHeight: number,
+    thumbnailAspectRatio: number
+}
+
 export interface IStats {
     title: string,
     labels: string[],
     data: number[][],
-    dataLabels:string[]
+    dataLabels: string[]
 }
 
-export interface ICampaingCard {
+export interface ICampaignCard {
     id: string,
     title: string,
     description: string,
     epm: Number,
     budget: Number,
-    imageUrl: string,
+    imageBundle: ImageBundle | null,
     autorImageUrl: string,
     autorName: string,
     lastModified: number
@@ -32,7 +52,7 @@ export interface IMyCampaign {
 export interface IMyCampaignDetail {
     id: string,
     title: string,
-    imageUrl: string,
+    imageBundle: ImageBundle | null,
     description: string,
     url: string,
     status: boolean,
@@ -48,12 +68,12 @@ export interface IMyCampaignStats {
     imageUrl: string,
     todayClicks: Number,
     lastWeekClicks: Number,
-    historicalClicks:IStats,
-    clickByCountries:IStats,
-    sharedTodayOnCampaings:Number,
-    sharedLastWeekOnCampaings:Number,
-    historicalShared:IStats,
-    sharedByUsers:IStats    
+    historicalClicks: IStats,
+    clickByCountries: IStats,
+    sharedTodayOnCampaings: Number,
+    sharedLastWeekOnCampaings: Number,
+    historicalShared: IStats,
+    sharedByUsers: IStats
 }
 
 export interface IMyTransactionDetail {
@@ -77,7 +97,7 @@ export interface ILinkDetail {
     description: string,
     url: string,
     profit: Number,
-    status:boolean,
+    status: boolean,
     epm: Number,
     lastClick: Date,
 }
@@ -88,12 +108,12 @@ export interface IMyAffLinkStats {
     imageUrl: string,
     todayClicks: Number,
     lastWeekClicks: Number,
-    historicalClicks:IStats,
-    clickByCountries:IStats,
-    earnToday:Number,
-    earnLastWeek:Number,
-    historicalEarn:IStats,
-    earnByCountries:IStats
+    historicalClicks: IStats,
+    clickByCountries: IStats,
+    earnToday: Number,
+    earnLastWeek: Number,
+    historicalEarn: IStats,
+    earnByCountries: IStats
 }
 
 export interface IMyLink {
@@ -102,7 +122,7 @@ export interface IMyLink {
     url: string,
     imageUrl: string,
     profit: Number,
-    status:Boolean,
+    status: Boolean,
     lastClick: Date,
 }
 
@@ -151,7 +171,7 @@ export interface ICreateCampaign {
     title: string,
     url: string,
     description: string,
-    imageUrl: string,
+    imageBundleId: string | null,
     email: string,
     epm: Number,
     budget: Number,
@@ -169,8 +189,8 @@ export interface IPayoutData {
     wireIban?: string,
     wireBankAddress?: string,
     wireBranch?: string,
-    wireRouting?:string,
-    isLockedPayoutType:boolean
+    wireRouting?: string,
+    isLockedPayoutType: boolean
 }
 
 export interface INotificationBadget {
@@ -182,9 +202,9 @@ export interface INotificationBadget {
     deposit: number,
     withdraw: number,
     flag: string
-  }
+}
 
-  export interface ISubscriptionPlanCard {
+export interface ISubscriptionPlanCard {
     id: string,
     title: string,
     monthly: number,
@@ -196,15 +216,15 @@ export interface INotificationBadget {
     payoutMinimun: number,
     paymentMethod: string,
     tag?: string
-    monthlyPaymantLink:string,
-    annualyPaymantLink?:string,
-    order:number
+    monthlyPaymantLink: string,
+    annualyPaymantLink?: string,
+    order: number
 }
 
 export interface ISigUpInfo {
     fullname?: string,
     email?: string,
-    firebaseId:string,
-    subscriptionPlanId:string,
-    photoUrl:string
+    firebaseId: string,
+    subscriptionPlanId: string,
+    photoUrl: string
 }

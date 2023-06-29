@@ -1,11 +1,11 @@
 import { IPagination } from "../IPagination";
-import { ICampaingCard, IMyAffLinkStats, IMyCampaign, IMyCampaignDetail, IMyCampaignStats, IMyTransactionDetail, INotification, INotificationBadget, IPayoutData, IStats, ISubscriptionPlanCard, ISubscriptionPlanDetail, ITransaction } from "../ViewModels";
+import { ICampaignCard, IMyAffLinkStats, IMyCampaign, IMyCampaignDetail, IMyCampaignStats, IMyTransactionDetail, INotification, INotificationBadget, IPayoutData, IStats, ISubscriptionPlanCard, ISubscriptionPlanDetail, ITransaction } from "../ViewModels";
 
 
 export interface ICampaignListResponse {
     value: {
         page: Number,
-        sponsoredLinks: ICampaingCard[],
+        sponsoredLinks: ICampaignCard[],
         totalPages: Number
     }
 }
