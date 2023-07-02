@@ -8,20 +8,24 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { User, UserCredential } from "firebase/auth";
 import useVisit from "../../hooks/Visit";
+import Spinner, { SpinnerType } from "../../components/Spinner";
 
 export default function Pricing() {
 
   const [pricingPlans, setPricingPlans] = useState<ISubscriptionPlanCard[]>();
   const { user, login } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(false);
   const navigate = useNavigate();
 
   useVisit('visit_pricing');
 
   useEffect(() => {
+    setLoadingPage(true);
     getSubscriptionCards()
       .then(res => setPricingPlans(res.data))
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => setLoadingPage(false));
   }, []);
 
   const signningUp = (photoUrl: string, email: string, fullname: string, firebaseId: string, planId: string, user: User) => {
@@ -71,7 +75,7 @@ export default function Pricing() {
 
   return (
 
-    <div className="container max-w-6xl mx-auto z-50 pt-12 md:pt-0 md:mt-5">
+    <div className="container max-w-6xl mx-auto z-50 pt-12 md:pt-0 md:mt-5 relative">
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">Pricing</h1>
 
       <div className=" h-[calc(100vh-120px)] md:h-[calc(100vh-180px)] w-full flex flex-wrap gap-3 md:gap-11 justify-center overflow-y-auto ">
@@ -95,39 +99,8 @@ export default function Pricing() {
           onGetStarted={onGetStarted}
         />)
         )}
-
-        {/* 
-        <SubcriptionCard
-          annually={0}
-          monthly={0}
-          discount={0}
-          title="Community"
-          ads={true}
-          depositFee={5}
-          payoutFee={5}
-          paymentmethod="bitcoin"
-          payoutMinimun={100}
-          monthlyPaymantLink=""
-          annualyPaymantLink=""
-          onGetStarted={onGetStarted} />
-
-        <SubcriptionCard
-          annually={244}
-          monthly={24}
-          discount={15}
-          title="Professional"
-          tag="Popular"
-          ads={false}
-          depositFee={0}
-          payoutFee={0}
-          paymentmethod="visa, mastercard, stripe"
-          payoutMinimun={50}
-          monthlyPaymantLink="https://buy.stripe.com/test_eVa9Es8qI0KJaOs7ss"
-          annualyPaymantLink="https://beniteztechsolutions.com"
-          onGetStarted={onGetStarted} /> */}
       </div>
-
-
+      {loadingPage && <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center"><Spinner text="" type={SpinnerType.Alternative} /></div>}
     </div>
   )
 }

@@ -6,10 +6,13 @@ import { useAuth } from "../../hooks/Auth";
 import { User } from "firebase/auth";
 import { getIsEmailSignUp, putFirebaseUid } from "../../services";
 import useVisit from "../../hooks/Visit";
+import { useState } from "react";
+import Spinner from "../../components/Spinner";
 
 export default function Home() {
 
   const { user, login, logout } = useAuth();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useVisit('visit_home');
@@ -19,10 +22,9 @@ export default function Home() {
       fbLogOut().then(() => logout())
     }
     else {
-      console.log("here");
+      setLoading(true);
       signInWithGoogle()
         .then(result => {
-          console.log(result.user.email)
           getIsEmailSignUp(result.user.email || '')
             .then(async res => {
               if (Boolean(res.data)) {
@@ -37,6 +39,7 @@ export default function Home() {
         .catch(error => {
           console.log(error);
         })
+        .finally(() => setLoading(false))
     }
   }
 
@@ -72,15 +75,16 @@ export default function Home() {
             </div>
           </button> : ''}
 
-          <button onClick={Click} className="bg-white  md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit ">
+          <button onClick={Click} disabled={loading} className={loading ? "bg-white md:bg-orange-200  text-orange-300 md:text-orange-300  font-bold py-2 px-4 rounded-full min-w-fit":"bg-white md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit"}>
             <div className="flex w-56">
               <div>
                 <GoogleIcon />
               </div>
               <div className="grow">
-                <span>
+                <div className="flex justify-center">
+                  {loading && <Spinner text="" />}
                   {user ? 'Logout' : 'Sign In'}
-                </span>
+                </div>
               </div>
             </div>
           </button>
