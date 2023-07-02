@@ -17,7 +17,7 @@ export const prepareData = (trasaction: IMyTransactionDetail) => (): IGenericDet
                     }
                     return f_id;
 
-                case 'campaignImageUrl':
+                case 'imageBundle':
                     let f_campaignImageUrl: IField = {
                         isImage: true,
                         title: 'Campaign',
@@ -28,18 +28,6 @@ export const prepareData = (trasaction: IMyTransactionDetail) => (): IGenericDet
                         order: 1
                     }
                     return f_campaignImageUrl;
-
-                case 'linkImageUrl':
-                    let f_linkImageUrl: IField = {
-                        isImage: true,
-                        title: 'Link URL',
-                        value: value,
-                        valueType: 'url',
-                        isHidden: !value && true,
-                        hideTitle: false,
-                        order: 2
-                    }
-                    return f_linkImageUrl;
 
                 case 'title':
                     let f_title: IField = {

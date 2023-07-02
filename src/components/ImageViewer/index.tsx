@@ -5,10 +5,14 @@ import { NO_IMAGEN_AVAILABLE } from "../../constant";
 
 interface IProps {
     ImageBundle?: ImageBundle
-    Scale: number
+    Scale: number,
+    FixWidth?: number,
+    FixHeight?: number,
+    FallbackWidth?: number,
+    FallbackHeight?: number;
 }
 
-export default function ImageViewer({ ImageBundle, Scale }: IProps) {
+export default function ImageViewer({ ImageBundle, Scale, FixWidth, FixHeight, FallbackWidth = 300, FallbackHeight = 200 }: IProps) {
     const [loading, setLoading] = useState(true);
     const [src, setSrc] = useState<string>();
 
@@ -22,15 +26,30 @@ export default function ImageViewer({ ImageBundle, Scale }: IProps) {
         } else {
             setLoading(false);
         }
+    }
 
+    const getWidth = () => {
+        if (FixWidth) return FixWidth;
+        if (FixHeight && ImageBundle) {
+            return ImageBundle?.originalAspectRatio * FixHeight;
+        }
+        return ImageBundle ? ImageBundle.compressedWidth / Scale : FallbackWidth;
+    }
+
+    const getHeight = () => {
+        if (FixHeight) return FixHeight;
+        if(FixWidth && ImageBundle){
+            return FixWidth / ImageBundle?.originalAspectRatio;
+        }
+        return ImageBundle ? ImageBundle.compressedHeight / Scale : FallbackHeight
     }
 
     return (
         <div className="w-fit border border-orange-500 rounded relative">
             <img className={loading ? "filter blur-sm transition duration-500 rounded" : "rounded"}
                 src={src}
-                width={ImageBundle ? ImageBundle.compressedWidth / Scale : 300}
-                height={ImageBundle ? ImageBundle.compressedHeight / Scale : 200}
+                width={getWidth()}
+                height={getHeight()}
                 onLoad={handleLoad}
                 alt="Image viewer" />
             {loading && <div className="absolute top-0 left-0 w-full h-full flex justify-center"><Spinner type={SpinnerType.Alternative} text="" /></div>}

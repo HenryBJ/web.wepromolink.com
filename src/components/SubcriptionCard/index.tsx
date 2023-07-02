@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { faBtc, faCcMastercard, faCcVisa, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ISubFeature } from "../../interfaces/ViewModels";
+import Spinner, { SpinnerType } from "../Spinner";
 
 
 interface IProps {
-    id:string,
+    id: string,
     title: string,
     monthly: number,
     annually: number,
@@ -12,12 +14,13 @@ interface IProps {
     depositFee?: number,
     payoutFee?: number,
     payoutMinimun?: number,
-    ads?: boolean,
     tag?: string,
-    paymentmethod:string,
-    monthlyPaymantLink:string,
-    annualyPaymantLink?:string,
-    onGetStarted:(link?:string, Id?:string)=>void
+    loading: boolean,
+    paymentmethod: string,
+    monthlyPaymantLink: string,
+    annualyPaymantLink?: string,
+    features?: ISubFeature[]
+    onGetStarted: (link?: string, Id?: string) => void
 
 }
 
@@ -33,18 +36,20 @@ const NoIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 
 
 
 
-export default function Index({ id, title, monthly, annually, discount, depositFee, payoutFee, ads, tag, payoutMinimun = 0, paymentmethod, onGetStarted, monthlyPaymantLink, annualyPaymantLink }: IProps) {
+export default function Index({ id, title, monthly, annually, discount, depositFee, payoutFee, features, tag, loading, payoutMinimun = 0, paymentmethod, onGetStarted, monthlyPaymantLink, annualyPaymantLink }: IProps) {
 
     const [proMonthly, setProMonthly] = useState(true);
 
     return (
         <div className="relative overflow-clip shadow-2xl h-96 rounded-md ">
             <div className="absolute bottom-0 left-0 w-full px-4">
-                <button onClick={()=>onGetStarted(proMonthly? monthlyPaymantLink:annualyPaymantLink, id)} className="w-full hover:bg-orange-700 cursor-pointer  bg-orange-500 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl hover:shadow-none active:bg-white active:text-orange-500 active:ring-2 active:ring-orange-500">
-                    Get Started
+                <button disabled={loading} onClick={() => onGetStarted(proMonthly ? monthlyPaymantLink : annualyPaymantLink, id)} className={loading ? "w-full hover:bg-orange-300 cursor-pointer  bg-orange-300 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl" : "w-full hover:bg-orange-700 cursor-pointer  bg-orange-500 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl hover:shadow-none active:bg-white active:text-orange-500 active:ring-2 active:ring-orange-500"}>
+                    <div className="flex justify-center">
+                        {loading && <Spinner text="" />}
+                        Get Started
+                    </div>
                 </button>
             </div>
-
             <div className="bg-gray-100 md:bg-white/60 h-96 w-72 rounded-md flex flex-col p-3">
                 <div className="w-full text-center text-orange-800 text-2xl">{title}</div>
 
@@ -81,8 +86,8 @@ export default function Index({ id, title, monthly, annually, discount, depositF
                             <div className="flex gap-1">
                                 {paymentmethod.includes('visa') && <FontAwesomeIcon icon={faCcVisa} className="text-xl text-blue-600" />}
                                 {paymentmethod.includes('mastercard') && <FontAwesomeIcon icon={faCcMastercard} className="text-xl text-red-600" />}
-                                {paymentmethod.includes('stripe')  && <FontAwesomeIcon icon={faStripe} className="text-xl text-blue-600" />}
-                                {paymentmethod.includes('bitcoin')  && <FontAwesomeIcon icon={faBtc} className="text-xl text-yellow-500" />}
+                                {paymentmethod.includes('stripe') && <FontAwesomeIcon icon={faStripe} className="text-xl text-blue-600" />}
+                                {paymentmethod.includes('bitcoin') && <FontAwesomeIcon icon={faBtc} className="text-xl text-yellow-500" />}
                                 {paymentmethod.includes('paypal') && <FontAwesomeIcon icon={faPaypal} className="text-xl text-blue-600" />}
                                 {paymentmethod.includes('bank') && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-orange-500">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
@@ -96,10 +101,14 @@ export default function Index({ id, title, monthly, annually, discount, depositF
                         <td className="w-9/10 text-orange-800">Payout minimun</td>
                         <td className="w-1/10 text-right text-orange-800">{`$${payoutMinimun}`}</td>
                     </tr>
-                    <tr>
-                        <td className="w-9/10 text-orange-800">Contain Ads</td>
-                        <td className="w-1/10 text-right text-orange-800  flex justify-end">{ads ? checkIcon : NoIcon}</td>
-                    </tr>
+                    {features?.map((e: ISubFeature) =>
+                    (<tr>
+                        <td className="w-9/10 text-orange-800">{e.name}</td>
+                        <td className="w-1/10 text-right text-orange-800  flex justify-end">{e.value ? e.value : (e.boolValue ? checkIcon : NoIcon)}</td>
+                    </tr>)
+
+                    )}
+
                 </table>
 
             </div>

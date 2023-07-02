@@ -204,13 +204,18 @@ export interface INotificationBadget {
     flag: string
 }
 
+export interface ISubFeature {
+    name: string,
+    boolValue?: boolean,
+    value?: string
+}
+
 export interface ISubscriptionPlanCard {
     id: string,
     title: string,
     monthly: number,
     annually: number,
     discount: number,
-    ads: boolean,
     depositFee: number,
     payoutFee: number,
     payoutMinimun: number,
@@ -218,7 +223,8 @@ export interface ISubscriptionPlanCard {
     tag?: string
     monthlyPaymantLink: string,
     annualyPaymantLink?: string,
-    order: number
+    order: number,
+    features?: ISubFeature[]
 }
 
 export interface ISigUpInfo {

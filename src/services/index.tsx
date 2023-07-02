@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { ICampaignCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPayoutData, ISigUpInfo, IStats, ISubscriptionPlanCard, ImageBundle } from "../interfaces/ViewModels";
-import { INotificationBadgetResponse, INotificationDetailResponse, INotificationResponse, IPaginationResponse, IPayoutDataResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
+import { INotificationBadgetResponse, INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
 
 export const api = AddInterceptors(axios.create({
@@ -76,7 +76,7 @@ export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotifi
 
 export const updateNotificationBadget = (data: INotificationBadget): Promise<AxiosResponse<INotificationBadgetResponse>> => api.post("/badget", data);
 
-export const getPayoutData = (): Promise<AxiosResponse<IPayoutDataResponse>> => api.get(`payout`);
+export const getPayoutData = (): Promise<AxiosResponse<IPayoutData>> => api.get(`payout`);
 export const updatePayout = (data: IPayoutData): Promise<AxiosResponse<void>> => api.post("/payout", data);
 export const getSubscriptionPlans = (page: Number): Promise<AxiosResponse<ISubscriptionResponse>> => api.get(`badget?page=${page}`);
 export const getSubscriptionDetail = (id: string): Promise<AxiosResponse<ISubscriptionPlanDetailResponse>> => api.get(`mysubscriptiondetail?id=${id}`);

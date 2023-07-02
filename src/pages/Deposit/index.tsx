@@ -69,9 +69,9 @@ export default function Index() {
         setLoading('Getting deposit method ...');
         getPayoutData()
             .then(res => {
-                setPayType(res.data.value.payoutType);
-                setIslocked(res.data.value.isLockedPayoutType);
-                handleOptions(res.data.value.payoutType);
+                setPayType(res.data.payoutType);
+                setIslocked(res.data.isLockedPayoutType);
+                handleOptions(res.data.payoutType);
             })
             .finally(() => setLoading(''));
     }, []);

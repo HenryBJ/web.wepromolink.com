@@ -57,10 +57,10 @@ export default function Index() {
         setLoading('Getting payout data ...');
         getPayoutData()
             .then(res => {
-                setData(res.data.value);
-                setPayType(res.data.value.payoutType);
-                setIslocked(res.data.value.isLockedPayoutType);
-                handleOptions(res.data.value.payoutType);
+                setData(res.data);
+                setPayType(res.data.payoutType);
+                setIslocked(res.data.isLockedPayoutType);
+                handleOptions(res.data.payoutType);
             })
             .finally(() => setLoading(''));
     }, []);
@@ -120,8 +120,8 @@ export default function Index() {
     }).required();
 
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
-        <Breadcrumb levels={[{ icon: billingIcon, title: 'Payout', link: '/payouts' }, { title: 'Payout Data', link: '' }]} />
-        <GenericForm schema={schema} title="Payout Info" onSubmit={onSubmit} buttonTitle="Update" back={false} initialValue={data} >
+        <Breadcrumb levels={[{ icon: billingIcon, title: 'Billing', link: '/billing' }, { title: 'Billing Information', link: '' }]} />
+        <GenericForm schema={schema} title="Billing Information" onSubmit={onSubmit} buttonTitle="Update" back={false} initialValue={data} >
             <FormItem field="payoutType" helpTip="Payment method">
                 {({ setValue }) => (<SelectCombo onChange={(value) => { setValue('payoutType', value); setPayType(value) }} items={options} isDisabled={islocked} />)}
             </FormItem>

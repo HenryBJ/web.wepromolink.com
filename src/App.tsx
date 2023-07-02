@@ -17,7 +17,7 @@ import CreateCampaign from './pages/CreateCampaign';
 import Feed from './pages/Feed';
 import Notification from './pages/Notification';
 import SubPlan from './pages/SubPlan';
-import Payout from './pages/Payout';
+import Billing from './pages/Billing';
 import Deposit from './pages/Deposit';
 import CampaignDetail from './pages/CampaignDetail';
 import SharedDetail from './pages/SharedDetail';
@@ -49,7 +49,7 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route element={<ProtectedRoute />}>
             <Route path="/notifications" element={<Notification/>} />
-            <Route path="/payouts" element={<Payout/>} />
+            <Route path="/billing" element={<Billing/>} />
             <Route path="/subcriptions" element={<SubPlan/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/deposit" element={<Deposit />} />

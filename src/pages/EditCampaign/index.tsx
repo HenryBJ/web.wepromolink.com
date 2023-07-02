@@ -33,7 +33,7 @@ export default function Index() {
     const [loading, setLoading] = useState(false);
     const [available, setAvailable] = useState(0);
     const [initialBudget, setInitialBudget] = useState<number>(0);
-    const [campaign, setCampaign] = useState<IMyCampaignDetail | undefined>();
+    const [campaign, setCampaign] = useState<ICreateCampaign | undefined>();
     const navigation = useNavigate();
     const { user } = useAuth();
     const { id } = useParams();
@@ -48,11 +48,23 @@ export default function Index() {
 
     useVisit('visit_campaign_edit');
 
+    const handleTransform = (value: IMyCampaignDetail): ICreateCampaign => {
+        return {
+            budget: value.budget,
+            description: value.description,
+            epm: value.epm,
+            imageBundleId: value.imageBundle?.externalId ?? null,
+            title: value.title,
+            url: value.url,
+            email: ""
+        }
+    }
+
     useEffect(() => {
         setLoading(true);
         id && getCampaignDetail(id)
             .then(res => {
-                setCampaign(res.data)
+                setCampaign(handleTransform(res.data))
                 setInitialBudget(res.data.budget.valueOf())
             })
             .catch(error => toast.error(error))
@@ -63,6 +75,7 @@ export default function Index() {
         setLoading(true);
 
         data.email = user.email
+        console.log(data);
 
         id && editCampaign(id, data)
             .then(res => {
@@ -137,7 +150,7 @@ export default function Index() {
                 </FormItem>
 
                 <FormItem field="imageBundleId">
-                    {({ setValue }) => <ImageLoader initialImageBundleId={campaign?.imageBundle?.externalId} onImageLoaded={e => setValue("imageBundleId", e)} />}
+                    {({ setValue }) => <ImageLoader initialImageBundleId={campaign?.imageBundleId} onImageLoaded={e => setValue("imageBundleId", e)} />}
                 </FormItem>
 
             </GenericForm>

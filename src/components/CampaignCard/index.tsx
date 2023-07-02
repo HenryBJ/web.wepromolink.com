@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ICampaignCard } from "../../interfaces/ViewModels";
 import ShareDialog from "../ShareDialog";
 import SubscribeWrapper from "../SubscribeWrapper";
-import ImageWithFallback from "../ImageWithFallback";
 import ImageViewer from "../ImageViewer";
 
 interface IProps {
@@ -19,33 +18,34 @@ export default function CampaignCard({ data }: IProps) {
 
     return (
         <>
-            <div className="max-w-sm w-full md:max-w-full md:flex justify-center h-auto md:max-h-56 shadow-lg">
-                {/* <ImageWithFallback alt={data.title} src={data.imageUrl} style={"w-full md:max-w-sm"} /> */}
-                <ImageViewer ImageBundle={data.imageBundle ?? undefined} Scale={4} />
-                <div className="md:flex justify-between w-full border-r border-b border-l border-gray-400 md:border-l-0 md:border-t md:border-gray-400 bg-white rounded-b md:rounded-b-none md:rounded-r p-4">
-                    <div className="flex flex-col justify-between leading-normal">
-                        <div className="mb-8 overflow-hidden">
-                            <div className="text-sm text-gray-600 flex items-center p-1">
-                                <img className="w-9 h-9 rounded-full mr-2 ring-2 ring-orange-400 object-cover" src={data.autorImageUrl} alt={data.autorName} />
-                                <div className="text-sm">
-                                    <p className="text-gray-600 leading-none">{data.autorName}</p>
-                                </div>
-                            </div>
-                            <div className="text-gray-900 font-bold text-xl mb-2">{data.title}</div>
-                            <p className="text-gray-700 text-base">{data.description}</p>
-                        </div>
-                    </div>
-                    <div className="flex flex-row justify-between md:flex-col items-center">
-                        <p className="text-sm text-gray-400"><span className="text-lg font-bold text-orange-900 md:block">{`$${data.epm} USD`}</span> /1k clicks</p>
-                        <button type="button">
-                            <SubscribeWrapper onClick={OpenDialog} style="focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-5 py-2 mb-2 cursor-pointer">
-                                Promote
-                            </SubscribeWrapper>
-                        </button>
+            <div className="max-w-[360px] w-full justify-start h-auto flex flex-col shadow-lg border-r border-b border-l border-gray-400  bg-white rounded">
+                <ImageViewer ImageBundle={data.imageBundle ?? undefined} Scale={4} FixWidth={600} />
 
-                        <ShareDialog isOpen={isOpen} setIsOpen={setIsOpen} campaignId={data.id} epm={data.epm} />
+                <div className="flex-grow"></div>
+                <div className="text-sm text-gray-600 flex items-center p-2 ">
+                    <img className="w-9 h-9 rounded-full mr-2 ring-2 ring-orange-400 object-cover" src={data.autorImageUrl} alt={data.autorName} />
+                    <div className="text-sm">
+                        <p className="text-gray-600 leading-none">{data.autorName}</p>
                     </div>
                 </div>
+
+                {/* <div className="text-gray-900 font-bold text-xl mb-2 h-14 px-2 bg-red-600">{data.title}</div> */}
+
+                <div className="text-gray-700 text-base overflow-y-auto h-52 px-2 mb-2">
+                    <div className="text-gray-900 font-bold text-xl mb-1 ">{data.title}</div>
+                    {data.description}
+                </div>
+
+                <div className="flex flex-row justify-between items-center px-2">
+                    <p className="text-sm text-gray-400"><span className="text-lg font-bold text-orange-900 ">{`$${data.epm} USD`}</span> /1k clicks</p>
+                    <button type="button">
+                        <SubscribeWrapper onClick={OpenDialog} style="focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-5 py-2 mb-2 cursor-pointer">
+                            Promote
+                        </SubscribeWrapper>
+                    </button>
+                    <ShareDialog isOpen={isOpen} setIsOpen={setIsOpen} campaignId={data.id} epm={data.epm} />
+                </div>
+
             </div>
         </>
     )

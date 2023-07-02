@@ -27,9 +27,6 @@ export interface IStatsResponse {
     value: IStats
 }
 
-export interface IPayoutDataResponse {
-    value: IPayoutData
-}
 
 export interface INotificationResponse {
     pagination: IPagination,

@@ -13,6 +13,7 @@ export default function Pricing() {
 
   const [pricingPlans, setPricingPlans] = useState<ISubscriptionPlanCard[]>();
   const { user, login } = useAuth();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useVisit('visit_pricing');
@@ -46,18 +47,25 @@ export default function Pricing() {
 
 
   const onGetStarted = (paymentLink?: string, id?: string) => {
-    if (paymentLink) {
-      window.open(paymentLink, "_self");
-    }
-    else {
-
-      // empty paymentlink mean free plan
-      if (!user) {
-        signInWithGoogle()
-          .then(async result => signningUp(result.user.photoURL || "", result.user.email || "", result.user.displayName || "", result.user.uid, id || "", result.user))
-      } else {
-        signningUp(user.photoURL || "", user.email || "", user.displayName || "", user.uid, id || "", user);
+    setLoading(true);
+    try {
+      if (paymentLink) {
+        window.open(paymentLink, "_self");
       }
+      else {
+        // empty paymentlink mean free plan
+        if (!user) {
+          signInWithGoogle()
+            .then(async result => signningUp(result.user.photoURL || "", result.user.email || "", result.user.displayName || "", result.user.uid, id || "", result.user))
+            .catch(_ => {
+              setLoading(false);
+            })
+        } else {
+          signningUp(user.photoURL || "", user.email || "", user.displayName || "", user.uid, id || "", user);
+        }
+      }
+    } catch (error) {
+      setLoading(false);
     }
   }
 
@@ -76,11 +84,12 @@ export default function Pricing() {
           monthly={e.monthly}
           paymentmethod={e.paymentMethod}
           title={e.title}
-          ads={e.ads}
+          features={e.features}
           depositFee={e.depositFee}
           payoutFee={e.payoutFee}
           payoutMinimun={e.payoutMinimun}
           tag={e.tag}
+          loading={loading}
           monthlyPaymantLink={e.monthlyPaymantLink}
           annualyPaymantLink={e.annualyPaymantLink}
           onGetStarted={onGetStarted}
