@@ -3,13 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
-import { IPayoutData } from "../../interfaces/ViewModels";
-import { createDepositBTCLink, getPayoutData } from "../../services";
+import { createDepositBTCLink, getBillingData } from "../../services";
 import * as yup from "yup";
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import SelectCombo from "../../components/SelectCombo";
 import Loader from "../../components/Loader";
-import { Toast } from "react-toastify/dist/components";
 import { toast } from "react-toastify";
 import useVisit from "../../hooks/Visit";
 import { gTag } from "../../firebase";
@@ -67,11 +65,11 @@ export default function Index() {
 
     useEffect(() => {
         setLoading('Getting deposit method ...');
-        getPayoutData()
+        getBillingData()
             .then(res => {
-                setPayType(res.data.payoutType);
-                setIslocked(res.data.isLockedPayoutType);
-                handleOptions(res.data.payoutType);
+                // setPayType(res.data.payoutType);
+                // setIslocked(res.data.isLockedPayoutType);
+                // handleOptions(res.data.payoutType);
             })
             .finally(() => setLoading(''));
     }, []);

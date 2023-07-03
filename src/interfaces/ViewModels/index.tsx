@@ -177,21 +177,12 @@ export interface ICreateCampaign {
     budget: Number,
 }
 
-export interface IPayoutData {
-    payoutType: string,
-    btcAddress?: string,
-    debitCard?: string,
-    paypal?: string,
-    stripe?: string,
-    wireName?: string,
-    wireBankName?: string,
-    wireSwiftorBic?: string,
-    wireIban?: string,
-    wireBankAddress?: string,
-    wireBranch?: string,
-    wireRouting?: string,
-    isLockedPayoutType: boolean
+export interface IPaymentMethod {
+    name: string,
+    isVerified: boolean,
+    value?: string,
 }
+
 
 export interface INotificationBadget {
     id: number,

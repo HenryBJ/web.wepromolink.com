@@ -1,174 +1,118 @@
 import Breadcrumb from "../../components/Breadcrumb"
 import GenericForm, { FormItem } from "../../components/GenericForm";
-import { IPayoutData } from "../../interfaces/ViewModels";
+import { IPaymentMethod } from "../../interfaces/ViewModels";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import SelectCombo from "../../components/SelectCombo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBtc, faCcMastercard, faCcVisa, faPaypal, faStripe } from "@fortawesome/free-brands-svg-icons";
-import { getPayoutData, updatePayout } from "../../services";
+import { getBillingData, updatePayout } from "../../services";
 import useVisit from "../../hooks/Visit";
+import AccountVerified from "../../components/AccountVerified";
 
 
 const billingIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
 </svg>
 
+interface IOption {
+    id: number,
+    name: string,
+    icon?: ReactElement,
+    selected: boolean,
+}
 
-const optionsInitials = [
+
+const optionsInitials: IOption[] = [
     { id: 1, name: 'Bitcoin', icon: <FontAwesomeIcon icon={faBtc} className="text-xl text-yellow-500" />, selected: true },
-    // { id: 2, name: 'Paypal', icon: <FontAwesomeIcon icon={faPaypal} className="text-xl text-blue-600" />, selected: false },
-    // { id: 3, name: 'Stripe', icon: <FontAwesomeIcon icon={faStripe} className="text-xl text-blue-600" />, selected: false },
-    // { id: 4, name: 'Mastercard', icon: <FontAwesomeIcon icon={faCcMastercard} className="text-xl text-red-600" />, selected: false },
-    // { id: 5, name: 'Visa', icon: <FontAwesomeIcon icon={faCcVisa} className="text-xl text-blue-600" />, selected: false },
-    // {
-    //     id: 6, name: 'Wire', icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-orange-500 group-hover:text-white w-5 h-5 text-orange-500">
-    //         <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
-    //     </svg>, selected: false
-    // }
+    { id: 3, name: 'Stripe', icon: <FontAwesomeIcon icon={faStripe} className="text-xl text-blue-600" />, selected: false },
 ]
 
 
 export default function Index() {
 
     const [loading, setLoading] = useState('');
-    const [payType, setPayType] = useState('');
-    const [islocked, setIslocked] = useState(false);
-    const [data, setData] = useState<IPayoutData>();
-    const [options, setOptions] = useState(optionsInitials);
+    const [data, setData] = useState<IPaymentMethod[]>();
+    const [options, setOptions] = useState<IOption[]>(optionsInitials);
+    const [method, setMethod] = useState('');
+    const [isVerified, setIsVerified] = useState(false);
     const navigation = useNavigate();
 
-    const handleOptions = (payoutType: string) => {
 
-        setOptions(prev => {
-            return prev.map(e => {
-                let k = { ...e }
-                k.selected = e.name.toLocaleLowerCase() === payoutType
-                return k;
-            })
-        });
-    }
 
     useVisit('visit_billing');
 
+    const handleChange = (newMethod: string) => {
+        setMethod(newMethod);
+        let isV = data?.find(e => e.name.toLowerCase() === newMethod)?.isVerified;
+        setIsVerified(isV ?? false);
+    }
+
+    const handleData = (data: IPaymentMethod[]) => {
+        let list: IOption[] = data.map((e: IPaymentMethod, i): IOption =>
+        ({
+            id: i,
+            name: e.name.toLowerCase(),
+            selected: i === 0,
+            icon: e.name.toLowerCase() === 'bitcoin' ? <FontAwesomeIcon icon={faBtc} className="text-xl text-yellow-500" /> : <FontAwesomeIcon icon={faStripe} className="text-xl text-blue-600" />
+        }));
+
+        console.log(list);
+        setMethod(list[0].name);
+        setOptions(list);
+        setData(data);
+        setIsVerified(data[0].isVerified);
+    }
+
     useEffect(() => {
-        setLoading('Getting payout data ...');
-        getPayoutData()
+        setLoading('Getting billing data ...');
+        getBillingData()
             .then(res => {
-                setData(res.data);
-                setPayType(res.data.payoutType);
-                setIslocked(res.data.isLockedPayoutType);
-                handleOptions(res.data.payoutType);
+                // console.log(res.data);
+                handleData(res.data);
             })
             .finally(() => setLoading(''));
     }, []);
 
-    const onSubmit = (data: IPayoutData) => {
-        setLoading('Updating payout data ...');
+    const onSubmit = (data: IPaymentMethod) => {
+        setLoading('Updating billing data ...');
 
         console.log(data);
-        updatePayout(data)
-            .then(res => navigation(-1))
-            .catch(error => console.log(error))
-            .finally(() => setLoading(''));
+        // updatePayout(data)
+        //     .then(res => navigation(-1))
+        //     .catch(error => console.log(error))
+        //     .finally(() => setLoading(''));
 
     }
 
     let schema = yup.object({
-        payoutType: yup.string().trim().required(),
-        btcAddress: yup.string().when('payoutType', {
-            is: (val: string) => val === 'bitcoin',
+        name: yup.string().trim().required(),
+        value: yup.string().when('name', {
+            is: (val: string) => val === 'Bitcoin',
             then: yup.string().matches(/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/, 'The Bitcoin address is invalid').required('Bitcoin address is required'),
             otherwise: yup.string()
         }),
-        debitCard: yup.string().when('payoutType', {
-            is: (val: string) => (val === 'visa' || val === 'mastercard'),
-            then: yup.string().matches(/^(4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$/, 'The debit card number is invalid').required('Debit card is required'),
-            otherwise: yup.string()
-        }),
-        paypal: yup.string().when('payoutType', {
-            is: (val: string) => val === 'paypal',
-            then: yup.string().email('Please enter a valid email address').required('Paypal email is required'),
-            otherwise: yup.string()
-        }),
-        stripe: yup.string().when('payoutType', {
-            is: (val: string) => val === 'stripe',
-            then: yup.string().required('Stripe Account Id is required'),
-            otherwise: yup.string()
-        }),
-        wireName: yup.string().when('payoutType', {
-            is: (val: string) => val === 'wire',
-            then: yup.string().required('Beneficiary is required'),
-            otherwise: yup.string()
-        }),
-        wireBankName: yup.string().when('payoutType', {
-            is: (val: string) => val === 'wire',
-            then: yup.string().required('Bank Name is required'),
-            otherwise: yup.string()
-        }),
-        wireSwiftorBic: yup.string(),
-        wireIban: yup.string(),
-        wireBankAddress: yup.string().when('payoutType', {
-            is: (val: string) => val === 'wire',
-            then: yup.string().required('Bank Address is required'),
-            otherwise: yup.string()
-        }),
-        wireBranch: yup.string(),
-        wireRouting: yup.string(),
+        isVerified: yup.bool(),
+
     }).required();
 
     return (<section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-center items-center">
         <Breadcrumb levels={[{ icon: billingIcon, title: 'Billing', link: '/billing' }, { title: 'Billing Information', link: '' }]} />
         <GenericForm schema={schema} title="Billing Information" onSubmit={onSubmit} buttonTitle="Update" back={false} initialValue={data} >
-            <FormItem field="payoutType" helpTip="Payment method">
-                {({ setValue }) => (<SelectCombo onChange={(value) => { setValue('payoutType', value); setPayType(value) }} items={options} isDisabled={islocked} />)}
+            <FormItem field="name" helpTip="Payment method">
+                {({ setValue }) => (<SelectCombo onChange={(value) => { setValue('name', value); handleChange(value); }} items={options} />)}
             </FormItem>
 
-            {payType === 'bitcoin' ? <FormItem field="btcAddress" helpTip="Bitcoin Address">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Bitcoin Address" type="text" {...register("btcAddress")} />)}
-            </FormItem> : []}
+            <FormItem field="isVerified">
+                <AccountVerified isVerified={isVerified} extra={method === "bitcoin" ?
+                    "You must provide a valid, owned, and previously used Bitcoin address for it to be validated."
+                    : "Click on the button to create a connected Stripe account and proceed with the validation."} />
+            </FormItem>
 
-            {(payType === 'visa' || payType === 'mastercard') ? <FormItem field="debitCard" helpTip="Debit card number Visa or Mastercard">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Debit card number" type="text" {...register("debitCard")} />)}
-            </FormItem> : []}
-
-            {payType === 'paypal' ? <FormItem field="paypal" helpTip="Paypal Email">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Paypal Email" type="text" {...register("paypal")} />)}
-            </FormItem> : []}
-
-            {payType === 'stripe' ? <FormItem field="stripe" helpTip="Stripe Account Id">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Stripe Account Id" type="text" {...register("stripe")} />)}
-            </FormItem> : []}
-
-            {payType === 'wire' ? <FormItem field="wireName" helpTip="Beneficiary">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Beneficiary Name" type="text" {...register("wireName")} />)}
-            </FormItem> : []}
-
-            {payType === 'wire' ? <FormItem field="wireIban" helpTip="IBAN">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="IBAN" type="text" {...register("wireIban")} />)}
-            </FormItem> : []}
-
-            {payType === 'wire' ? <FormItem field="wireSwiftorBic" helpTip="SWIFT or BIC is a unique code used to identify a specific bank in international transactions, such as wire transfers.">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="SWIFT or BIC" type="text" {...register("wireSwiftorBic")} />)}
-            </FormItem> : []}
-
-            {payType === 'wire' ? <FormItem field="wireRouting" helpTip="The routing number is a 9-digit code used to identify US financial institutions in electronic transactions, such as wire transfers and direct deposits">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Routing number" type="text" {...register("wireRouting")} />)}
-            </FormItem> : []}
-
-            {payType === 'wire' ? <FormItem field="wireBankName" helpTip="Bank Name">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Bank Name" type="text" {...register("wireBankName")} />)}
-            </FormItem> : []}
-
-
-            {payType === 'wire' ? <FormItem field="wireBankAddress" helpTip="The bank address is the physical location where a bank is located.">
-                {({ register }) => (<textarea className="h-28 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none" maxLength={500} placeholder="Bank Address" {...register("wireBankAddress")} />)}
-            </FormItem> : []}
-
-            {payType === 'wire' ? <FormItem field="wireBranch" helpTip="The branch is a specific location of a bank where transactions are conducted, such as opening accounts, making deposits, and withdrawals.">
-                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Branch" type="text" {...register("wireBranch")} />)}
+            {method === 'bitcoin' ? <FormItem field="value" helpTip="Bitcoin Address">
+                {({ register }) => (<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxLength={120} placeholder="Bitcoin Address" type="text" {...register("value")} />)}
             </FormItem> : []}
 
         </GenericForm>

@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
-import { IPayoutData } from "../../interfaces/ViewModels";
-import { getPayoutData } from "../../services";
+import { getBillingData } from "../../services";
 import * as yup from "yup";
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import SelectCombo from "../../components/SelectCombo";
@@ -66,11 +65,11 @@ export default function Index() {
 
     useEffect(() => {
         setLoading('Getting withdraw method ...');
-        getPayoutData()
+        getBillingData()
             .then(res => {
-                setPayType(res.data.payoutType);
-                setIslocked(res.data.isLockedPayoutType);
-                handleOptions(res.data.payoutType);
+                // setPayType(res.data.payoutType);
+                // setIslocked(res.data.isLockedPayoutType);
+                // handleOptions(res.data.payoutType);
             })
             .finally(() => setLoading(''));
 

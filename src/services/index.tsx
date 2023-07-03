@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ICampaignCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPayoutData, ISigUpInfo, IStats, ISubscriptionPlanCard, ImageBundle } from "../interfaces/ViewModels";
+import { ICampaignCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPaymentMethod, ISigUpInfo, IStats, ISubscriptionPlanCard, ImageBundle } from "../interfaces/ViewModels";
 import { INotificationBadgetResponse, INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
 
@@ -70,14 +70,17 @@ export const deleteNotification = (id: string): Promise<AxiosResponse<any>> => a
 export const markAsRead = (id: string): Promise<AxiosResponse<any>> => api.put(`notification/read/${id}`);
 export const uploadImage = (data: FormData, signal: AbortSignal): Promise<AxiosResponse<string>> => api.post('image/upload', data, { signal: signal });
 export const getImage = (id: string): Promise<AxiosResponse<ImageBundle>> => api.get(`image/get/${id}`);
+export const getBillingData = (): Promise<AxiosResponse<IPaymentMethod[]>> => api.get('user/payment/methods');
+
+
 
 
 export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotificationBadgetResponse>> => api.get(`notification/badget?id=${id}`);
 
 export const updateNotificationBadget = (data: INotificationBadget): Promise<AxiosResponse<INotificationBadgetResponse>> => api.post("/badget", data);
 
-export const getPayoutData = (): Promise<AxiosResponse<IPayoutData>> => api.get(`payout`);
-export const updatePayout = (data: IPayoutData): Promise<AxiosResponse<void>> => api.post("/payout", data);
+
+export const updatePayout = (data: IPaymentMethod): Promise<AxiosResponse<void>> => api.post("/payout", data);
 export const getSubscriptionPlans = (page: Number): Promise<AxiosResponse<ISubscriptionResponse>> => api.get(`badget?page=${page}`);
 export const getSubscriptionDetail = (id: string): Promise<AxiosResponse<ISubscriptionPlanDetailResponse>> => api.get(`mysubscriptiondetail?id=${id}`);
 export const changeToPlan = (id: string): Promise<AxiosResponse<void>> => api.post('changetoplan', id);
