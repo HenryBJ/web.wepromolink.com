@@ -30,50 +30,52 @@ import SharedStats from './pages/SharedStats';
 import EditCampaign from './pages/EditCampaign';
 import Thanks from './pages/Thanks';
 import NotFound from './pages/NotFound';
+import ConnectionHandler from './components/ConnectionHandler'
 // import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route element={<HomeLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/thanks" element={<Thanks />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-        </Route>
-
-        <Route element={<AuthLayout />}>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/notifications" element={<Notification/>} />
-            <Route path="/billing" element={<Billing/>} />
-            <Route path="/subcriptions" element={<SubPlan/>} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/deposit" element={<Deposit />} />
-            <Route path="/withdraw" element={<Withdraw />} />
-            <Route path="/feed" element={<Feed />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/campaigns" element={<Campaign />} />
-            <Route path="/campaigns/detail/:id" element={<CampaignDetail/>} />
-            <Route path="/campaigns/edit/:id" element={<EditCampaign/>} />
-            <Route path="/campaigns/stats/:id" element={<CampaignStats/>} />
-            <Route path="/links/detail/:id" element={<SharedDetail/>} />
-            <Route path="/links/stats/:id" element={<SharedStats/>} />
-            <Route path="/balance/detail/:id" element={<TransactionDetail/>} />
-            <Route path="/notifications/detail/:id" element={<NotificationDetail/>} />
-            <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} />
-            <Route path='/create' element={<CreateCampaign />} />
-            <Route path="/links" element={<Shared />} />
-            <Route path="/balance" element={<Balance/>}/>
+    <ConnectionHandler>
+      <Router>
+        <Routes>
+          <Route element={<HomeLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/thanks" element={<Thanks />} />
+            {/* <Route path="/login" element={<Login />} /> */}
           </Route>
-        </Route>
-        <Route path="*" element={<NotFound/>}/>
-      </Routes>
-    </Router>
 
+          <Route element={<AuthLayout />}>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/notifications" element={<Notification/>} />
+              <Route path="/billing" element={<Billing/>} />
+              <Route path="/subcriptions" element={<SubPlan/>} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/deposit" element={<Deposit />} />
+              <Route path="/withdraw" element={<Withdraw />} />
+              <Route path="/feed" element={<Feed />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/campaigns" element={<Campaign />} />
+              <Route path="/campaigns/detail/:id" element={<CampaignDetail/>} />
+              <Route path="/campaigns/edit/:id" element={<EditCampaign/>} />
+              <Route path="/campaigns/stats/:id" element={<CampaignStats/>} />
+              <Route path="/links/detail/:id" element={<SharedDetail/>} />
+              <Route path="/links/stats/:id" element={<SharedStats/>} />
+              <Route path="/balance/detail/:id" element={<TransactionDetail/>} />
+              <Route path="/notifications/detail/:id" element={<NotificationDetail/>} />
+              <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} />
+              <Route path='/create' element={<CreateCampaign />} />
+              <Route path="/links" element={<Shared />} />
+              <Route path="/balance" element={<Balance/>}/>
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound/>}/>
+        </Routes>
+      </Router>
+    </ConnectionHandler>
   );
 }
 
