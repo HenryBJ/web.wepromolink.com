@@ -26,6 +26,7 @@ export default function Index({children}: Props): React.ReactElement | null {
     }, []);
 
     useEffect(() => {
+        const TIMER_IN_MILISECONDS = 5000;
         const interval = setInterval(() => {
             fetch(process.env.REACT_APP_API_URL_WEPROMOLINK || DEFAULT_URL)
                 .then(response => {
@@ -38,7 +39,7 @@ export default function Index({children}: Props): React.ReactElement | null {
                     console.error('Fetch error:', error);
                     if (isOnline) setIsOnline(false);
                 });
-        }, 5000);
+        }, TIMER_IN_MILISECONDS);
 
         return () => clearInterval(interval);
     }, [isOnline]);
