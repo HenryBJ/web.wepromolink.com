@@ -71,7 +71,10 @@ export const markAsRead = (id: string): Promise<AxiosResponse<any>> => api.put(`
 export const uploadImage = (data: FormData, signal: AbortSignal): Promise<AxiosResponse<string>> => api.post('image/upload', data, { signal: signal });
 export const getImage = (id: string): Promise<AxiosResponse<ImageBundle>> => api.get(`image/get/${id}`);
 export const getBillingData = (): Promise<AxiosResponse<IPaymentMethod[]>> => api.get('user/payment/methods');
-
+export const verifyBTCAddress = (address: string): Promise<AxiosResponse<boolean>> => api.post(`btc/verify/${address}`);
+export const connectStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/create');
+export const hasVerifiedStripeAccount = (): Promise<AxiosResponse<string>> => api.get('stripe/account/isverified');
+export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/login');
 
 
 

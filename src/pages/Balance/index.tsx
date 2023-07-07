@@ -3,19 +3,31 @@ import { useNavigate } from "react-router-dom";
 import Dash from "../../components/Dash";
 import DynamicTable from "../../components/DynamicTable";
 import { ITransactionResponse } from "../../interfaces/Responses";
-import { getAvailableBalanceData, getBudgetBalanceData, getLockedBalanceData, getPayoutBalanceData, getProfitBalanceData, getTransactions } from "../../services";
+import { getAvailableBalanceData, getBudgetBalanceData, getLockedBalanceData, getPayoutBalanceData, getProfitBalanceData, getTransactions, hasVerifiedStripeAccount, loginLinkStripe } from "../../services";
 import { Columns } from "./columns";
 import SubscribeWrapper from "../../components/SubscribeWrapper";
 import useVisit from "../../hooks/Visit";
+import { toast } from "react-toastify";
+
+const externalLink = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="inline w-4 h-4">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+</svg>
+
 
 export default function Index() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [hasStripe, setHasStripe] = useState(false);
     const [page, setPage] = useState(1);
     const [data, setData] = useState<ITransactionResponse>()
     const navigation = useNavigate();
 
-    useVisit('visit_balance');    
+    useVisit('visit_balance');
+
+    useEffect(() => {
+        hasVerifiedStripeAccount()
+            .then(res => setHasStripe(true))
+    }, []);
 
     useEffect(() => {
         setLoading(true);
@@ -23,10 +35,30 @@ export default function Index() {
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
-    }, [page]);
+    }, [page, hasStripe]);
+
+    const OpenLink = (link: string) => {
+        const newWindow = window.open(link, "_blank");
+        if (newWindow) {
+            newWindow.onload = () => setLoading(false);
+            newWindow.onerror = () => setLoading(false);
+            newWindow.onabort = () => setLoading(false);
+        }
+    }
 
     const goToDeposit = () => {
         navigation("/deposit");
+    }
+
+    const goToStripe = () => {
+        setLoading(true);
+        loginLinkStripe()
+            .then(res => OpenLink(res.data))
+            .catch(() => {
+                setLoading(false);
+                toast.warning("Unable to go to Stripe");
+            })
+            .finally(() => setLoading(false));
     }
 
     const goToWithdraw = () => {
@@ -42,6 +74,14 @@ export default function Index() {
                     Deposit
                 </SubscribeWrapper>
             </button>
+            {hasStripe &&
+                <button type="button" onClick={() => goToStripe()} className="min-w-[180px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
+                    <span className="flex justify-center items-center gap-1">
+                        Go to Stripe {externalLink}
+                    </span>
+                </button>
+            }
+
             <button type="button" onClick={() => goToWithdraw()} className="min-w-[180px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Withdraw</button>
 
         </div>
