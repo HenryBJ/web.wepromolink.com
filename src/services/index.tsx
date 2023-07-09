@@ -62,6 +62,7 @@ export const getHistoryEarnByCountriesOnLink = (id: string): Promise<AxiosRespon
 export const getHistoryEarnOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyearnonlink/${id}`);
 export const getHistoryClicksOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyclicksonlink/${id}`);
 export const createDepositBTCLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`btc/invoice/${amount}`);
+export const createDepositStripeLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`stripe/invoice/${amount}`);
 export const getTransactions = (page: Number): Promise<AxiosResponse<ITransactionResponse>> => api.get(`transaction/get/${page}`);
 export const getTransactionDetail = (id: string): Promise<AxiosResponse<IMyTransactionDetail>> => api.get(`transaction/detail/${id}`);
 export const getNotifications = (page: Number): Promise<AxiosResponse<INotificationResponse>> => api.get(`notification/get/${page}`);
@@ -73,7 +74,7 @@ export const getImage = (id: string): Promise<AxiosResponse<ImageBundle>> => api
 export const getBillingData = (): Promise<AxiosResponse<IPaymentMethod[]>> => api.get('user/payment/methods');
 export const verifyBTCAddress = (address: string): Promise<AxiosResponse<boolean>> => api.post(`btc/verify/${address}`);
 export const connectStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/create');
-export const hasVerifiedStripeAccount = (): Promise<AxiosResponse<string>> => api.get('stripe/account/isverified');
+export const hasVerifiedStripeAccount = (): Promise<AxiosResponse<boolean>> => api.get('stripe/account/isverified');
 export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/login');
 
 

@@ -26,7 +26,7 @@ export default function Index() {
 
     useEffect(() => {
         hasVerifiedStripeAccount()
-            .then(res => setHasStripe(true))
+            .then(res => setHasStripe(res.data))
     }, []);
 
     useEffect(() => {

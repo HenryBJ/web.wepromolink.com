@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
-import { createDepositBTCLink, getBillingData } from "../../services";
+import { createDepositBTCLink, createDepositStripeLink, getBillingData } from "../../services";
 import * as yup from "yup";
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import SelectCombo from "../../components/SelectCombo";
@@ -79,6 +79,14 @@ export default function Index() {
             .finally(() => setIsLoading(false));
     }
 
+    const handleStripeDeposit = (amount: string) => {
+        setIsLoading(true);
+        createDepositStripeLink(amount)
+            .then(res => OpenLink(res.data))
+            .catch(error => toast.error("Error generating invoice link"))
+            .finally(() => setIsLoading(false));
+    }
+
     const onSubmit = (data: any) => {
         setLoading('Preparing deposit ...');
         switch (data.payoutType) {
@@ -88,7 +96,8 @@ export default function Index() {
                 setLoading('');
                 break;
             case 'stripe':
-                alert('deposit with stripe');
+                handleStripeDeposit(data.amount.substring(1));
+                gTag('deposit_create', { method: 'Stripe', amount: data.amount.substring(1) })
                 setLoading('');
                 break;
         }
