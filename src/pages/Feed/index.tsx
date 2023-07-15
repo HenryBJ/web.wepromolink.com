@@ -76,7 +76,7 @@ export default function Feed() {
 
   return (
     <>
-      <section className="container max-w-full px-6 mx-auto pt-3 h-full flex flex-wrap gap-6 justify-center">
+      <section className="container max-w-full px-6 mx-auto pt-3 h-full flex flex-col gap-6 justify-center items-center">
         {
           data.length !== 0 ? data.map((c) => (
             <CampaignCard key={c.id} data={c} />)) : <NoData />

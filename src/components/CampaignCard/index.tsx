@@ -18,8 +18,8 @@ export default function CampaignCard({ data }: IProps) {
 
     return (
         <>
-            <div className="max-w-[360px] w-full justify-start h-auto flex flex-col shadow-lg border-r border-b border-l border-gray-400  bg-white rounded">
-                <ImageViewer ImageBundle={data.imageBundle ?? undefined} Scale={4} FixWidth={600} />
+            <div className="w-2/5 justify-start h-auto flex flex-col shadow-lg border-r border-b border-l border-gray-400  bg-white rounded">
+                <ImageViewer ImageBundle={data.imageBundle ?? undefined} Scale={4} FixWidth={1200} />
 
                 <div className="flex-grow"></div>
                 <div className="text-sm text-gray-600 flex items-center p-2 ">

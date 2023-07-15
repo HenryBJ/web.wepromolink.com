@@ -69,7 +69,14 @@ export default function Index() {
             .finally(() => setLoading(''));
     }, []);
 
-    const OpenLink = (link: string) => window.open(link, "_self");
+    const OpenLink = (link: string) => {
+        const newWindow = window.open(link, "_blank");
+        if (newWindow) {
+            newWindow.onload = () => navigation(-1);
+            newWindow.onerror = () => setLoading('');
+            newWindow.onabort = () => setLoading('');
+        }
+    }
 
     const handleBTCDeposit = (amount: string) => {
         setIsLoading(true);

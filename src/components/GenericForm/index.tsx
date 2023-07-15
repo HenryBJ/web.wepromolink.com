@@ -113,8 +113,11 @@ export default function Index({ loading, children, schema, title, buttonTitle = 
                                 </button>
                             </SubscribeWrapper>
                             :
-                            <button type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
-                                {buttonTitle}
+                            <button disabled={loading} type="submit" className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
+                                <div className="flex justify-center">
+                                    {loading && <Spinner text="" />}
+                                    {buttonTitle}
+                                </div>
                             </button>
                         }
 

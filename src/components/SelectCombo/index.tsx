@@ -2,12 +2,13 @@ import { Fragment, ReactElement, useEffect, useState } from 'react'
 import { Control, FieldValues } from 'react-hook-form'
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid"
+import { IOption } from '../../interfaces/Common'
 
 
 interface IProps {
     onChange?: (data: string) => void,
-    items: { id: number, name: string, icon?: ReactElement, selected: boolean}[],
-    isDisabled?:boolean
+    items: IOption[],
+    isDisabled?: boolean
 }
 
 function classNames(...classes: any[]) {
@@ -17,7 +18,7 @@ function classNames(...classes: any[]) {
 export default function Index({ items, isDisabled, onChange }: IProps) {
     const [itemSelected, setItemSelected] = useState<{ id: number, name: string, icon?: ReactElement, selected: boolean }>()
 
-    const doChange = (data: { id: number, name: string, icon: ReactElement, selected: boolean }) => {
+    const doChange = (data: IOption) => {
         setItemSelected(data);
         onChange && onChange(data.name.toLocaleLowerCase());
     }
