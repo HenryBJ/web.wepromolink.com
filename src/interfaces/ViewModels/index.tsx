@@ -225,3 +225,9 @@ export interface ISigUpInfo {
     subscriptionPlanId: string,
     photoUrl: string
 }
+
+export interface IAbuseReportCampaign {
+    userId: string,
+    campaignExternalId: string,
+    reason:string
+}

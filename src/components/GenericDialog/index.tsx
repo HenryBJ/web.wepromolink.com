@@ -8,11 +8,11 @@ interface IGenericDialogInput {
     title: string,
     icon?: ReactElement,
     description?: string,
-    actions?: { caption: string, fn: () => void }[],
+    actions?: { caption: string | ReactElement, fn: () => void }[],
     children?: ReactNode
 }
 
-export default function GenericDialog({ isOpen, setIsOpen, title, description, actions, children }: IGenericDialogInput) {
+export default function GenericDialog({ isOpen, setIsOpen, title, icon, description, actions, children }: IGenericDialogInput) {
 
 
     return (
@@ -40,6 +40,7 @@ export default function GenericDialog({ isOpen, setIsOpen, title, description, a
                         leaveTo="opacity-0 scale-95"
                     >
                         <Dialog.Panel className="flex flex-col justify-between items-center mx-auto p-2 max-w-md w-full h-56 rounded bg-orange-500 text-white ring-1 ring-white">
+                            {icon && <div className="mb-2">{icon}</div>}
                             <Dialog.Title className="text-center font-bold text-lg">
                                 {title}
                             </Dialog.Title>
