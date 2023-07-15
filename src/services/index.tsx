@@ -1,5 +1,21 @@
 import axios, { AxiosResponse } from "axios";
-import { ICampaignCard, ICreateCampaign, ILinkDetail, IMyCampaign, IMyCampaignDetail, IMyLink, IMyTransactionDetail, INotificationBadget, INotificationDetail, IPaymentMethod, ISigUpInfo, IStats, ISubscriptionPlanCard, ImageBundle } from "../interfaces/ViewModels";
+import {
+    ICampaignCard,
+    ICreateCampaign,
+    ILinkDetail,
+    IMyCampaign,
+    IMyCampaignDetail,
+    IMyLink,
+    IMyTransactionDetail,
+    INotificationBadget,
+    INotificationDetail,
+    IPaymentMethod,
+    ISigUpInfo,
+    IStats,
+    ISubscriptionPlanCard,
+    ImageBundle,
+    IAbuseReportCampaign
+} from "../interfaces/ViewModels";
 import { INotificationBadgetResponse, INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
 
@@ -88,6 +104,8 @@ export const updatePayout = (data: IPaymentMethod): Promise<AxiosResponse<void>>
 export const getSubscriptionPlans = (page: Number): Promise<AxiosResponse<ISubscriptionResponse>> => api.get(`badget?page=${page}`);
 export const getSubscriptionDetail = (id: string): Promise<AxiosResponse<ISubscriptionPlanDetailResponse>> => api.get(`mysubscriptiondetail?id=${id}`);
 export const changeToPlan = (id: string): Promise<AxiosResponse<void>> => api.post('changetoplan', id);
+
+export const abuseReportCampaigns = (data: IAbuseReportCampaign): Promise<AxiosResponse<string>> => api.post('campaign/report-abuse', data);
 
 
 
