@@ -9,8 +9,6 @@ interface Props {
 export default function Index({children}: Props): React.ReactElement | null {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-    const DEFAULT_URL = 'https://www.google.com';
-
     useEffect(() => {
         const handleConnectionChange = () => {
             setIsOnline(navigator.onLine);
@@ -25,25 +23,6 @@ export default function Index({children}: Props): React.ReactElement | null {
         };
     }, []);
 
-    useEffect(() => {
-        const TIMER_IN_MILISECONDS = 5000;
-        const interval = setInterval(() => {
-            fetch(process.env.REACT_APP_API_URL_WEPROMOLINK || DEFAULT_URL)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Server response was not ok');
-                    }
-                    if (!isOnline) setIsOnline(true);
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                    if (isOnline) setIsOnline(false);
-                });
-        }, TIMER_IN_MILISECONDS);
-
-        return () => clearInterval(interval);
-    }, [isOnline]);
-
     if (!isOnline) {
         return (
             <div
@@ -54,7 +33,6 @@ export default function Index({children}: Props): React.ReactElement | null {
                     <div className="flex flex-col gap-1 text-base">
                         <span>It seems you're not connected to the internet. Please check your connection and try again.</span>
                     </div>
-                    <button onClick={() => setIsOnline(true)}>Retry Connection</button>
                 </div>
             </div>
         );

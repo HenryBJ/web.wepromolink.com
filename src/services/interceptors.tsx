@@ -3,12 +3,11 @@ import axios from "axios";
 
 export default function AddInterceptors(axiosInstance: any) {
 
-    const user: User | null = JSON.parse(localStorage.getItem("user_wepromolink")!);
-    const auth = getAuth(); // Obtén la instancia de autenticación de Firebase
-
     axiosInstance.interceptors.request.use(
         async (config: any) => {
+            
             let idToken: string | null = JSON.parse(localStorage.getItem("user_wepromolink_idToken")!);
+            const user: User | null = JSON.parse(localStorage.getItem("user_wepromolink")!);
 
             if (user) {
                 config.headers["X-Wepromolink-UserId"] = user.uid;
@@ -31,7 +30,8 @@ export default function AddInterceptors(axiosInstance: any) {
         async (error: any) => {
             if (error?.response?.status === 401) {
                 try {
-                    
+
+                    const auth = getAuth(); // Obtén la instancia de autenticación de Firebase                    
                     const newAccessToken = await auth.currentUser?.getIdToken(true);
                     newAccessToken && localStorage.setItem("user_wepromolink_idToken", JSON.stringify(newAccessToken));
                     console.log(`token refresh: ${newAccessToken}`);

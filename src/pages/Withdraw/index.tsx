@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
-import { getBillingData, getProfitBalanceData } from "../../services";
+import { createWithDrawBTC, createWithDrawStripe, getBillingData, getProfitBalanceData } from "../../services";
 import * as yup from "yup";
 import GenericForm, { FormItem } from "../../components/GenericForm";
 import SelectCombo from "../../components/SelectCombo";
@@ -78,35 +78,47 @@ export default function Index() {
     }, []);
 
 
-    const onSubmit = (newdata: any) => {
-        
-        const isVerified = data?.find(e=>e.name.toLowerCase() === newdata.payoutType)?.isVerified;
-        const moneyAmount:number = Number(newdata.amount.substring(1));
+    const onSubmit = async (newdata: any) => {
 
-        if(!isVerified){
+        const isVerified = data?.find(e => e.name.toLowerCase() === newdata.payoutType)?.isVerified;
+        const moneyAmount: number = Number(newdata.amount.substring(1));
+
+        if (!isVerified) {
             toast.warning("Your billing information is not verified, It is mandatory for make withdraws");
             return;
         }
 
-        if(moneyAmount > profit){
+        if (moneyAmount > profit) {
             toast.warning("Insufficient profit to make withdraws");
             return;
         }
 
         setIsLoading(true);
         setLoading('Preparing withdraw ...');
-        switch (newdata.payoutType) {
-            case 'bitcoin':
-                alert('withdraw with bitcoin');
-                gTag('withdraw_create', { method: 'BTC', amount: newdata.amount.substring(1) });
-                setLoading('');
-                break;
-            case 'stripe':
-                alert('withdraw with stripe');
-                gTag('withdraw_create', { method: 'Stripe', amount: newdata.amount.substring(1) });
-                setLoading('');
-                break;
+
+        try {
+            switch (newdata.payoutType) {
+                case 'bitcoin':
+                    gTag('withdraw_create', { method: 'BTC', amount: newdata.amount.substring(1) });
+                    await createWithDrawBTC(moneyAmount);
+                    setLoading('');
+                    toast.success('Withdraw requested sucessfully');
+                    navigation('/balance');
+                    break;
+                case 'stripe':
+                    gTag('withdraw_create', { method: 'Stripe', amount: newdata.amount.substring(1) });
+                    await createWithDrawStripe(moneyAmount);
+                    setLoading('');
+                    toast.success('Withdraw requested sucessfully');
+                    navigation('/balance');
+                    break;
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error('Something goes wrong !!!');
         }
+
     }
 
     let schema = yup.object({

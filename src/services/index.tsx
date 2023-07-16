@@ -79,6 +79,8 @@ export const getHistoryEarnOnLink = (id: string): Promise<AxiosResponse<IStats>>
 export const getHistoryClicksOnLink = (id: string): Promise<AxiosResponse<IStats>> => api.get(`data/historyclicksonlink/${id}`);
 export const createDepositBTCLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`btc/invoice/${amount}`);
 export const createDepositStripeLink = (amount: string): Promise<AxiosResponse<string>> => api.post(`stripe/invoice/${amount}`);
+export const createWithDrawStripe = (amount: number): Promise<AxiosResponse<void>> => api.post(`stripe/withdraw/${amount}`);
+export const createWithDrawBTC = (amount: number): Promise<AxiosResponse<void>> => api.post(`btc/withdraw/${amount}`);
 export const getTransactions = (page: Number): Promise<AxiosResponse<ITransactionResponse>> => api.get(`transaction/get/${page}`);
 export const getTransactionDetail = (id: string): Promise<AxiosResponse<IMyTransactionDetail>> => api.get(`transaction/detail/${id}`);
 export const getNotifications = (page: Number): Promise<AxiosResponse<INotificationResponse>> => api.get(`notification/get/${page}`);
