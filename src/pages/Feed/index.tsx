@@ -3,8 +3,9 @@ import CampaignCard from "../../components/CampaignCard";
 import Spinner from "../../components/Spinner";
 import { ICampaignCard } from "../../interfaces/ViewModels";
 import { getCampaigns } from "../../services";
-import NoData from "../../components/NoData";
 import useVisit from "../../hooks/Visit";
+import Masonry from "react-masonry-css";
+import "./styles.css"
 
 export default function Feed() {
 
@@ -73,20 +74,30 @@ export default function Feed() {
     console.log(`'data=' ${data}`);
   }, [data]);
 
+  const breakpointColumnsObj = {
+    default: 4,
+    1600: 3,
+    1200: 2,
+    800: 1
+  };
+
 
   return (
     <>
-      <section className="container max-w-full px-6 mx-auto pt-3 h-full flex flex-col gap-6 justify-center items-center">
-        {
-          data.length !== 0 ? data.map((c) => (
-            <CampaignCard key={c.id} data={c} />)) : <NoData />
-        }
+      <section className="container max-w-full px-6 mx-auto pt-3 h-full flex justify-center ">
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column">
+          {data.map((c) => (<CampaignCard key={c.id} data={c} />))}
+        </Masonry>
+
         <div id="loadMoreTrigger" style={{ marginTop: "30px" }} />
       </section>
       {
         isFetching &&
         <div className="flex items-center justify-center my-3">
-          <Spinner text="Loading more ..." />
+          <Spinner text={data.length === 0 ? "Getting campaigns..." : "Loading more ..."} />
         </div>
       }
     </>

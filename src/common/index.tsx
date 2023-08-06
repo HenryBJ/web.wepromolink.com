@@ -1,4 +1,4 @@
-export function timeSince(date: Date | null | string): string {
+export function timeSince(date: Date | null | string | number): string {
     // if (date === null) return "never";
   
     // const parsedDate = typeof date === 'string' ? new Date(date) : date;

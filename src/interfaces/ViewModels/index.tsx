@@ -227,7 +227,6 @@ export interface ISigUpInfo {
 }
 
 export interface IAbuseReportCampaign {
-    userId: string,
     campaignExternalId: string,
     reason:string
 }

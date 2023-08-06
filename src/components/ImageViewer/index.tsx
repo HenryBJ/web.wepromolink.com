@@ -45,8 +45,8 @@ export default function ImageViewer({ ImageBundle, Scale, FixWidth, FixHeight, F
     }
 
     return (
-        <div className="w-fit border border-orange-500 rounded relative">
-            <img className={loading ? "filter blur-sm transition duration-500 rounded" : "rounded"}
+        <div className="w-fit border rounded-2xl relative mx-1">
+            <img className={loading ? "filter blur-sm transition duration-500 rounded-2xl" : "rounded-2xl"}
                 src={src}
                 width={getWidth()}
                 height={getHeight()}
