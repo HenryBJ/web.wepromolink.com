@@ -45,7 +45,7 @@ export default function CampaignCard({ data }: IProps) {
 
     return (
         <>
-            <div className="w-96 justify-start h-auto flex flex-col shadow-lg  border-gray-400  bg-white rounded-3xl p-1">
+            <div className="w-full xxs:w-96 justify-start h-auto flex flex-col shadow-lg  border-gray-400  bg-white rounded-3xl p-1">
                 <div className="text-sm text-gray-600 flex items-center p-2 w-full ">
                     <img className="w-9 h-9 rounded-full mr-2  object-cover"
                         src={data.autorImageUrl} alt={data.autorName} />

@@ -84,7 +84,7 @@ export default function Index({ onImageLoaded, initialImageBundleId }: IProps) {
                 const height = img.height;
                 const aspectRatio = parseFloat((width / height).toFixed(3));
                 console.log(`width: ${width} height: ${height} aspect ratio: ${aspectRatio}`)
-                if (width >= 1200 && height >= 630 && aspectRatio >= 1.2 && aspectRatio <= 2) {
+                if (width >= 366 && height >= 366 ) {
                     resolve();
                 } else {
                     reject({ width, height, ratio: aspectRatio });
@@ -112,7 +112,7 @@ export default function Index({ onImageLoaded, initialImageBundleId }: IProps) {
                         .catch(_ => { toast.error('Error saving image'); setLoading(false) })
                 })
                 .catch(({ width, height, ratio }) => {
-                    toast.error(`The image dimensions should be 1200x630 or bigger with an aspect ratio between 1.2 and 2, current is (${width}x${height},${ratio})`);
+                    toast.error(`The image dimensions should be 366x366 or bigger, current is (${width}x${height})`);
                 });
         } else {
             toast.error('The image exceeds the allowed size limit (4 MB)')

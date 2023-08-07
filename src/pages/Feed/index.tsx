@@ -15,11 +15,26 @@ export default function Feed() {
   const [offsset, setOffset] = useState(0);
   const [timestamp, setTimestamp] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
+  const [width, setWidth] = useState<any>(0);
+  const myRef = useRef(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useVisit('visit_feed');
 
+  const handleResize = () => {
+    myRef.current && setWidth(myRef.current['offsetWidth']);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const handleData = (incommingData: ICampaignCard[]) => {
+    console.log(`incommingData.length = ${incommingData.length}`)
     if (incommingData.length === 0) {
       setIsFetching(false);
       return;
@@ -32,6 +47,7 @@ export default function Feed() {
       setTimestamp(newTimestamp);
       setOffset(prev => prev + incommingData.length);
       setData(prev => [...prev, ...(incommingData)]);
+      setIsFetching(false);
 
     } catch (error) {
       console.log(error);
@@ -71,22 +87,22 @@ export default function Feed() {
       observerRef.current.disconnect();
     }
     observerRef.current?.observe(document.getElementById("loadMoreTrigger")!);
-    console.log(`'data=' ${data}`);
   }, [data]);
 
-  const breakpointColumnsObj = {
-    default: 4,
-    1600: 3,
-    1200: 2,
-    800: 1
-  };
+
+  const handleBreakPoints = () => {
+    if (width < 900) return 1;
+    if (width >= 900 && width < 1340) return 2;
+    if (width >= 1340 && width < 2100) return 3;
+    return 4;
+  }
 
 
   return (
     <>
-      <section className="container max-w-full px-6 mx-auto pt-3 h-full flex justify-center ">
+      <section ref={myRef} className="container max-w-full px-0 sm:px-6 mx-auto pt-3 h-full flex justify-center ">
         <Masonry
-          breakpointCols={breakpointColumnsObj}
+          breakpointCols={handleBreakPoints()}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column">
           {data.map((c) => (<CampaignCard key={c.id} data={c} />))}
