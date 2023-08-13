@@ -77,9 +77,9 @@ export default function CampaignCard({ data }: IProps) {
                 <div className="flex flex-row justify-between items-center px-2 cursor-default">
                     <p className="text-sm text-gray-400"><span
                         className="text-lg font-bold text-orange-600 ">{`$${data.epm}`}</span> /1k clicks</p>
-                    <button type="button">
+                    <button type="button" className="outline-none">
                         <SubscribeWrapper onClick={OpenDialog}
-                            style="focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-1 mb-2 cursor-pointer">
+                            style="focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-1 mb-2 cursor-default md:cursor-pointer">
                             Promote
                         </SubscribeWrapper>
                     </button>

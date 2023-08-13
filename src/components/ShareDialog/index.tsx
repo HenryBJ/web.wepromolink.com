@@ -76,7 +76,7 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaignId }: ISha
                             </div>
 
                             <div className="flex justify-center">
-                                <button className="text-white shadow-lg ring-1 ring-gray-200 bg-orange-600 hover:bg-orange-700 font-medium rounded text-sm px-5 py-1" onClick={() => setIsOpen(false)}>Close</button>
+                                <button className="text-white shadow-lg ring-1 ring-gray-200 bg-orange-600 hover:bg-orange-700 font-medium rounded text-sm px-5 py-1 outline-none cursor-default md:cursor-pointer" onClick={() => setIsOpen(false)}>Close</button>
                             </div>
 
                         </Dialog.Panel>

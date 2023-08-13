@@ -64,7 +64,10 @@ export default function HomeLayout() {
                         <Logo scale={logoScale} />
                         {/* <span>{width}</span> */}
                         <span className='text-white sm:text-sm md:text-base text-center'>B-Tech Innovation Studios LLC</span>
-                        <div className='absolute bottom-3 flex items-center'><SocialNetworks /></div>
+                        <div className='absolute bottom-3 flex items-center justify-center w-full'>
+                            <SocialNetworks />
+                        </div>
+                        <span className='absolute bottom-0 text-xs text-white/50 w-full text-right mr-1'>v1.0.103</span>
                     </div>
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>

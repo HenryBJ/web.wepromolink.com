@@ -2,6 +2,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { Divide as Hamburger } from 'hamburger-react'
 import React, { ReactElement, ReactFragment, useState } from 'react'
 import { MenuOption } from '../MenuOption'
+import '../../extraStyles/avoid-cursor-mobile.css'
 
 type Props = {
     title: string,
@@ -31,38 +32,12 @@ export default function MenuHamb({ children }: any) {
                         {() => children.map((e: ReactElement, i: number) =>
                         (
                             <Menu.Item key={i}>
-                                {React.cloneElement(e,{close:close})}
-                                {/* {e} */}
+                                {React.cloneElement(e, { close: close })}
                             </Menu.Item>
                         ))}
-                        {/* <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    className={`${active && 'bg-blue-500'}`}
-                                    href="/account-settings"
-                                >
-                                    Account settings
-                                </a>
-                            )}
-                        </Menu.Item> */}
-
-
                     </Menu.Items>
                 </Transition>
             </>)}
-
         </Menu>
-
-
-        // <div>
-        //     <Hamburger color="white" duration={1.2} onToggle={toggled => {
-        //         if (toggled) {
-        //             // open a menu
-        //         } else {
-        //             // close a menu
-        //         }
-        //     }} />
-        // </div>
-
     )
 }

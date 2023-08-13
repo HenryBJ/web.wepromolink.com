@@ -1,0 +1,7 @@
+/* Media query para dispositivos móviles */
+@media (max-width: 767px) {
+    button,
+    [role='button'] {
+        cursor: default !important;
+    }
+}

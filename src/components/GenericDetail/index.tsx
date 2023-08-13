@@ -129,15 +129,9 @@ export default function Index({ prepare, actions }: Props) {
         }
     }
 
-
-
-    // useEffect(() => {
-    //     console.log(data);
-    // }, []);
-
     return (
         <div ref={myRef} className="relative w-full bg-gray-200 flex flex-col rounded shadow-xl">
-            <div className="absolute top-1 left-3 text-white cursor-pointer hover:text-gray-300" onClick={handleBack}>
+            <div className="absolute top-1 left-3 text-white cursor-default md:cursor-pointer hover:text-gray-300" onClick={handleBack}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
