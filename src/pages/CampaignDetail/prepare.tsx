@@ -1,5 +1,14 @@
-import { IField, IGenericDetailData } from "../../components/GenericDetail";
-import { IMyCampaignDetail } from "../../interfaces/ViewModels";
+import {IField, IGenericDetailData} from "../../components/GenericDetail";
+import {IMyCampaignDetail} from "../../interfaces/ViewModels";
+
+const splitNumberValue = (value: number): string => {
+    const [intPart, decPart] = value.toString().split('.');
+    if (decPart) {
+        return `$${intPart}.<span class="text-gray-500 text-sm">${decPart}</span>`;
+    }
+    return intPart;
+};
+
 
 export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailData | undefined => {
     if (campaign) {
@@ -80,16 +89,17 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
                     return f_status;
 
                 case 'budget':
+                    let formattedBudget = splitNumberValue(value as number);
                     let f_bud: IField = {
                         isImage: false,
                         title: 'Budget',
-                        value: value,
-                        valueType: 'number',
+                        value: formattedBudget,
+                        valueType: 'html',
                         isHidden: false,
-                        order: 6,
-                        transform:(e:number)=>`$${e}`
+                        order: 6
                     }
                     return f_bud;
+
 
                 case 'epm':
                     let f_epm: IField = {
