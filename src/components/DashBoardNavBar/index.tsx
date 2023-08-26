@@ -9,6 +9,8 @@ export default function DashBoardNavBar() {
 
     const { user, logout } = useAuth();
 
+    if (!user) return null;
+
     return (
         <nav className="sticky top-0 w-full h-min border border-b-2 z-50  bg-orange-500" style={{ zIndex: 100 }}>
             <div className="container max-w-5xl mx-auto h-full">
