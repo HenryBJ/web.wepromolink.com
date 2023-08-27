@@ -7,16 +7,16 @@ import {
     IMyCampaignDetail,
     IMyLink,
     IMyTransactionDetail,
-    INotificationBadget,
     INotificationDetail,
     IPaymentMethod,
     ISigUpInfo,
     IStats,
     ISubscriptionPlanCard,
     ImageBundle,
-    IAbuseReportCampaign
+    IAbuseReportCampaign,
+    IPushNotification
 } from "../interfaces/ViewModels";
-import { INotificationBadgetResponse, INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
+import { INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
 
 export const api = AddInterceptors(axios.create({
@@ -97,9 +97,8 @@ export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('s
 
 
 
-export const getNotificationBadget = (id: Number): Promise<AxiosResponse<INotificationBadgetResponse>> => api.get(`notification/badget?id=${id}`);
-
-export const updateNotificationBadget = (data: INotificationBadget): Promise<AxiosResponse<INotificationBadgetResponse>> => api.post("/badget", data);
+export const getPushNotification = (): Promise<AxiosResponse<IPushNotification>> => api.get("push/get");
+export const updatePushNotification = (data: IPushNotification): Promise<AxiosResponse<IPushNotification>> => api.put("push/put", data);
 
 
 export const updatePayout = (data: IPaymentMethod): Promise<AxiosResponse<void>> => api.post("/payout", data);

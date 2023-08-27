@@ -1,50 +1,53 @@
-import React, { Children, createContext, useEffect, useState } from 'react';
-import { getNotificationBadget, updateNotificationBadget } from '../../services';
-import { INotificationBadget } from '../../interfaces/ViewModels';
-import { INotificationBadgetResponse } from '../../interfaces/Responses';
+import { createContext, useEffect, useState } from 'react';
+import { getPushNotification, updatePushNotification } from '../../services';
+import { IPushNotification } from '../../interfaces/ViewModels';
 
 
 
-const INTERVAL = 200000;
+const INTERVAL = 20000;
 
 // All field are relaed to unread notifications
-const initial: INotificationBadget = {
-  id: 0,
+const initial: IPushNotification = {
   notification: 0,
-  campaing: 0,
+  campaign: 0,
   links: 0,
   clicks: 0,
   deposit: 0,
   withdraw: 0,
-  flag: ""
+  messages: [],
+  etag: ''
 }
 
 export const NotificationContext = createContext<any>(null);
 
 export default function Index({ children }: any) {
-  const [notification, setNotification] = useState<INotificationBadget>(initial);
+  const [notification, setNotification] = useState<IPushNotification>(initial);
 
-  const updateNotiBadget = (data: INotificationBadget) => {
-    updateNotificationBadget(data)
-      .then(res => setNotification(res.data.value));
+  const updatePushNoti = (data: IPushNotification) => {
+    updatePushNotification(data)
+      .then(res => setNotification(res.data));
+  }
+
+  const reducePushNotification = (reducer: (e: IPushNotification) => IPushNotification) => {
+    updatePushNoti(reducer(notification));
   }
 
   useEffect(() => {
     const timer = setInterval(() => {
-      getNotificationBadget(notification.id)
+      getPushNotification()
         .then(res => {
-          let newNoti: INotificationBadget = res.data.value;
-          if (newNoti.flag !== notification.flag) {
+          let newNoti: IPushNotification = res.data;
+          if (newNoti.etag !== notification.etag) {
             setNotification(newNoti);
           }
         });
     }, INTERVAL);
 
     return () => clearInterval(timer);
-  }, [notification.flag]);
+  }, [notification.etag]);
 
   return (
-    <NotificationContext.Provider value={{ notification, updateNotiBadget }}>
+    <NotificationContext.Provider value={{ notification, reducePushNotification }}>
       {children}
     </NotificationContext.Provider>
   );

@@ -184,15 +184,15 @@ export interface IPaymentMethod {
 }
 
 
-export interface INotificationBadget {
-    id: number,
+export interface IPushNotification {
     notification: number,
-    campaing: number,
+    campaign: number,
     links: number,
     clicks: number,
     deposit: number,
     withdraw: number,
-    flag: string
+    messages: string[],
+    etag: string
 }
 
 export interface ISubFeature {

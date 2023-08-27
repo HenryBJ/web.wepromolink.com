@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webclient-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webclient-app
+  template:
+    metadata:
+      labels:
+        app: webclient-app
+    spec:
+      containers:
+        - name: webclient-container
+          image: cod4it/web.wepromolink:1.0.103
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webclient-service
+spec:
+  selector:
+    app: webclient-app
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+      name: http
+    - port: 443
+      protocol: TCP
+      targetPort: 443
+      name: https
+  type: ClusterIP  # Cambia esto según el tipo de servicio que desees
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: henry.coolsoft@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: henry.coolsoft@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-my-ingress-2
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/whitelist-source-range: "170.75.168.146/32"
+    nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+spec:
+  ingressClassName: nginx  # Especifica el nombre del controlador de Ingress que debe manejar las reglas definidas en este Ingress
+  tls:
+  - hosts:
+    - wepromolink.com
+    secretName: wepromolink-tls
+  rules:
+    - host: wepromolink.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: webclient-service
+                port:
+                  number: 80

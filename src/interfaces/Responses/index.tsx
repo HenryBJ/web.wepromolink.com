@@ -1,5 +1,5 @@
 import { IPagination } from "../IPagination";
-import { ICampaignCard, IMyAffLinkStats, IMyCampaign, IMyCampaignDetail, IMyCampaignStats, IMyTransactionDetail, INotification, INotificationBadget, IStats, ISubscriptionPlanCard, ISubscriptionPlanDetail, ITransaction } from "../ViewModels";
+import { ICampaignCard, IMyAffLinkStats, IMyCampaign, IMyCampaignDetail, IMyCampaignStats, IMyTransactionDetail, INotification, IStats, ISubscriptionPlanCard, ISubscriptionPlanDetail, ITransaction } from "../ViewModels";
 
 
 export interface ICampaignListResponse {
@@ -66,16 +66,4 @@ export interface ICreateAffLinkResponse {
         link: string;
     }
 }
-
-export interface INotificationBadgetResponse {
-    value: INotificationBadget
-}
-
-
-
-
-
-
-
-
 
