@@ -49,5 +49,5 @@ jobs:
             versions=$(cat ../../versions.json)
             readarray -t versions <<< "$(echo "$versions" | jq -r 'to_entries | .[] | "MICROSERVICE_\(.key | ascii_upcase)=\(.value)"')"; for v in "${versions[@]}"; do export "$v"; done
             envsubst < wepromolink_dev.yml > wepromolink_dev_ready.yml
-            microk8s kubectl apply -f wepromolink_dev_ready
+            microk8s kubectl apply -f wepromolink_dev_ready.yml
     
