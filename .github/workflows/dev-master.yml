@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.WEPROMOLINK_DEV_PASSWORD }}
           script:  |
             cd code
-            cd web.wepromolink/
+            cd web.wepromolink.com/
             git pull
             git checkout dev
             cd K8s/
