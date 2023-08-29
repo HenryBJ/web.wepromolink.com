@@ -29,7 +29,6 @@ export default function Index({title, data, load, trend, helpTip}: IProps) {
 
     const splitStringNumber = (value: string) => {
         const match = value.match(/^(\$?)(\d+)?(\.\d+)?$/);
-        debugger;
         if (match) {
             const intPart = match[1] + (match[2] || '0');
             const decPart = match[3] || '';
