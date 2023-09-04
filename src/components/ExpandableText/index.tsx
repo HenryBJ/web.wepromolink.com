@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 interface IProps {
     text: string
@@ -14,8 +14,8 @@ const ExpandableText = ({ text }: IProps) => {
         setExpanded((prevExpanded) => !prevExpanded);
     };
 
-    useLayoutEffect(() => {
-        checkOverflow();
+    useEffect(() => {
+        requestAnimationFrame(checkOverflow);
     }, []);
 
 
@@ -31,7 +31,6 @@ const ExpandableText = ({ text }: IProps) => {
             else {
                 setIsExpandedVisile(false);
             }
-            // console.log(`diff: ${spanHeight - textHeight} text: ${text.substring(0,20)}`)
         }
     };
 
