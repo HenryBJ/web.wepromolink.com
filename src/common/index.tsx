@@ -1,15 +1,7 @@
 export function timeSince(date: Date | null | string | number): string {
-    if (date === null) return "never";
+    if (date === null || date === undefined) return "never";
 
-    let parsedDate: Date;
-
-    if (typeof date === 'string') {
-        parsedDate = new Date(date);
-    } else if (typeof date === 'number') {
-        parsedDate = new Date(date);
-    } else {
-        parsedDate = date;
-    }
+    const parsedDate = new Date(date);
 
     const localDate = new Date(parsedDate.getTime() - (new Date().getTimezoneOffset() * 60000));
 
