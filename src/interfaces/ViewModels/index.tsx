@@ -188,9 +188,7 @@ export interface IPushNotification {
     notification: number,
     campaign: number,
     links: number,
-    clicks: number,
-    deposit: number,
-    withdraw: number,
+    transaction: number,
     messages: string[],
     etag: string
 }

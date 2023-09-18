@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
 import DynamicTable from "../../components/DynamicTable";
 import { INotificationResponse } from "../../interfaces/Responses";
@@ -6,6 +6,8 @@ import { getNotifications } from "../../services";
 import { Columns } from "./columns";
 import { useNavigate } from "react-router-dom";
 import useVisit from "../../hooks/Visit";
+import { NotificationContext } from "../../hooks/NotificationProvider";
+import { IPushNotification } from "../../interfaces/ViewModels";
 
 export default function Index() {
 
@@ -18,11 +20,13 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<INotificationResponse>();
     const navigate = useNavigate();
+    const { reducePushNotification } = useContext(NotificationContext);
 
     useVisit('visit_notification');
 
     const handleInfo = () => {
         setLoading(true);
+        reducePushNotification(({ notification, ...rest }: IPushNotification) => ({ notification: 0, ...rest }));
         getNotifications(page)
             .then((res) => setData(res.data))
             .catch(err => setError(true))

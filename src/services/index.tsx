@@ -94,11 +94,7 @@ export const verifyBTCAddress = (address: string): Promise<AxiosResponse<boolean
 export const connectStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/create');
 export const hasVerifiedStripeAccount = (): Promise<AxiosResponse<boolean>> => api.get('stripe/account/isverified');
 export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/login');
-
-
-
 export const getPushNotification = (): Promise<AxiosResponse<IPushNotification>> => api.get("push/get");
-export const updatePushNotification = (data: IPushNotification): Promise<AxiosResponse<IPushNotification>> => api.put("push/put", data);
 
 
 export const updatePayout = (data: IPaymentMethod): Promise<AxiosResponse<void>> => api.post("/payout", data);

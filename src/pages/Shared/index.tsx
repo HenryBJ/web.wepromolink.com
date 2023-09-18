@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DynamicTable from "../../components/DynamicTable";
 import SearchBar from "../../components/SearchBar";
 import { Columns } from "./columns";
 import { getMyLinks } from "../../services";
-import { IMyLink } from "../../interfaces/ViewModels";
+import { IMyLink, IPushNotification } from "../../interfaces/ViewModels";
 import { IPaginationResponse } from "../../interfaces/Responses";
 import useVisit from "../../hooks/Visit";
+import { NotificationContext } from "../../hooks/NotificationProvider";
 
 export default function Index() {
     const [loading, setLoading] = useState(false);
@@ -14,18 +15,19 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [filter, setFilter] = useState("");
     const [data, setData] = useState<IPaginationResponse<IMyLink>>()
-    
+    const { reducePushNotification } = useContext(NotificationContext);
+
     const navigate = useNavigate();
-    
-    const handleSearch = (keyword:string)=>{
+
+    const handleSearch = (keyword: string) => {
         setFilter(keyword)
     }
 
     useVisit('visit_shared');
-
     useEffect(() => {
         setLoading(true);
-        getMyLinks(page,filter, Number(11))
+        reducePushNotification(({ links, ...rest }: IPushNotification) => ({ links: 0, ...rest }));
+        getMyLinks(page, filter, Number(11))
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))

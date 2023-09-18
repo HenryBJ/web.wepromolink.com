@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
-import { getPushNotification, updatePushNotification } from '../../services';
+import { getPushNotification } from '../../services';
 import { IPushNotification } from '../../interfaces/ViewModels';
+import { toast } from 'react-toastify';
 
 
 
@@ -11,9 +12,7 @@ const initial: IPushNotification = {
   notification: 0,
   campaign: 0,
   links: 0,
-  clicks: 0,
-  deposit: 0,
-  withdraw: 0,
+  transaction: 0,
   messages: [],
   etag: ''
 }
@@ -23,13 +22,20 @@ export const NotificationContext = createContext<any>(null);
 export default function Index({ children }: any) {
   const [notification, setNotification] = useState<IPushNotification>(initial);
 
-  const updatePushNoti = (data: IPushNotification) => {
-    updatePushNotification(data)
-      .then(res => setNotification(res.data));
-  }
 
   const reducePushNotification = (reducer: (e: IPushNotification) => IPushNotification) => {
-    updatePushNoti(reducer(notification));
+    setNotification(prev=>reducer(prev));
+  }
+
+  const handleNotification = (data: IPushNotification) => {
+    setNotification(prev => ({
+      campaign: prev.campaign + data.campaign,
+      messages: [],
+      etag: data.etag,
+      links: prev.links + data.links,
+      notification: prev.notification + data.notification,
+      transaction: prev.transaction + data.transaction
+    }));
   }
 
   useEffect(() => {
@@ -38,7 +44,8 @@ export default function Index({ children }: any) {
         .then(res => {
           let newNoti: IPushNotification = res.data;
           if (newNoti.etag !== notification.etag) {
-            setNotification(newNoti);
+            newNoti.messages.map(e => toast.success(<div dangerouslySetInnerHTML={{ __html: e }} />));
+            handleNotification(newNoti);
           }
         });
     }, INTERVAL);
