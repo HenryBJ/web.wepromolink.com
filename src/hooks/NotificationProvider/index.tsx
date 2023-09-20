@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import { getPushNotification } from '../../services';
 import { IPushNotification } from '../../interfaces/ViewModels';
 import { toast } from 'react-toastify';
+import { useLocalStorage } from '../LocalStorage';
 
 
 
@@ -20,21 +21,36 @@ const initial: IPushNotification = {
 export const NotificationContext = createContext<any>(null);
 
 export default function Index({ children }: any) {
-  const [notification, setNotification] = useState<IPushNotification>(initial);
 
+
+  const [notification, _, setNotification] = useLocalStorage<IPushNotification>("wepromolink_noti", initial);
+  // const [notification, setNotification] = useState<IPushNotification>(initial);
+
+
+  // const reducePushNotification = (reducer: (e: IPushNotification) => IPushNotification) => {
+  //   setNotification(reducer);
+  // }
 
   const reducePushNotification = (reducer: (e: IPushNotification) => IPushNotification) => {
-    setNotification(prev=>reducer(prev));
-  }
+    return new Promise((resolve, reject) => {
+      try {
+        setNotification(reducer);
+        resolve(notification);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
 
   const handleNotification = (data: IPushNotification) => {
-    setNotification(prev => ({
-      campaign: prev.campaign + data.campaign,
+    setNotification(e => ({
+      campaign: e.campaign + data.campaign,
       messages: [],
       etag: data.etag,
-      links: prev.links + data.links,
-      notification: prev.notification + data.notification,
-      transaction: prev.transaction + data.transaction
+      links: e.links + data.links,
+      notification: e.notification + data.notification,
+      transaction: e.transaction + data.transaction
     }));
   }
 

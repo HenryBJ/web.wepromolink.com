@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import CampaignCard from "../../components/CampaignCard";
 import Spinner from "../../components/Spinner";
-import { ICampaignCard } from "../../interfaces/ViewModels";
+import { ICampaignCard, IPushNotification } from "../../interfaces/ViewModels";
 import { getCampaigns } from "../../services";
 import useVisit from "../../hooks/Visit";
 import Masonry from "react-masonry-css";
 import "./styles.css"
+import { NotificationContext } from "../../hooks/NotificationProvider";
+import { INotificationContext } from "../../interfaces/Common";
+import Reloader from "../../components/Reloader";
 
 export default function Feed() {
 
@@ -18,12 +21,26 @@ export default function Feed() {
   const [width, setWidth] = useState<any>(0);
   const myRef = useRef(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const [reload, setReload] = useState(false);
+
+  const {
+    notification,
+    reducePushNotification
+  } = useContext<INotificationContext>(NotificationContext);
+
+
 
   useVisit('visit_feed');
+
+
 
   const handleResize = () => {
     myRef.current && setWidth(myRef.current['offsetWidth']);
   };
+
+  useEffect(() => {
+    setReload(notification.campaign > 0)
+  }, [notification.campaign])
 
   useEffect(() => {
     handleResize();
@@ -73,13 +90,7 @@ export default function Feed() {
 
 
   useEffect(() => {
-    if (isFetching) return;
-    getCampaigns(offsset, limit, timestamp)
-      .then(resp => {
-        handleData(resp.data);
-      })
-      .catch(err => setError(true));
-    console.log(`'isFetching=' ${isFetching} offsset=${offsset} timestamp=${timestamp}`);
+    handleCampaigns();
   }, [isFetching, offsset, timestamp]);
 
   useEffect(() => {
@@ -89,6 +100,15 @@ export default function Feed() {
     observerRef.current?.observe(document.getElementById("loadMoreTrigger")!);
   }, [data]);
 
+  const handleCampaigns = () => {
+    if (isFetching) return;
+    reducePushNotification(({ campaign, ...rest }: IPushNotification) => ({ campaign: 0, ...rest }));
+    getCampaigns(offsset, limit, timestamp)
+      .then(resp => {
+        handleData(resp.data);
+      })
+      .catch(err => setError(true));
+  }
 
   const handleBreakPoints = () => {
     if (width < 900) return 1;
@@ -109,6 +129,13 @@ export default function Feed() {
         </Masonry>
 
         <div id="loadMoreTrigger" style={{ marginTop: "30px" }} />
+        <Reloader callback={() => {
+          setIsFetching(false);
+          setOffset(0);
+          setData([]);
+          setTimestamp(0);
+          handleCampaigns();
+        }} isVisible={reload} />
       </section>
       {
         isFetching &&

@@ -8,6 +8,8 @@ import { IMyLink, IPushNotification } from "../../interfaces/ViewModels";
 import { IPaginationResponse } from "../../interfaces/Responses";
 import useVisit from "../../hooks/Visit";
 import { NotificationContext } from "../../hooks/NotificationProvider";
+import { INotificationContext } from "../../interfaces/Common";
+import Reloader from "../../components/Reloader";
 
 export default function Index() {
     const [loading, setLoading] = useState(false);
@@ -15,7 +17,12 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [filter, setFilter] = useState("");
     const [data, setData] = useState<IPaginationResponse<IMyLink>>()
-    const { reducePushNotification } = useContext(NotificationContext);
+    const [reload, setReload] = useState(false);
+
+    const {
+        notification,
+        reducePushNotification
+    } = useContext<INotificationContext>(NotificationContext);
 
     const navigate = useNavigate();
 
@@ -24,14 +31,23 @@ export default function Index() {
     }
 
     useVisit('visit_shared');
+
     useEffect(() => {
+        setReload(notification.links > 0)
+    }, [notification.links])
+
+    useEffect(() => {
+        handleShared();
+    }, [page, filter]);
+
+    const handleShared = () => {
         setLoading(true);
         reducePushNotification(({ links, ...rest }: IPushNotification) => ({ links: 0, ...rest }));
         getMyLinks(page, filter, Number(11))
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
-    }, [page, filter]);
+    }
 
     return (
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
@@ -49,6 +65,7 @@ export default function Index() {
                     }
                 }
                 rows={data?.items || []} />
+            <Reloader callback={() => handleShared()} isVisible={reload} />
         </section>
     )
 }

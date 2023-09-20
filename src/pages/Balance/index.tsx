@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dash from "../../components/Dash";
 import DashPrice from "../../components/DashPrice";
@@ -9,6 +9,10 @@ import { Columns } from "./columns";
 import SubscribeWrapper from "../../components/SubscribeWrapper";
 import useVisit from "../../hooks/Visit";
 import { toast } from "react-toastify";
+import { NotificationContext } from "../../hooks/NotificationProvider";
+import { IPushNotification } from "../../interfaces/ViewModels";
+import { INotificationContext } from "../../interfaces/Common";
+import Reloader from "../../components/Reloader";
 
 const externalLink = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="inline w-4 h-4">
     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -22,20 +26,35 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<ITransactionResponse>()
     const navigation = useNavigate();
+    const [reload, setReload] = useState(false);
+
+    const {
+        notification,
+        reducePushNotification
+    } = useContext<INotificationContext>(NotificationContext);
 
     useVisit('visit_balance');
 
     useEffect(() => {
+        reducePushNotification(({ transaction, ...rest }: IPushNotification) => ({ transaction: 0, ...rest }));
         hasVerifiedStripeAccount()
             .then(res => setHasStripe(res.data))
     }, []);
 
-    useEffect(() => {
+    const handleTransaction = () => {
         setLoading(true);
         getTransactions(page)
             .then((res) => setData(res.data))
             .catch(err => setError(true))
             .finally(() => setLoading(false))
+    }
+
+    useEffect(() => {
+        setReload(notification.transaction > 0)
+    }, [notification.transaction])
+
+    useEffect(() => {
+        handleTransaction();
     }, [page, hasStripe]);
 
     const OpenLink = (link: string) => {
@@ -104,5 +123,6 @@ export default function Index() {
                 }
             }
             rows={data?.items || []} />
+            <Reloader callback={() => handleTransaction()} isVisible={reload} />
     </section>)
 }

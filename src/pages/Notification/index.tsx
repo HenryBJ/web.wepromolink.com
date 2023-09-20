@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import useVisit from "../../hooks/Visit";
 import { NotificationContext } from "../../hooks/NotificationProvider";
 import { IPushNotification } from "../../interfaces/ViewModels";
+import Reloader from "../../components/Reloader";
+import { INotificationContext } from "../../interfaces/Common";
 
 export default function Index() {
 
@@ -20,9 +22,15 @@ export default function Index() {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<INotificationResponse>();
     const navigate = useNavigate();
-    const { reducePushNotification } = useContext(NotificationContext);
+    const [reload, setReload] = useState(false);
+
+    const {
+        notification,
+        reducePushNotification
+    } = useContext<INotificationContext>(NotificationContext);
 
     useVisit('visit_notification');
+
 
     const handleInfo = () => {
         setLoading(true);
@@ -34,7 +42,11 @@ export default function Index() {
     }
 
     useEffect(() => {
-        handleInfo();   
+        setReload(notification.notification > 0)
+    }, [notification.notification])
+
+    useEffect(() => {
+        handleInfo();
     }, [page]);
 
 
@@ -58,5 +70,6 @@ export default function Index() {
                     }
                 }
                 rows={data?.items || []} />
+            <Reloader callback={() => handleInfo()} isVisible={reload} />
         </section>)
 }

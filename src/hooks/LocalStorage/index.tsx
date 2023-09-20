@@ -1,7 +1,8 @@
 
 import { useState } from "react";
 
-export const useLocalStorage = (keyName:string, defaultValue:any) => {
+
+export function useLocalStorage<T>(keyName: string, defaultValue: T): [T, (value: T) => void, (fn: (data: T) => T) => void] {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const value = window.localStorage.getItem(keyName);
@@ -15,11 +16,28 @@ export const useLocalStorage = (keyName:string, defaultValue:any) => {
       return defaultValue;
     }
   });
-  const setValue = (newValue:any) => {
+  const setValue = (newValue: T) => {
     try {
       window.localStorage.setItem(keyName, JSON.stringify(newValue));
-    } catch (err) {}
+    } catch (err) { }
     setStoredValue(newValue);
   };
-  return [storedValue, setValue];
+
+  const setReducer = (fn: (data: T) => T) => {
+    try {
+      const value = window.localStorage.getItem(keyName);
+      if (value) {
+        let newValue = fn(JSON.parse(value));
+        window.localStorage.setItem(keyName, JSON.stringify(newValue));
+        setStoredValue(newValue);
+      } else {
+        let newValue = fn(defaultValue);
+        window.localStorage.setItem(keyName, JSON.stringify(newValue));
+        setStoredValue(newValue);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return [storedValue, setValue, setReducer];
 };

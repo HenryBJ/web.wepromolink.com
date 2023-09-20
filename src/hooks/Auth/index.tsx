@@ -7,8 +7,8 @@ import { gTag } from "../../firebase";
 const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useLocalStorage("user_wepromolink", null);
-  const [idToken, setIdToken] = useLocalStorage("user_wepromolink_idToken", null);
+  const [user, setUser] = useLocalStorage<any>("user_wepromolink", null);
+  const [idToken, setIdToken] = useLocalStorage<any>("user_wepromolink_idToken", null);
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
