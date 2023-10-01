@@ -9,16 +9,12 @@ import NavBar from '../../components/NavBar'
 import { NavButton } from '../../components/NavButton'
 import { AuthProvider, useAuth } from '../../hooks/Auth'
 import AuthLayout from '../AuthLayout'
-import bgImage from '../../images/fondo.png';
 import SocialNetworks from '../../components/SocialNetworks'
 import { ToastContainer } from 'react-toastify'
 
 
 export default function HomeLayout() {
-    // const { user } = useAuth();
-    // if (user) {
-    //     return <Navigate to="/dashboard" />;
-    // }
+    
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
     const [logoScale, setLogoScale] = useState<any>(1.2);
@@ -67,7 +63,7 @@ export default function HomeLayout() {
                         <div className='absolute bottom-3 flex items-center justify-center w-full'>
                             <SocialNetworks />
                         </div>
-                        <span className='absolute bottom-0 text-xs text-white/50 w-full text-right mr-1'>v1.0.107</span>
+                        <span className='absolute bottom-0 text-xs text-white/50 w-full text-right mr-1'>v1.0.0</span>
                     </div>
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>

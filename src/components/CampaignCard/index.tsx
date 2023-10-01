@@ -9,6 +9,7 @@ import { gTag } from "../../firebase";
 import { toast } from "react-toastify";
 import { timeSince } from "../../common";
 import ExpandableText from "../ExpandableText";
+import { Link } from "react-router-dom";
 
 interface IProps {
     data: ICampaignCard
@@ -47,10 +48,15 @@ export default function CampaignCard({ data }: IProps) {
         <>
             <div className="w-full xxs:w-96 justify-start h-auto flex flex-col shadow-lg  border-gray-400  bg-white rounded-3xl p-1">
                 <div className="text-sm text-gray-600 flex items-center p-2 w-full ">
-                    <img className="w-9 h-9 rounded-full mr-2  object-cover"
-                        src={data.autorImageUrl} alt={data.autorName} />
+                    <Link to={`/profile/${data.autorExternalId}`}>
+                        <img className="w-9 h-9 rounded-full mr-2  object-cover"
+                            src={data.autorImageUrl} alt={data.autorName} />
+                    </Link>
+
                     <div className="text-sm">
-                        <p className="text-gray-700 leading-none">{data.autorName}</p>
+                        <Link to={`/profile/${data.autorExternalId}`}>
+                            <p className="text-gray-700 leading-none">{data.autorName}</p>
+                        </Link>
                         <p className="text-gray-400 ">{timeSince(data.lastModified)}</p>
                     </div>
                     <div className="flex-grow flex justify-end">

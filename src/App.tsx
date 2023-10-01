@@ -31,6 +31,7 @@ import EditCampaign from './pages/EditCampaign';
 import Thanks from './pages/Thanks';
 import NotFound from './pages/NotFound';
 import ConnectionHandler from './components/ConnectionHandler'
+import Profile from './pages/Profile';
 // import './App.css';
 
 function App() {
@@ -66,7 +67,8 @@ function App() {
               <Route path="/links/stats/:id" element={<SharedStats/>} />
               <Route path="/balance/detail/:id" element={<TransactionDetail/>} />
               <Route path="/notifications/detail/:id" element={<NotificationDetail/>} />
-              <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} />
+              {/* <Route path="/subcriptions/detail/:id" element={<SubPlanDetail/>} /> */}
+              <Route path="/profile/:id" element={<Profile/>} />
               <Route path='/create' element={<CreateCampaign />} />
               <Route path="/links" element={<Shared />} />
               <Route path="/balance" element={<Balance/>}/>

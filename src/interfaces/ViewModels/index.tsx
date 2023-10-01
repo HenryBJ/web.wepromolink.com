@@ -35,6 +35,7 @@ export interface ICampaignCard {
     imageBundle: ImageBundle | null,
     autorImageUrl: string,
     autorName: string,
+    autorExternalId: string,
     lastModified: number
 }
 
@@ -205,9 +206,6 @@ export interface ISubscriptionPlanCard {
     monthly: number,
     annually: number,
     discount: number,
-    depositFee: number,
-    payoutFee: number,
-    payoutMinimun: number,
     paymentMethod: string,
     tag?: string
     monthlyPaymantLink: string,

@@ -78,29 +78,50 @@ export default function Pricing() {
     <div className="container max-w-6xl mx-auto pt-12 md:pt-0 md:mt-5 relative">
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">Pricing</h1>
 
-      <div className=" h-[calc(100vh-120px)] md:h-[calc(100vh-180px)] w-full flex flex-wrap gap-3 md:gap-11 justify-center overflow-y-auto ">
-        {pricingPlans && pricingPlans.sort((a, b) => a.order - b.order).map((e, index) =>
-        (<SubcriptionCard
-          key={index}
-          id={e.id}
-          annually={e.annually}
-          discount={e.discount}
-          monthly={e.monthly}
-          paymentmethod={e.paymentMethod}
-          title={e.title}
-          features={e.features}
-          depositFee={e.depositFee}
-          payoutFee={e.payoutFee}
-          payoutMinimun={e.payoutMinimun}
-          tag={e.tag}
-          loading={loading}
-          monthlyPaymantLink={e.monthlyPaymantLink}
-          annualyPaymantLink={e.annualyPaymantLink}
-          onGetStarted={onGetStarted}
-        />)
-        )}
-      </div>
-      {loadingPage && <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center"><Spinner text="" type={SpinnerType.Alternative} /></div>}
+      {process.env.REACT_APP_LAUNCH_MODE === 'prelaunch' &&
+        <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-2xl px-2 md:px-24 text-center w-full">
+          📣 Hey there, Awesome Promoter! <br />
+
+          <div className="text-left text-xl">
+            <br/>
+            Exciting news! 🌟 Our subscription plans are currently under review 🕵️, and we're working hard to make them even more amazing for you. 💪<br />
+            <br />
+            But here's the best part: Our basic plan will always be FREE 🎉 with no monthly fees! 😲 You'll only pay a tiny 10% fee from the earnings when someone clicks your affiliate link. 💰<br />
+            <br />
+            Thanks for being part of the WePromoLink community! 🙌<br />
+            <br />
+            Happy Promoting! 🚀✨
+          </div>
+
+        </div>
+      }
+
+      {process.env.REACT_APP_LAUNCH_MODE === 'live' &&
+        <>
+          <div className=" h-[calc(100vh-120px)] md:h-[calc(100vh-180px)] w-full flex flex-wrap gap-3 md:gap-11 justify-center overflow-y-auto ">
+            {pricingPlans && pricingPlans.sort((a, b) => a.order - b.order).map((e, index) =>
+            (<SubcriptionCard
+              key={index}
+              id={e.id}
+              annually={e.annually}
+              discount={e.discount}
+              monthly={e.monthly}
+              paymentmethod={e.paymentMethod}
+              title={e.title}
+              features={e.features}
+              tag={e.tag}
+              loading={loading}
+              monthlyPaymantLink={e.monthlyPaymantLink}
+              annualyPaymantLink={e.annualyPaymantLink}
+              onGetStarted={onGetStarted}
+            />)
+            )}
+          </div>
+          {loadingPage &&
+            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+              <Spinner text="" type={SpinnerType.Alternative} />
+            </div>}
+        </>}
     </div>
   )
 }

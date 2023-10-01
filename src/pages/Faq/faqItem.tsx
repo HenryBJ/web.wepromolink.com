@@ -18,7 +18,7 @@ function FAQItem({ question, answer }: any) {
 
       </button>
       <div className={` rounded-md p-2 ${isOpen ? 'block' : 'hidden'}`}>
-        <p dangerouslySetInnerHTML={{ __html: answer }} className="text-orange-100 md:text-orange-800"></p>
+        <p dangerouslySetInnerHTML={{ __html: answer }} className="text-orange-100 md:text-orange-800 text-lg"></p>
       </div>
     </div>
   );

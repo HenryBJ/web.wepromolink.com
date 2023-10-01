@@ -8,6 +8,8 @@ import { getIsEmailSignUp, putFirebaseUid } from "../../services";
 import useVisit from "../../hooks/Visit";
 import { useState } from "react";
 import Spinner from "../../components/Spinner";
+import { env } from "process";
+import JoinWaitingList from "../../components/JoinWaitingList";
 
 export default function Home() {
 
@@ -57,11 +59,12 @@ export default function Home() {
         <div className="md:hidden">
           <Logo scale={0.9} />
         </div>
-        <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-2xl w-4/5 text-center">
-          <span>Boost campaigns or monetize with ease by sharing on social media! Earn money by sharing links from other users' campaigns.</span>
-        </div>
+        {process.env.REACT_APP_LAUNCH_MODE === 'live' &&
+          <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-3xl w-4/5 text-center">
+            <span>Promotion and advertising platform | Unleash the potential of your social networks to generate cash</span>
+          </div>}
 
-        <div className="flex flex-col gap-2 justify-center items-center">
+        {process.env.REACT_APP_LAUNCH_MODE === 'live' ? <div className="flex flex-col gap-2 justify-center items-center">
           {user ? <button onClick={GoToDashBoard} className="bg-white  md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit ">
             <div className="flex w-56">
               <div>
@@ -75,7 +78,7 @@ export default function Home() {
             </div>
           </button> : ''}
 
-          <button onClick={Click} disabled={loading} className={loading ? "bg-white md:bg-orange-200  text-orange-300 md:text-orange-300  font-bold py-2 px-4 rounded-full min-w-fit":"bg-white md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit"}>
+          <button onClick={Click} disabled={loading} className={loading ? "bg-white md:bg-orange-200  text-orange-300 md:text-orange-300  font-bold py-2 px-4 rounded-full min-w-fit" : "bg-white md:bg-orange-300 md:hover:bg-orange-500 text-orange-600 md:text-orange-900 md:hover:text-white font-bold py-2 px-4 rounded-full min-w-fit"}>
             <div className="flex w-56">
               <div>
                 <GoogleIcon />
@@ -100,7 +103,7 @@ export default function Home() {
               </div>
             </div>
           </button>}
-        </div>
+        </div> : <JoinWaitingList />}
 
         <div className="text-orange-100 md:text-orange-800 font-semibold text-sm w-3/5 text-center">
           <span>By signing up you accept our <Link to="/terms"><u>Terms & Conditions</u></Link> </span>

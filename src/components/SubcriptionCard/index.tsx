@@ -11,9 +11,6 @@ interface IProps {
     monthly: number,
     annually: number,
     discount: number,
-    depositFee?: number,
-    payoutFee?: number,
-    payoutMinimun?: number,
     tag?: string,
     loading: boolean,
     paymentmethod: string,
@@ -36,7 +33,7 @@ const NoIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 
 
 
 
-export default function Index({ id, title, monthly, annually, discount, depositFee, payoutFee, features, tag, loading, payoutMinimun = 0, paymentmethod, onGetStarted, monthlyPaymantLink, annualyPaymantLink }: IProps) {
+export default function Index({ id, title, monthly, annually, discount, features, tag, loading, paymentmethod, onGetStarted, monthlyPaymantLink, annualyPaymantLink }: IProps) {
 
     const [proMonthly, setProMonthly] = useState(true);
 
@@ -73,14 +70,6 @@ export default function Index({ id, title, monthly, annually, discount, depositF
 
                 <table className="w-full mt-1 table">
                     <tr>
-                        <td className="w-9/10 text-orange-800">Deposit fee</td>
-                        <td className="w-1/10 text-right text-orange-800">{depositFee ? `${depositFee}%` : '0%'}</td>
-                    </tr>
-                    <tr>
-                        <td className="w-9/10 text-orange-800">Payout fee</td>
-                        <td className="w-1/10 text-right text-orange-800">{payoutFee ? `${payoutFee}%` : '0%'}</td>
-                    </tr>
-                    <tr>
                         <td className="w-9/10 text-orange-800">Payment method</td>
                         <td className="w-1/10 flex justify-end text-orange-800">
                             <div className="flex gap-1">
@@ -97,10 +86,7 @@ export default function Index({ id, title, monthly, annually, discount, depositF
 
                         </td>
                     </tr>
-                    <tr>
-                        <td className="w-9/10 text-orange-800">Payout minimun</td>
-                        <td className="w-1/10 text-right text-orange-800">{`$${payoutMinimun}`}</td>
-                    </tr>
+                    
                     {features?.map((e: ISubFeature) =>
                     (<tr>
                         <td className="w-9/10 text-orange-800">{e.name}</td>

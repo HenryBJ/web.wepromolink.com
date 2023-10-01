@@ -95,6 +95,8 @@ export const connectStripe = (): Promise<AxiosResponse<string>> => api.post('str
 export const hasVerifiedStripeAccount = (): Promise<AxiosResponse<boolean>> => api.get('stripe/account/isverified');
 export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/login');
 export const getPushNotification = (): Promise<AxiosResponse<IPushNotification>> => api.get("push/get");
+export const getExternalId = (id: string): Promise<AxiosResponse<string>> => api.get(`profile/getid/${id}`);
+export const joinWaitingList = (email: string): Promise<AxiosResponse<void>> => api.post('marketing/join', { email: email });
 
 
 export const updatePayout = (data: IPaymentMethod): Promise<AxiosResponse<void>> => api.post("/payout", data);

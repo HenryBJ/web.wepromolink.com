@@ -1,7 +1,9 @@
 import { Menu, Transition } from "@headlessui/react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom";
 import NotiWrapper from "../NotiWrapper";
+import { useAuth } from "../../hooks/Auth";
+import { getExternalId } from "../../services";
 
 interface IUserInfo {
     name: string,
@@ -13,6 +15,12 @@ interface IUserInfo {
 export default function ProfileMenu(props: IUserInfo) {
 
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    const getExtUserId = useMemo(() => {
+        return getExternalId(user.uid)
+    }, [user.uid]);
+
 
     const GoSettings = () => {
         navigate("/settings");
@@ -31,6 +39,14 @@ export default function ProfileMenu(props: IUserInfo) {
     const GoSubs = (fn: () => void) => {
         navigate("/subcriptions");
         fn();
+    }
+
+    const GoProfile = (fn: () => void) => {
+        getExtUserId.then(data => {
+            navigate(`/profile/${data.data}`);
+            fn();
+        }).catch(err => console.log(err));
+
     }
 
     return (
@@ -66,6 +82,16 @@ export default function ProfileMenu(props: IUserInfo) {
                     leaveTo="transform scale-95 opacity-0"
                 >
                     <Menu.Items className="absolute top-8 right-0 mt-0 w-44 px-3 py-3 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none text-center text-orange-600 font-semibold ">
+                        {/* <Menu.Item>
+                            {({ active, close }) => (
+                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoProfile(close)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                    </svg>
+                                    <span>Profile</span>
+                                </button>
+                            )}
+                        </Menu.Item> */}
                         <Menu.Item>
                             {({ active, close }) => (
                                 <NotiWrapper notiIndex="notification">
@@ -101,7 +127,7 @@ export default function ProfileMenu(props: IUserInfo) {
                                 </button>
                             )}
                         </Menu.Item>
-                        <Menu.Item>
+                        {/* <Menu.Item>
                             {({ active, close }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoSubs(close)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
@@ -111,7 +137,7 @@ export default function ProfileMenu(props: IUserInfo) {
                                     <span>Subcriptions</span>
                                 </button>
                             )}
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item>
                             {({ active }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={props.logout}>
