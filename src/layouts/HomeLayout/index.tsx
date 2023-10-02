@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify'
 
 
 export default function HomeLayout() {
-    
+
     const myRef = useRef(null);
     const [width, setWidth] = useState<any>(0);
     const [logoScale, setLogoScale] = useState<any>(1.2);
@@ -68,6 +68,7 @@ export default function HomeLayout() {
                 </div>
                 <div className='grow md:hidden h-[calc(100vh-74px)]'>
                     <AuthProvider>
+                        <ToastContainer position="bottom-right" />
                         <Outlet />
                     </AuthProvider>
                 </div>
