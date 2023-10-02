@@ -79,10 +79,10 @@ export default function Pricing() {
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">Pricing</h1>
 
       {process.env.REACT_APP_LAUNCH_MODE === 'prelaunch' &&
-        <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-2xl px-2 md:px-24 text-center w-full">
+        <div className="text-orange-100 md:text-orange-800 font-semibold text-xl md:text-2xl px-4 md:px-24 text-center w-full">
           📣 Hey there, Awesome Promoter! <br />
 
-          <div className="text-left text-xl">
+          <div className="text-left text-lg">
             <br/>
             Exciting news! 🌟 Our subscription plans are currently under review 🕵️, and we're working hard to make them even more amazing for you. 💪<br />
             <br />

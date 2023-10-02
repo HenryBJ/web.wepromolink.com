@@ -35,7 +35,7 @@ export default function Contact() {
           ))}
       </div>
 
-      <div className="absolute flex items-center bottom-4 md:hidden">
+      <div className="absolute flex items-center bottom-14 md:bottom-4 md:hidden">
         <SocialNetworks />
       </div>
 
