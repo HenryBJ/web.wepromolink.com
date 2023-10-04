@@ -14,7 +14,8 @@ import {
     ISubscriptionPlanCard,
     ImageBundle,
     IAbuseReportCampaign,
-    IPushNotification
+    IPushNotification,
+    ISurveySummary
 } from "../interfaces/ViewModels";
 import { INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResponse, ISubscriptionResponse, ITransactionResponse } from "../interfaces/Responses";
 import AddInterceptors from "./interceptors";
@@ -97,6 +98,8 @@ export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('s
 export const getPushNotification = (): Promise<AxiosResponse<IPushNotification>> => api.get("push/get");
 export const getExternalId = (id: string): Promise<AxiosResponse<string>> => api.get(`profile/getid/${id}`);
 export const joinWaitingList = (email: string): Promise<AxiosResponse<void>> => api.post('marketing/join', { email: email });
+export const getSurvey = (): Promise<AxiosResponse<ISurveySummary>> => api.get('marketing/surveysummary');
+export const addSurveyDatapoint = (question: string, answer: string): Promise<AxiosResponse<void>> => api.post('marketing/datapoint', { question, answer });
 
 
 export const updatePayout = (data: IPaymentMethod): Promise<AxiosResponse<void>> => api.post("/payout", data);

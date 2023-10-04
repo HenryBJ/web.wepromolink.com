@@ -224,5 +224,15 @@ export interface ISigUpInfo {
 
 export interface IAbuseReportCampaign {
     campaignExternalId: string,
-    reason:string
+    reason: string
+}
+
+export interface ISurveyQuestion {
+    question: string,
+    id: string,
+    answers: { response: string, id: string }[]
+}
+
+export interface ISurveySummary {
+    data: ISurveyQuestion[]
 }
