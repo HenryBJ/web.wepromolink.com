@@ -89,6 +89,9 @@ spec:
   - hosts:
     - dev.wepromolink.com
     secretName: dev.wepromolink-tls
+  - hosts:
+    - wepromolink.com
+    secretName: prod.wepromolink-tls
   rules:
     - host: dev.wepromolink.com
       http:
@@ -99,4 +102,14 @@ spec:
               service:
                 name: webclient-service
                 port:
-                  number: 80 
+                  number: 80
+    - host: wepromolink.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: webclient-service
+                port:
+                  number: 80

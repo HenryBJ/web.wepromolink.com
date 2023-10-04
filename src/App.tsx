@@ -32,6 +32,7 @@ import Thanks from './pages/Thanks';
 import NotFound from './pages/NotFound';
 import ConnectionHandler from './components/ConnectionHandler'
 import Profile from './pages/Profile';
+import Survey from './pages/Survey';
 // import './App.css';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/thanks" element={<Thanks />} />
+            <Route path="/survey" element={<Survey />} />
             {/* <Route path="/login" element={<Login />} /> */}
           </Route>
 
