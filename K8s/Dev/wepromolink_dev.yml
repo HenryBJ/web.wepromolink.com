@@ -85,7 +85,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "8m"
 spec:
   ingressClassName: nginx  # Especifica el nombre del controlador de Ingress que debe manejar las reglas definidas en este Ingress
-  # tls:
+  tls:
   # - hosts:
   #   - dev.wepromolink.com
   #   secretName: dev.wepromolink-tls
