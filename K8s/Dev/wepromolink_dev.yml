@@ -89,9 +89,9 @@ spec:
   # - hosts:
   #   - dev.wepromolink.com
   #   secretName: dev.wepromolink-tls
-  # - hosts:
-  #   - wepromolink.com
-  #   secretName: prod.wepromolink-tls
+  - hosts:
+    - wepromolink.com
+    secretName: prod.wepromolink-tls
   rules:
     # - host: dev.wepromolink.com
     #   http:
