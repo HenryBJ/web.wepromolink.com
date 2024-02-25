@@ -101,7 +101,7 @@ export default function Index() {
                 case 'bitcoin':
                     gTag('withdraw_create', { method: 'BTC', amount: newdata.amount.substring(1) });
                     await createWithDrawBTC(moneyAmount);
-                    setLoading('');
+                    
                     toast.success('Withdraw requested sucessfully');
                     navigation('/balance');
                     break;
@@ -115,8 +115,11 @@ export default function Index() {
             }
 
         } catch (error) {
-            console.log(error);
             toast.error('Something goes wrong !!!');
+        }
+        finally{
+            setLoading('');
+            setIsLoading(false);
         }
 
     }

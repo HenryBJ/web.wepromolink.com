@@ -14,8 +14,8 @@ interface IProps {
     tag?: string,
     loading: boolean,
     paymentmethod: string,
-    monthlyPaymantLink: string,
-    annualyPaymantLink?: string,
+    monthlyPriceId: string,
+    annualyPriceId?: string,
     features?: ISubFeature[]
     onGetStarted: (link?: string, Id?: string) => void
 
@@ -33,14 +33,14 @@ const NoIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 
 
 
 
-export default function Index({ id, title, monthly, annually, discount, features, tag, loading, paymentmethod, onGetStarted, monthlyPaymantLink, annualyPaymantLink }: IProps) {
+export default function Index({ id, title, monthly, annually, discount, features, tag, loading, paymentmethod, onGetStarted, monthlyPriceId, annualyPriceId }: IProps) {
 
     const [proMonthly, setProMonthly] = useState(true);
 
     return (
         <div className="relative overflow-clip shadow-2xl h-96 rounded-md ">
             <div className="absolute bottom-0 left-0 w-full px-4">
-                <button disabled={loading} onClick={() => onGetStarted(proMonthly ? monthlyPaymantLink : annualyPaymantLink, id)} className={loading ? "w-full hover:bg-orange-300 cursor-pointer  bg-orange-300 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl" : "w-full hover:bg-orange-700 cursor-pointer  bg-orange-500 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl hover:shadow-none active:bg-white active:text-orange-500 active:ring-2 active:ring-orange-500"}>
+                <button disabled={loading} onClick={() => onGetStarted(proMonthly ? monthlyPriceId : annualyPriceId, id)} className={loading ? "w-full hover:bg-orange-300 cursor-pointer  bg-orange-300 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl" : "w-full hover:bg-orange-700 cursor-pointer  bg-orange-500 text-white font-sans font-bold text-center text-base px-4 py-1 mx-auto my-4 rounded-full shadow-xl hover:shadow-none active:bg-white active:text-orange-500 active:ring-2 active:ring-orange-500"}>
                     <div className="flex justify-center">
                         {loading && <Spinner text="" />}
                         Get Started
@@ -87,12 +87,11 @@ export default function Index({ id, title, monthly, annually, discount, features
                         </td>
                     </tr>
                     
-                    {features?.map((e: ISubFeature) =>
+                    {features?.sort((a, b) => a.name.localeCompare(b.name)).map((e: ISubFeature) =>
                     (<tr>
                         <td className="w-9/10 text-orange-800">{e.name}</td>
                         <td className="w-1/10 text-right text-orange-800  flex justify-end">{e.value ? e.value : (e.boolValue ? checkIcon : NoIcon)}</td>
                     </tr>)
-
                     )}
 
                 </table>

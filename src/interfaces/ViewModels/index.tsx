@@ -208,8 +208,8 @@ export interface ISubscriptionPlanCard {
     discount: number,
     paymentMethod: string,
     tag?: string
-    monthlyPaymantLink: string,
-    annualyPaymantLink?: string,
+    monthlyPriceId: string,
+    annualyPriceId?: string,
     order: number,
     features?: ISubFeature[]
 }
@@ -221,6 +221,7 @@ export interface ISigUpInfo {
     subscriptionPlanId: string,
     photoUrl: string
 }
+
 
 export interface IAbuseReportCampaign {
     campaignExternalId: string,

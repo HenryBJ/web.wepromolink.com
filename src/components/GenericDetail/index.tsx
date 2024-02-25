@@ -9,12 +9,15 @@ import { AxiosResponse } from "axios";
 import { IStats } from "../../interfaces/ViewModels";
 import { timeSince } from "../../common";
 import ImageViewer from "../ImageViewer";
+import DashGeneric from "../DashGeneric";
 
 
 export interface IField {
     value: any;
     valueType: string;
     title: string;
+    collectionName?: string;
+    externalId?: string;
     isImage: boolean;
     isHidden: boolean;
     hideTitle?: boolean,
@@ -74,18 +77,19 @@ export default function Index({ prepare, actions }: Props) {
                 return item.transform ? item.transform(item.value) : item.value;
 
             case 'image':
-                return (
-                    <ImageViewer ImageBundle={item.value} Scale={8} />
-                    // <div className="flex justify-start items-center px-0">
-                    //     <img className="h-full w-80 rounded ring-2 ring-orange-500" src={item.value} alt="Image preview" />
-                    // </div>
-                )
+                return (<ImageViewer ImageBundle={item.value} Scale={8} />)
 
             case 'dash':
                 if (item.load) {
                     return <Dash title={item.title} load={item.load} transform={item.transform ? item.transform : (e) => e} />
                 }
                 return <Dash title={item.title} data={item.transform ? item.transform(item.value) : item.value} />
+            
+            case 'generic-line':
+                if (item.collectionName && item.externalId) {
+                    return <DashGeneric title={item.title} type="Line" collectionName={item.collectionName} externalId={item.externalId} />
+                }
+                return <div>CollectionName and ExternalId missing</div>
 
             case 'line':
                 if (item.load) {
@@ -109,9 +113,6 @@ export default function Index({ prepare, actions }: Props) {
                 return (
                     <div className="relative w-full rounded-md shadow-sm ">
                         <input type="text" name="link" value={item.value} disabled className="cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" />
-                        {/* <div className="absolute inset-y-0 right-0 flex items-center">
-                            <CopyButton text={item.value} />
-                        </div> */}
                     </div>
                 );
 
@@ -147,7 +148,6 @@ export default function Index({ prepare, actions }: Props) {
                         <div key={index} className="min-h-[60px] bg-white shadow px-2 py-2 flex-grow flex flex-col gap-1" style={e.fnwidth ? { width: e.fnwidth(width) } : {}}>
                             {!e.hideTitle && <span className="font-semibold text-gray-800">{e.title}</span>}
                             {Draw(e)}
-                            {/* <label>{width}</label> */}
                         </div>
                     )
                 })}

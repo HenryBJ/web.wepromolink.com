@@ -4,7 +4,7 @@ import Dash from "../../components/Dash";
 import DashPrice from "../../components/DashPrice";
 import DynamicTable from "../../components/DynamicTable";
 import { ITransactionResponse } from "../../interfaces/Responses";
-import { getAvailableBalanceData, getBudgetBalanceData, getLockedBalanceData, getPayoutBalanceData, getProfitBalanceData, getTransactions, hasVerifiedStripeAccount, loginLinkStripe } from "../../services";
+import { getAvailableBalanceData, getBudgetBalanceData,  getPayoutBalanceData, getProfitBalanceData, getTransactions, hasVerifiedStripeAccount, loginLinkStripe } from "../../services";
 import { Columns } from "./columns";
 import SubscribeWrapper from "../../components/SubscribeWrapper";
 import useVisit from "../../hooks/Visit";

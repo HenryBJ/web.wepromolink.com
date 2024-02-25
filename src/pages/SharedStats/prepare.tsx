@@ -1,91 +1,20 @@
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
 import {ILinkDetail} from "../../interfaces/ViewModels";
-import { getClicksLastWeekOnLink, getClicksLastWeekOnLinkData, getClicksTodayOnLink, getEarnLastWeekOnLink, getEarnTodayOnLink, getHistoryClicksByCountriesOnLink, getHistoryClicksOnLink, getHistoryEarnByCountriesOnLink, getHistoryEarnOnLink } from "../../services";
 
 export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData | undefined => {
     if (linkdetail) {
         let stats: IField[] = [
-            {
-                title: "Clicks Last Week",
-                load: () => getClicksLastWeekOnLink(linkdetail.id),
-                order: 5,
-                valueType: 'dash',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-            {
-                title: "Clicks Today",
-                load: () => getClicksTodayOnLink(linkdetail.id),
-                order: 4,
-                valueType: 'dash',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-            {
-                title: "Earn Last Week",
-                load: () => getEarnLastWeekOnLink(linkdetail.id),
-                order: 7,
-                valueType: 'dash',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-            {
-                title: "Earn Today",
-                load: () => getEarnTodayOnLink(linkdetail.id),
-                order: 6,
-                valueType: 'dash',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-            {
-                title: "Clicks by Countries",
-                load: () => getHistoryClicksByCountriesOnLink(linkdetail.id),
-                order: 9,
-                valueType: 'pie',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-            {
-                title: "Earn by Countries",
-                load: () => getHistoryEarnByCountriesOnLink(linkdetail.id),
-                order: 10,
-                valueType: 'pie',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-            {
-                title: "Earn",
-                load: () => getHistoryEarnOnLink(linkdetail.id),
-                order: 5,
-                valueType: 'line',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
-
-            {
-                title: "Clicks",
-                load: () => getHistoryClicksOnLink(linkdetail.id),
-                order: 3,
-                valueType: 'line',
-                isHidden: false,
-                value: '',
-                isImage: false,
-                hideTitle:true
-            },
+             // {
+            //     title: "Clicks",
+            //     order: 1,
+            //     collectionName:"",
+            //     externalId:"",
+            //     valueType: 'dash',
+            //     isHidden: false,
+            //     value: '',
+            //     isImage: false,
+            //     hideTitle:true
+            // },
 
         ];
         const properties = Object.entries(linkdetail);

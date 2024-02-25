@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import GenericDetail, { IField, IGenericDetailData } from "../../components/GenericDetail";
+import GenericDetail from "../../components/GenericDetail";
 import { useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
 import Loader from "../../components/Loader";
