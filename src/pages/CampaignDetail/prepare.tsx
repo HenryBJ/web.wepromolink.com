@@ -1,14 +1,6 @@
+import { splitNumberValue } from "../../common";
 import {IField, IGenericDetailData} from "../../components/GenericDetail";
 import {IMyCampaignDetail} from "../../interfaces/ViewModels";
-
-const splitNumberValue = (value: number): string => {
-    const [intPart, decPart] = value.toString().split('.');
-    if (decPart) {
-        return `$${intPart}.<span class="text-gray-500 text-sm">${decPart}</span>`;
-    }
-    return intPart;
-};
-
 
 export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailData | undefined => {
     if (campaign) {
@@ -102,11 +94,12 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
 
 
                 case 'epm':
+                    let formattedEPM = splitNumberValue(value as number);
                     let f_epm: IField = {
                         isImage: false,
-                        title: 'Earn per thousand',
-                        value: value,
-                        valueType: 'number',
+                        title: 'EPM',
+                        value: formattedEPM,
+                        valueType: 'html',
                         isHidden: false,
                         order: 7
                     }

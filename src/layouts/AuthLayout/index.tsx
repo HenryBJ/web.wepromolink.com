@@ -14,7 +14,7 @@ export default function AuthLayout() {
                 <AuthProvider>
                     <DashBoardNavBar />
                     <main className="bg-gray-100 min-h-[calc(100vh-83px)] md:min-h-[calc(100vh-47px)] h-full">
-                    <div className="bg-blue-500 w-full text-white flex item-center justify-center">This platform is on  <b>TESTING MODE</b>, no real money is use</div>
+                    <div className="bg-blue-500 w-full text-white flex item-center justify-center mt-1 text-sm md:text-md">This platform is on  <b>TESTING MODE</b>, no real money is use</div>
                         <ToastContainer position="bottom-right"/>
                         <Outlet />
                     </main>

@@ -29,4 +29,12 @@ export function timeSince(date: Date | null | string | number): string {
     return "just now";
 }
 
+export function splitNumberValue(value: number): string {
+    const [intPart, decPart] = value.toString().split('.');
+    if (decPart) {
+        return `$${intPart}.<span class="text-gray-500 text-sm">${decPart}</span>`;
+    }
+    return `$${intPart}.<span class="text-gray-500 text-sm">00</span>`;
+};
+
   
