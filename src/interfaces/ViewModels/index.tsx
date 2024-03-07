@@ -94,7 +94,7 @@ export interface IMyTransactionDetail {
 export interface ILinkDetail {
     id: string,
     title: string,
-    imageUrl: string,
+    imageData: ImageBundle | null,
     description: string,
     url: string,
     profit: Number,

@@ -5,17 +5,50 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
     if (campaign) {
         let stats: IField[] = [
 
-            // {
-            //     title: "Clicks",
-            //     order: 1,
-            //     collectionName:"",
-            //     externalId:"",
-            //     valueType: 'dash',
-            //     isHidden: false,
-            //     value: '',
-            //     isImage: false,
-            //     hideTitle:true
-            // },
+            {
+                title: "Budget",
+                order: 1,
+                collectionName:'campaignbudget',
+                externalId:campaign.id,
+                valueType: 'generic-money',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks",
+                order: 2,
+                collectionName:'campaignxclick',
+                externalId:campaign.id,
+                valueType: 'generic-line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Shares",
+                order: 3,
+                collectionName:'campaignxshare',
+                externalId:campaign.id,
+                valueType: 'generic-line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks by Countries",
+                order: 4,
+                collectionName:'campaignclickcountry',
+                externalId:campaign.id,
+                valueType: 'generic-pie',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
 
         ];
         const properties = Object.entries(campaign);

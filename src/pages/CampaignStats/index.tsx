@@ -36,7 +36,7 @@ export default function Index() {
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: campIcon, title: 'Campaigns', link: '/campaigns' }, { title: 'Campaign\'s statistics', link: '' }]} />
             {campaign && <GenericDetail prepare={prepareData(campaign)} />}
-            {loading && <Loader text="Loading campaign stats ..." />}
+            {loading && <Loader/>}
         </section>
     )
 

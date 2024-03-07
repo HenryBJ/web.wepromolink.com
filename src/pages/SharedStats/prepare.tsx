@@ -1,20 +1,43 @@
+import { splitNumberValue } from "../../common";
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
 import {ILinkDetail} from "../../interfaces/ViewModels";
 
 export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData | undefined => {
     if (linkdetail) {
         let stats: IField[] = [
-             // {
-            //     title: "Clicks",
-            //     order: 1,
-            //     collectionName:"",
-            //     externalId:"",
-            //     valueType: 'dash',
-            //     isHidden: false,
-            //     value: '',
-            //     isImage: false,
-            //     hideTitle:true
-            // },
+            {
+                title: "Profit History",
+                order: 1,
+                collectionName:'linkprofit',
+                externalId:linkdetail.id,
+                valueType: 'generic-money',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks",
+                order: 2,
+                collectionName:'linkxclick',
+                externalId:linkdetail.id,
+                valueType: 'generic-line',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
+            {
+                title: "Clicks by Countries",
+                order: 3,
+                collectionName:'linkclickcountry',
+                externalId:linkdetail.id,
+                valueType: 'generic-pie',
+                isHidden: false,
+                value: '',
+                isImage: false,
+                hideTitle:true
+            },
 
         ];
         const properties = Object.entries(linkdetail);
@@ -31,6 +54,16 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
                     }
                     return f_id;
 
+                case 'url':
+                        return {
+                            isImage: false,
+                            title: 'Url',
+                            value: value,
+                            valueType: 'url',
+                            isHidden: true,
+                            order: 1
+                        } as IField
+                    
                 case 'title':
                     let f_title: IField = {
                         isImage: false,
@@ -42,7 +75,7 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
                     }
                     return f_title;
 
-                case 'imageUrl':
+                case 'imageData':
                     let f_url: IField = {
                         isImage: true,
                         title: '',
@@ -54,105 +87,17 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
                     return f_url;
 
                 case 'profit':
-                    let f_todayClicks: IField = {
+                    return {
                         isImage: false,
                         title: 'Profit',
                         value: value,
-                        valueType: 'dash',
+                        valueType: 'dash-money',
+                        transform:e=>`${e}`,
                         isHidden: false,
                         hideTitle: true,
-                        order: 4,
-                        transform: (e: number) => `$${e}`
-                    }
-                    return f_todayClicks;
-
-                case 'lastWeekClicks':
-                    let f_lastWeekClicks: IField = {
-                        isImage: false,
-                        title: 'Last Week Clicks',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 4,
-                        transform: (e: number) => `${e} clicks`
-                    }
-                    return f_lastWeekClicks;
-
-                case 'historicalClicks':
-                    let f_historicalClicks: IField = {
-                        isImage: false,
-                        title: 'Clicks',
-                        value: value,
-                        valueType: 'line',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 5
-                    }
-                    return f_historicalClicks;
-
-                case 'clickByCountries':
-                    let f_clickByCountries: IField = {
-                        isImage: false,
-                        title: 'Clicks By Countries',
-                        value: value,
-                        valueType: 'pie',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 6
-                    }
-                    return f_clickByCountries;
-
-                case 'earnToday':
-                    let f_earnToday: IField = {
-                        isImage: false,
-                        title: 'Earn Today',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 7,
-                        transform: (e: number) => `$${e}`
-                    }
-                    return f_earnToday;
-
-                case 'earnLastWeek':
-                    let f_earnLastWeek: IField = {
-                        isImage: false,
-                        title: 'Earn Last Week',
-                        value: value,
-                        valueType: 'dash',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 8,
-                        transform: (e: number) => `$${e}`
-                    }
-                    return f_earnLastWeek;
-
-                case 'historicalEarn':
-                    let f_historicalEarn: IField = {
-                        isImage: false,
-                        title: 'Earn',
-                        value: value,
-                        valueType: 'line',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 9
-                    }
-                    return f_historicalEarn;
-
-                case 'earnByCountries':
-                    let f_earnByCountries: IField = {
-                        isImage: false,
-                        title: 'Earn By Countries',
-                        value: value,
-                        valueType: 'pie',
-                        isHidden: false,
-                        hideTitle: true,
-                        order: 10
-                    }
-                    return f_earnByCountries;
-
+                        order: 1,
+                    } as IField
+                
                 default:
                     let other: IField = {
                         isImage: false,

@@ -12,45 +12,14 @@ import {
   Tooltip,
 } from "chart.js";
 import Spinner from "../Spinner";
+import { timeSince } from "../../common";
 
 interface IProps {
-  type: "Bar" | "Pie" | "Line" | "Doughnut";
+  type: "Bar" | "Pie" | "Line" | "Doughnut" | "Line-Money";
   title: string;
   collectionName: string;
   externalId: string | undefined;
 }
-
-const options = (title: string, showLegend: boolean = false) => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: showLegend,
-      position: "top" as const,
-    },
-    title: {
-      display: false,
-      text: title,
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        ticks: {
-          stepSize: 1,
-          beginAtZero: true,
-        },
-        min: 0,
-        grid: {
-          display: false,
-        },
-      },
-    },
-  },
-});
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -112,36 +81,69 @@ export default function Index({
   } else {
     switch (type) {
       case "Bar":
-        chartElement = (
-          <Bar
-            data={chartData}
-            options={options(title || "Statistics", false)}
-          />
-        );
+        chartElement = <Bar data={chartData} options={{}} />;
         break;
       case "Pie":
-        chartElement = (
-          <Pie
-            data={chartData}
-            options={options(title || "Statistics", false)}
-          />
-        );
+        chartElement = <Pie data={chartData} options={{}} />;
         break;
       case "Line":
+        chartElement = <Line data={chartData} options={{
+          plugins:{
+            legend:{
+              display:false
+            }
+          },
+          scales:{
+            x:{
+              ticks:{
+                callback(tickValue, index){
+                  return index % 2 === 0 ? this.getLabelForValue(tickValue as number) : '';
+                },
+              },
+            },
+            y:{
+              ticks:{
+                stepSize:1,
+                precision:0
+              }              
+            }
+          }
+        }} />;
+        break;
+      case "Line-Money":
         chartElement = (
           <Line
             data={chartData}
-            options={options(title || "Statistics", false)}
+            options={{
+              plugins:{
+                legend:{
+                  display:false
+                }
+              },
+              responsive:true,
+              scales: {
+                x:{
+                  ticks:{
+                    callback(tickValue, index){
+                      return index % 2 === 0 ? this.getLabelForValue(tickValue as number) : '';
+                    },
+                  },
+                },
+                y: {
+                  beginAtZero:true,
+                  ticks: {
+                    callback(tickValue, index, ticks) {
+                      return "$" + tickValue;
+                    },
+                  },
+                },
+              },
+            }}
           />
         );
         break;
       case "Doughnut":
-        chartElement = (
-          <Doughnut
-            data={chartData}
-            options={options(title || "Statistics", false)}
-          />
-        );
+        chartElement = <Doughnut data={chartData} options={{}} />;
         break;
       default:
         chartElement = <div>No valid chart type specified.</div>;

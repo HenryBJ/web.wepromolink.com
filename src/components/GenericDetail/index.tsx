@@ -10,6 +10,7 @@ import { IStats } from "../../interfaces/ViewModels";
 import { timeSince } from "../../common";
 import ImageViewer from "../ImageViewer";
 import DashGeneric from "../DashGeneric";
+import DashPrice from "../DashPrice";
 
 
 export interface IField {
@@ -77,17 +78,38 @@ export default function Index({ prepare, actions }: Props) {
                 return item.transform ? item.transform(item.value) : item.value;
 
             case 'image':
-                return (<ImageViewer ImageBundle={item.value} Scale={8} />)
+                return (
+                <div className="h-full flex justify-center items-center">
+                    <ImageViewer ImageBundle={item.value} Scale={5} />
+                </div>)
 
             case 'dash':
                 if (item.load) {
                     return <Dash title={item.title} load={item.load} transform={item.transform ? item.transform : (e) => e} />
                 }
                 return <Dash title={item.title} data={item.transform ? item.transform(item.value) : item.value} />
+
+            case 'dash-money':
+                    if (item.load) {
+                        return <DashPrice title={item.title}  load={item.load} />
+                    }
+                    return <DashPrice title={item.title} data={item.transform ? item.transform(item.value) : item.value} />    
             
             case 'generic-line':
                 if (item.collectionName && item.externalId) {
                     return <DashGeneric title={item.title} type="Line" collectionName={item.collectionName} externalId={item.externalId} />
+                }
+                return <div>CollectionName and ExternalId missing</div>
+            
+            case 'generic-money':
+                    if (item.collectionName && item.externalId) {
+                        return <DashGeneric title={item.title} type="Line-Money" collectionName={item.collectionName} externalId={item.externalId} />
+                    }
+                    return <div>CollectionName and ExternalId missing</div>    
+
+            case 'generic-pie':
+                if (item.collectionName && item.externalId) {
+                    return <DashGeneric title={item.title} type="Pie" collectionName={item.collectionName} externalId={item.externalId} />
                 }
                 return <div>CollectionName and ExternalId missing</div>
 

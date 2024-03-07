@@ -1,3 +1,4 @@
+import { splitNumberValue } from "../../common";
 import { IField, IGenericDetailData } from "../../components/GenericDetail";
 import { ILinkDetail, IMyCampaignDetail } from "../../interfaces/ViewModels";
 
@@ -81,26 +82,26 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
 
 
                 case 'profit':
+                    let formattedProfit = splitNumberValue(value as number);
                     let f_bud: IField = {
                         isImage: false,
                         title: 'Profit',
-                        value: value,
-                        valueType: 'number',
+                        value: formattedProfit,
+                        valueType: 'html',
                         isHidden: false,
                         order: 6,
-                        transform: (e: number) => `$${e}`
                     }
                     return f_bud;
 
                 case 'epm':
+                    let formattedEpm = splitNumberValue(value as number);
                     let f_epm: IField = {
                         isImage: false,
-                        title: 'Earn per thousand',
-                        value: value,
-                        valueType: 'number',
+                        title: 'EPM',
+                        value: formattedEpm,
+                        valueType: 'html',
                         isHidden: false,
                         order: 7,
-                        transform: (e: number) => `$${e}`
                     }
                     return f_epm;
 

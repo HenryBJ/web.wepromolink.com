@@ -6,10 +6,8 @@ import Loader from "../../components/Loader";
 import { IMyCampaignDetail } from "../../interfaces/ViewModels";
 import { getCampaignDetail } from "../../services";
 import { prepareData } from "./prepare";
-import { IMyCampaignDetailResponse } from "../../interfaces/Responses";
 import { toast } from "react-toastify";
 import useVisit from "../../hooks/Visit";
-import DashGeneric from "../../components/DashGeneric";
 
 
 const campIcon = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -41,7 +39,6 @@ export default function Index() {
             <Breadcrumb levels={[{ icon: campIcon, title: 'Campaigns', link: '/campaigns' }, { title: 'Campaign\'s details', link: '' }]} />
             {campaign && <GenericDetail prepare={prepareData(campaign)} />}
             {loading && <Loader text="Loading campaign details ..." />}
-            <DashGeneric collectionName="campaignxclick" type="Line"  title="Demo" externalId={campaign?.id}/>
         </section>
     )
 

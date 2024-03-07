@@ -29,6 +29,7 @@ export const createCampaigns = (data: ICreateCampaign): Promise<AxiosResponse<st
 export const getCampaigns = (offset: number, limit: number, timestamp: number): Promise<AxiosResponse<ICampaignCard[]>> => api.get(`campaign/explore/${offset}/${limit}/${timestamp}`);
 export const getSubscriptionCards = (): Promise<AxiosResponse<ISubscriptionPlanCard[]>> => api.get(`pricing/all`);
 export const getIsEmailSignUp = (email: string): Promise<AxiosResponse<Boolean>> => api.get(`user/exits/${email}`);
+export const getMyExternalId = (): Promise<AxiosResponse<string>> => api.get('user/getExternalId');
 export const getIsBlocked = (): Promise<AxiosResponse<Boolean>> => api.get('user/isblocked');
 export const getIsSubscribed = (): Promise<AxiosResponse<Boolean>> => api.get('user/issubscribed');
 export const putFirebaseUid = (email: string, uid: string): Promise<AxiosResponse<void>> => api.put('user/firebaseuid', { email, uid });
