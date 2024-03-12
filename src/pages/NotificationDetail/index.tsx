@@ -45,7 +45,7 @@ export default function Index() {
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: notiIcon, title: 'Notifications', link: '/notifications' }, { title: 'Notification\'s details', link: '' }]} />
             {notification && <GenericDetail prepare={prepareData(notification)} />}
-            {loading && <Loader text="Loading notification details ..." />}
+            {loading && <Loader/>}
         </section>
     )
 

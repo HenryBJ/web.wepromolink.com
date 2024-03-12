@@ -83,7 +83,7 @@ export const Columns: IColumnData[] = [
   { title: "Url", name: "url", hidden: w => w < 984, maxWidth: e => 300 },
   { title: "Status", name: "status", hidden: w => w < 390, transform: e => e ? ReactDOMServer.renderToString(activeIcon) : ReactDOMServer.renderToString(deactiveIcon) },
   { title: "Budget", name: "budget", hidden: w => w < 490, transform: e => `$${e}` },
-  { title: "EPM", name: "epm", hidden: w => w < 570, transform: e => `$${e}` },
+  { title: "CPM", name: "epm", hidden: w => w < 570, transform: e => `$${e}` },
   { title: "Last Click", name: "lastClick", hidden: w => w < 680, transform: e => timeSince(e) },
   { title: "Last Shared", name: "lastShared", hidden: w => w < 850, transform: e => timeSince(e) },
   {

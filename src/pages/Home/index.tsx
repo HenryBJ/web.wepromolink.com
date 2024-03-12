@@ -4,7 +4,7 @@ import Logo from "../../components/Logo";
 import firebase, { fbLogOut, signInWithGoogle } from "../../firebase"
 import { useAuth } from "../../hooks/Auth";
 import { User } from "firebase/auth";
-import { getIsEmailSignUp, putFirebaseUid } from "../../services";
+import { getIsEmailSignUp } from "../../services";
 import useVisit from "../../hooks/Visit";
 import { useState } from "react";
 import Spinner from "../../components/Spinner";
@@ -31,7 +31,6 @@ export default function Home() {
             .then(async res => {
               if (Boolean(res.data)) {
                 const { uid } = result.user;
-                await putFirebaseUid(result.user.email!, uid);
                 login(result.user, await result.user.getIdToken());
               } else {
                 result.user.email && navigate('/pricing');
@@ -61,7 +60,7 @@ export default function Home() {
         </div>
         {process.env.REACT_APP_LAUNCH_MODE === 'live' &&
           <div className="text-orange-100 md:text-orange-800 font-semibold text-lg md:text-3xl w-4/5 text-center">
-            <span>Promotion and advertising platform | Unleash the potential of your social networks to generate cash</span>
+            <span>Promotion and advertising platform | Unleash the potential of your social networks </span>
           </div>}
 
         {process.env.REACT_APP_LAUNCH_MODE === 'live' ? <div className="flex flex-col gap-2 justify-center items-center">

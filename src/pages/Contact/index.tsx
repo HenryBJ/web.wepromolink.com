@@ -11,7 +11,7 @@ export default function Contact() {
   const style = 'text-white md:text-orange-800 mr-2 ml-2 text-xl';
 
     const contacts = [
-        {icon: faPhone, text: '+1 302 601 5704', href: "tel:+13026015704"},
+        // {icon: faPhone, text: '+1 302 601 5704', href: "tel:+13026015704"},
         {icon: faEnvelope, text: 'support@wepromolink.com', href: "mailto:support@wepromolink.com"},
         {icon: faWhatsapp, text: 'Join us in WhatsApp', href: "https://chat.whatsapp.com/Itdy4Fgx9ld3UYClzUCPU6"},
         {icon: faTelegram, text: 'Join us in Telegram', href: "https://t.me/wepromolink_support"}

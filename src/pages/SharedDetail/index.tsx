@@ -35,7 +35,7 @@ export default function Index() {
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: linkIcon, title: 'Links', link: '/links' }, { title: 'Link\'s details', link: '' }]} />
             {linkDetail && <GenericDetail prepare={prepareData(linkDetail)} />}
-            {loading && <Loader text="Loading link details ..." />}
+            {loading && <Loader/>}
         </section>
     )
 

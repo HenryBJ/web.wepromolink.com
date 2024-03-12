@@ -100,7 +100,7 @@ export default function Index({ onImageLoaded, initialImageBundleId }: IProps) {
         const file = event.target.files[0];
         const signal = controller.signal;
 
-        if (file && file.size <= 4 * 1024 * 1024) {
+        if (file && file.size <= 20 * 1024 * 1024) {
             validateImageDimensions(file)
                 .then(() => {
                     const formData = new FormData();
@@ -115,7 +115,7 @@ export default function Index({ onImageLoaded, initialImageBundleId }: IProps) {
                     toast.error(`The image dimensions should be 366x366 or bigger, current is (${width}x${height})`);
                 });
         } else {
-            toast.error('The image exceeds the allowed size limit (4 MB)')
+            toast.error('The image exceeds the allowed size limit (20 MB)')
         }
     };
 

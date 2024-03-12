@@ -1,3 +1,4 @@
+import { User } from "firebase/auth"
 
 export interface ImageBundle {
     externalId: string,
@@ -36,6 +37,7 @@ export interface ICampaignCard {
     autorImageUrl: string,
     autorName: string,
     autorExternalId: string,
+    autorVerified: boolean,
     lastModified: number
 }
 
@@ -197,7 +199,8 @@ export interface IPushNotification {
 export interface ISubFeature {
     name: string,
     boolValue?: boolean,
-    value?: string
+    value?: string,
+    order:number
 }
 
 export interface ISubscriptionPlanCard {
@@ -211,15 +214,15 @@ export interface ISubscriptionPlanCard {
     monthlyPriceId: string,
     annualyPriceId?: string,
     order: number,
+    disabled: boolean,
+    upgradeable: boolean,
     features?: ISubFeature[]
 }
 
 export interface ISigUpInfo {
-    fullname?: string,
-    email?: string,
-    firebaseId: string,
-    subscriptionPlanId: string,
-    photoUrl: string
+    planId: string,
+    user:User,
+    priceId?: string,
 }
 
 

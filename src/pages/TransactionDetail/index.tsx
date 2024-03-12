@@ -35,7 +35,7 @@ export default function Index() {
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: transIcon, title: 'Balance', link: '/balance' }, { title: 'Transaction\'s details', link: '' }]} />
             {transaction && <GenericDetail prepare={prepareData(transaction)} />}
-            {loading && <Loader text="Loading transaction details ..." />}
+            {loading && <Loader/>}
         </section>
     )
 

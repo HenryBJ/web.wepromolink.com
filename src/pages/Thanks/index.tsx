@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "../../hooks/Auth";
 import { useNavigate } from "react-router-dom";
 import { signInWithGoogle } from "../../firebase";
-import { getIsEmailSignUp, putFirebaseUid } from "../../services";
+import { getIsEmailSignUp } from "../../services";
 import GoogleIcon from "../../components/Google";
 import useVisit from "../../hooks/Visit";
 
@@ -35,7 +35,6 @@ export default function Faq() {
           .then(async res => {
             if (Boolean(res.data)) {
               const { uid } = result.user;
-              await putFirebaseUid(result.user.email!, uid);
               login(result.user, await result.user.getIdToken());
             } else {
               result.user.email && navigate('/pricing');

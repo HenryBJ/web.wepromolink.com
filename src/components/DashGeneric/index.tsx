@@ -84,7 +84,15 @@ export default function Index({
         chartElement = <Bar data={chartData} options={{}} />;
         break;
       case "Pie":
-        chartElement = <Pie data={chartData} options={{}} />;
+        chartElement = <Pie data={chartData} options={{
+          plugins:{
+            legend:{
+              align:'start',
+              display:true,
+              position:'right'
+            }
+          }
+        }} />;
         break;
       case "Line":
         chartElement = <Line data={chartData} options={{

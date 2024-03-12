@@ -49,7 +49,7 @@ export default function Index() {
         <section className="container max-w-5xl px-2 mx-auto pt-3 h-full flex flex-col gap-2 justify-start items-center">
             <Breadcrumb levels={[{ icon: subIcon, title: 'Subcriptions', link: '/subcriptions' }, { title: 'Subscription\'s details', link: '' }]} />
             {sub && <GenericDetail prepare={prepareData(sub.value)} actions={!sub.value.inUse ? [{ title: 'Change to this plan', fn: (t) => handleSubChange(t) }] : []} />}
-            {loading && <Loader text="Loading subcription details ..." />}
+            {loading && <Loader/>}
         </section>
     )
 

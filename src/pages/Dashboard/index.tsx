@@ -22,7 +22,7 @@ export default function Dashboard() {
                 <DashGeneric collectionName="available" type="Line-Money"  title="Available History" externalId={externalId}/>
                 <DashGeneric collectionName="profit" type="Line-Money"  title="Profit History" externalId={externalId}/>
                 <DashGeneric collectionName="generalclicklinks" type="Line"  title="Unique clicks on Links" externalId={externalId}/>
-                <DashGeneric collectionName="generalclickcampaign" type="Line"  title="Unique clicks on Compaign" externalId={externalId}/>
+                <DashGeneric collectionName="generalclickcampaign" type="Line"  title="Unique clicks on Campaign" externalId={externalId}/>
                 <DashGeneric collectionName="generalshare" type="Line"  title="Shared Campaigns" externalId={externalId}/>
             </div>
         </section>)

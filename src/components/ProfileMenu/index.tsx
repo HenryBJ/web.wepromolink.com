@@ -1,9 +1,10 @@
 import { Menu, Transition } from "@headlessui/react"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import NotiWrapper from "../NotiWrapper";
 import { useAuth } from "../../hooks/Auth";
-import { getExternalId } from "../../services";
+import { getExternalId, getLevel } from "../../services";
+import GenericDialog from "../GenericDialog";
 
 interface IUserInfo {
     name: string,
@@ -12,10 +13,17 @@ interface IUserInfo {
     logout(): void
 }
 
-export default function ProfileMenu(props: IUserInfo) {
 
+
+
+export default function ProfileMenu(props: IUserInfo) {
+    const [verified, setVerified] = useState(false)
     const navigate = useNavigate();
     const { user } = useAuth();
+
+    useEffect(()=>{
+        getLevel().then(res=>setVerified(res.data > 1))
+    },[])
 
     const getExtUserId = useMemo(() => {
         return getExternalId(user.uid)
@@ -36,8 +44,8 @@ export default function ProfileMenu(props: IUserInfo) {
         fn();
     }
 
-    const GoSubs = (fn: () => void) => {
-        navigate("/subcriptions");
+    const GoUpgrade = (fn: () => void) => {
+        navigate("/pricing");
         fn();
     }
 
@@ -82,16 +90,6 @@ export default function ProfileMenu(props: IUserInfo) {
                     leaveTo="transform scale-95 opacity-0"
                 >
                     <Menu.Items className="absolute top-8 right-0 mt-0 w-44 px-3 py-3 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-700 ring-opacity-25  focus:outline-none text-center text-orange-600 font-semibold ">
-                        {/* <Menu.Item>
-                            {({ active, close }) => (
-                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoProfile(close)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                    </svg>
-                                    <span>Profile</span>
-                                </button>
-                            )}
-                        </Menu.Item> */}
                         <Menu.Item>
                             {({ active, close }) => (
                                 <NotiWrapper notiIndex="notification">
@@ -104,18 +102,6 @@ export default function ProfileMenu(props: IUserInfo) {
                                 </NotiWrapper>
                             )}
                         </Menu.Item>
-                        {/* <Menu.Item>
-                            {({ active }) => (
-                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={GoSettings}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-
-                                    <span>Settings</span>
-                                </button>
-                            )}
-                        </Menu.Item> */}
                         <Menu.Item>
                             {({ active, close }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoBilling(close)}>
@@ -127,17 +113,16 @@ export default function ProfileMenu(props: IUserInfo) {
                                 </button>
                             )}
                         </Menu.Item>
-                        {/* <Menu.Item>
+                        {!verified &&<Menu.Item>
                             {({ active, close }) => (
-                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoSubs(close)}>
+                                <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoUpgrade(close)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
                                     </svg>
-
-                                    <span>Subcriptions</span>
+                                    <span>Upgrade</span>
                                 </button>
                             )}
-                        </Menu.Item> */}
+                        </Menu.Item>}
                         <Menu.Item>
                             {({ active }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={props.logout}>
@@ -148,20 +133,9 @@ export default function ProfileMenu(props: IUserInfo) {
                                 </button>
                             )}
                         </Menu.Item>
-                        {/* <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    className={`${active && 'bg-blue-500'}`}
-                                    href="/account-settings"
-                                >
-                                    Account settings
-                                </a>
-                            )}
-                        </Menu.Item> */}
                     </Menu.Items>
                 </Transition>
             </>)}
-
         </Menu>
     )
 }

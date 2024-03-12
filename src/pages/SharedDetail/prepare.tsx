@@ -18,7 +18,7 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
                     }
                     return f_id;
 
-                case 'imageUrl':
+                case 'imageData':
                     let f_url: IField = {
                         isImage: true,
                         title: '',
@@ -38,9 +38,9 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
                         isHidden: false,
                         order: 2,
                         fnwidth: (e) => {
-                            if (e < 742) return 200
-                            if (e < 910) return 400
-                            return 568
+                            if (e < 742) return 100
+                            if (e < 910) return 200
+                            return 300
                         }
 
                     }
@@ -59,15 +59,17 @@ export const prepareData = (linkdetail: ILinkDetail) => (): IGenericDetailData |
 
 
                 case 'url':
-                    let f_url2: IField = {
+                    return {
                         isImage: false,
                         title: 'URL',
                         value: value,
                         valueType: 'url',
                         isHidden: false,
-                        order: 4
-                    }
-                    return f_url2;
+                        order: 4,
+                        fnwidth: (e) => {
+                            return 300
+                        }
+                    } as IField;
 
                 case 'status':
                     let f_status: IField = {

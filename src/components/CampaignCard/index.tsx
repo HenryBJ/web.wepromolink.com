@@ -15,6 +15,15 @@ interface IProps {
     data: ICampaignCard
 }
 
+const badgeVerified = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#ea7227" className="w-4 h-4">
+<path fillRule="evenodd" d="M12 1.69a.494.494 0 0 0-.438-.494 32.352 32.352 0 0 0-7.124 0A.494.494 0 0 0 4 1.689v.567c-.811.104-1.612.24-2.403.406a.75.75 0 0 0-.595.714 4.5 4.5 0 0 0 4.35 4.622A3.99 3.99 0 0 0 7 8.874V10H6a1 1 0 0 0-1 1v2h-.667C3.597 13 3 13.597 3 14.333c0 .368.298.667.667.667h8.666a.667.667 0 0 0 .667-.667c0-.736-.597-1.333-1.333-1.333H11v-2a1 1 0 0 0-1-1H9V8.874a3.99 3.99 0 0 0 1.649-.876 4.5 4.5 0 0 0 4.35-4.622.75.75 0 0 0-.596-.714A30.897 30.897 0 0 0 12 2.256v-.567ZM4 3.768c-.49.066-.976.145-1.458.235a3.004 3.004 0 0 0 1.64 2.192A3.999 3.999 0 0 1 4 5V3.769Zm8 0c.49.066.976.145 1.458.235a3.004 3.004 0 0 1-1.64 2.192C11.936 5.818 12 5.416 12 5V3.769Z" clipRule="evenodd" />
+</svg>
+
+
+
+
+
+
 const flagIcon = (<svg className="basis-1/4 w-4 h-4 inline mr-1 my-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" >
     <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
 </svg>)
@@ -48,15 +57,18 @@ export default function CampaignCard({ data }: IProps) {
         <>
             <div className="w-full xxs:w-96 justify-start h-auto flex flex-col shadow-lg  border-gray-400  bg-white rounded-3xl p-1">
                 <div className="text-sm text-gray-600 flex items-center p-2 w-full ">
-                    <Link to={`/profile/${data.autorExternalId}`}>
+                    {/* <Link to={`/profile/${data.autorExternalId}`}> */}
+                    <div className="relative">
                         <img className="w-9 h-9 rounded-full mr-2  object-cover"
                             src={data.autorImageUrl} alt={data.autorName} />
-                    </Link>
+                            {data.autorVerified && <div className="absolute bottom-0 right-1">{badgeVerified}</div>}
+                    </div>
+                    {/* </Link> */}
 
                     <div className="text-sm">
-                        <Link to={`/profile/${data.autorExternalId}`}>
+                        {/* <Link to={`/profile/${data.autorExternalId}`}> */}
                             <p className="text-gray-700 leading-none">{data.autorName}</p>
-                        </Link>
+                        {/* </Link> */}
                         <p className="text-gray-400 ">{timeSince(data.lastModified)}</p>
                     </div>
                     <div className="flex-grow flex justify-end">

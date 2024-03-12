@@ -31,7 +31,7 @@ export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Title", name: "title", hidden: _ => false, maxWidth: e => 150 },
   { title: "Status", name: "status", hidden: w => w < 350, transform: e => e === 'Unread' ? `<b>${e}</b>` : e },
-  { title: "Created", name: "created", hidden: w => w < 630, transform: e => timeSince(e) },
+  { title: "Created", name: "createdAt", hidden: w => w < 630, transform: e => timeSince(e) },
   {
     title: "Actions", name: "", hidden: _ => false, extraActions: _ => [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/notifications/detail/${e.id}`) },

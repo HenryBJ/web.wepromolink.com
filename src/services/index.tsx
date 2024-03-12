@@ -32,9 +32,12 @@ export const getIsEmailSignUp = (email: string): Promise<AxiosResponse<Boolean>>
 export const getMyExternalId = (): Promise<AxiosResponse<string>> => api.get('user/getExternalId');
 export const getIsBlocked = (): Promise<AxiosResponse<Boolean>> => api.get('user/isblocked');
 export const getIsSubscribed = (): Promise<AxiosResponse<Boolean>> => api.get('user/issubscribed');
-export const putFirebaseUid = (email: string, uid: string): Promise<AxiosResponse<void>> => api.put('user/firebaseuid', { email, uid });
-export const signUp = (data: ISigUpInfo): Promise<AxiosResponse<Boolean>> => api.post("user/signup", data);
-export const checkout = (priceId: string, firebaseId: string): Promise<AxiosResponse<string>> => api.post(`stripe/account/checkout/${priceId}/${firebaseId}`);
+export const getDepoitFee = (): Promise<AxiosResponse<number>> => api.get('user/depositfee');
+export const getWithdrawFee = (): Promise<AxiosResponse<number>> => api.get('user/withdrawfee');
+export const getLevel = (): Promise<AxiosResponse<number>> => api.get('user/level');
+export const signUp = (data: {fullname:string, email:string, firebaseId:string, subscriptionPlanId: string, photoUrl: string}): Promise<AxiosResponse<Boolean>> => api.post("user/signup", data);
+export const checkout = (priceId: string, firebaseId: string, photoUrl: string | null): Promise<AxiosResponse<string>> => api.post("stripe/account/checkout",{priceId,firebaseId,photoUrl});
+export const upgrade = (priceId: string, planId: string): Promise<AxiosResponse<string>> => api.post("stripe/account/upgrade",{priceId,planId});
 export const getAvailableBalanceData = (): Promise<AxiosResponse<Number>> => api.get(`data/available`);
 export const getBudgetBalanceData = (): Promise<AxiosResponse<Number>> => api.get(`data/budget`);
 export const getPayoutBalanceData = (): Promise<AxiosResponse<Number>> => api.get(`data/payout`);

@@ -1,8 +1,14 @@
-import { useContext, useEffect, useState } from "react"
+import { ReactNode, useContext, useEffect, useState } from "react"
 import { NotificationContext } from "../../hooks/NotificationProvider"
 import { motion, useAnimation } from "framer-motion";
 
-export default function Index({ children, notiIndex }: any) {
+interface IProps {
+    children:ReactNode,
+    notiIndex:string,
+    showBadge?:boolean
+}
+
+export default function Index({ children, notiIndex}: IProps) {
 
     const [badge, setbadge] = useState<string>('0');
     const { notification } = useContext(NotificationContext);

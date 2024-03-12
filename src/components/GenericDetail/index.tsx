@@ -80,7 +80,7 @@ export default function Index({ prepare, actions }: Props) {
             case 'image':
                 return (
                 <div className="h-full flex justify-center items-center">
-                    <ImageViewer ImageBundle={item.value} Scale={5} />
+                    <ImageViewer ImageBundle={item.value} FixWidth={265} Scale={1} />
                 </div>)
 
             case 'dash':

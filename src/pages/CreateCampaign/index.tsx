@@ -127,7 +127,7 @@ export default function Index() {
                     {({ setValue }) => <ImageLoader onImageLoaded={e => setValue("imageBundleId", e)} />}
                 </FormItem>
             </GenericForm>
-            {loading && <Loader text="Creating campaign ..." />}
+            {loading && <Loader/>}
         </section>)
 }
 

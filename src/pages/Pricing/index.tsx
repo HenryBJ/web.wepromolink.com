@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import SubcriptionCard from "../../components/SubcriptionCard";
-import { checkout, getSubscriptionCards, signUp } from "../../services";
+import {
+  checkout,
+  getSubscriptionCards,
+  signUp,
+  upgrade,
+} from "../../services";
 import { ISigUpInfo, ISubscriptionPlanCard } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
 import { gTag, signInWithGoogle } from "../../firebase";
@@ -27,35 +32,46 @@ export default function Pricing() {
       .finally(() => setLoadingPage(false));
   }, []);
 
-  const signningUp = (
-    photoUrl: string,
-    email: string,
-    fullname: string,
-    firebaseId: string,
-    planId: string,
-    user: User
-  ) => {
-    let data: ISigUpInfo = {
-      email: email,
-      fullname: fullname,
-      firebaseId: firebaseId,
-      subscriptionPlanId: planId,
-      photoUrl: photoUrl,
-    };
-
-    signUp(data).then(async (response) => {
+  const signPlan0 = (data: ISigUpInfo) => {
+    signUp({
+      email: data.user.email!,
+      firebaseId: data.user.uid,
+      fullname: data.user.displayName!,
+      photoUrl: data.user.photoURL!,
+      subscriptionPlanId: data.planId,
+    }).then(async (response) => {
       if (response.data) {
         gTag("sign_up", {
           method: "Google",
-          planId: planId,
-          userName: fullname,
-          email: email,
+          planId: data.planId,
+          userName: data.user.displayName,
+          email: data.user.email,
         });
-        login(user, await user.getIdToken());
+        login(data.user, await data.user.getIdToken());
       } else {
         toast.error("Registration failed - email may already be registered.");
       }
     });
+  };
+
+  const signPlan1 = (data: ISigUpInfo) => {
+    gTag("sign_up", {
+      method: "Google",
+      planId: data.planId,
+      userName: data.user.displayName,
+      email: data.user.email,
+    });
+
+    data.priceId &&
+      checkout(data.priceId, data.user.uid, data.user.photoURL).then((res) =>
+        window.open(res.data, "_self")
+      );
+  };
+
+  const onUpgrade = (priceId?: string, id?: string) => {
+    if (priceId && id) {
+      upgrade(priceId, id).then((res) => window.open(res.data, "_self"));
+    }
   };
 
   const onGetStarted = (priceId?: string, id?: string) => {
@@ -64,23 +80,21 @@ export default function Pricing() {
       if (!user) {
         signInWithGoogle()
           .then(async (result) => {
-            const { uid } = result.user;
-            priceId &&
-              checkout(priceId, uid).then((res) =>
-                window.open(res.data, "_self")
-              );
+            if (priceId) {
+              signPlan1({ planId: id!, user: result.user, priceId });
+            } else {
+              signPlan0({ planId: id!, user: result.user, priceId });
+            }
           })
           .catch((_) => {
             setLoading(false);
           });
       } else {
-        const { uid } = user;
-        priceId &&
-          checkout(priceId, uid)
-            .then((res) => window.open(res.data, "_self"))
-            .catch((_) => {
-              setLoading(false);
-            });
+        if (priceId) {
+          signPlan1({ planId: id!, user, priceId });
+        } else {
+          signPlan0({ planId: id!, user, priceId });
+        }
       }
     } catch (error) {
       setLoading(false);
@@ -89,7 +103,9 @@ export default function Pricing() {
 
   return (
     <div className="container max-w-6xl mx-auto pt-12 md:pt-0 md:mt-5 relative">
-      <div className="bg-blue-500 w-full text-white flex item-center justify-center mt-1 text-sm md:text-md ">This platform is on  <b>TESTING MODE</b>, no real money is use</div>
+      <div className="bg-blue-500 w-full text-white flex item-center justify-center mt-1 text-sm md:text-md ">
+        This platform is on <b>TESTING MODE</b>, no real money is use
+      </div>
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">
         Pricing
       </h1>
@@ -137,7 +153,9 @@ export default function Pricing() {
                     loading={loading}
                     monthlyPriceId={e.monthlyPriceId}
                     annualyPriceId={e.annualyPriceId}
-                    onGetStarted={onGetStarted}
+                    disabled={e.disabled}
+                    upgradeable={e.upgradeable}
+                    onGetStarted={e.upgradeable ? onUpgrade : onGetStarted}
                   />
                 ))}
           </div>

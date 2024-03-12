@@ -59,15 +59,17 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
 
 
                 case 'url':
-                    let f_url2: IField = {
-                        isImage: false,
-                        title: 'URL',
-                        value: value,
-                        valueType: 'url',
-                        isHidden: false,
-                        order: 4
-                    }
-                    return f_url2;
+                        return {
+                            isImage: false,
+                            title: 'URL',
+                            value: value,
+                            valueType: 'url',
+                            isHidden: false,
+                            order: 4,
+                            fnwidth: (e) => {
+                                return 300
+                            }
+                        } as IField;
 
                 case 'status':
                     let f_status: IField = {
@@ -97,7 +99,7 @@ export const prepareData = (campaign: IMyCampaignDetail) => (): IGenericDetailDa
                     let formattedEPM = splitNumberValue(value as number);
                     let f_epm: IField = {
                         isImage: false,
-                        title: 'EPM',
+                        title: 'CPM',
                         value: formattedEPM,
                         valueType: 'html',
                         isHidden: false,

@@ -55,7 +55,7 @@ export const prepareData = (noti: INotificationDetail) => (): IGenericDetailData
                 case 'createdAt':
                     let f_last: IField = {
                         isImage: false,
-                        title: 'Created At',
+                        title: 'Created',
                         value: value,
                         valueType: 'date',
                         isHidden: false,

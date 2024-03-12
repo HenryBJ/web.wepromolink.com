@@ -111,10 +111,14 @@ export default function Feed() {
   }
 
   const handleBreakPoints = () => {
-    if (width < 900) return 1;
-    if (width >= 900 && width < 1340) return 2;
-    if (width >= 1340 && width < 2100) return 3;
-    return 4;
+    const MAX_COLUMNS  = 5;
+    const cardWidth = 415;
+    const screenWidth = width;
+    const margins = 30;
+    let columns = Math.floor((screenWidth-margins)/cardWidth);
+    if(columns <= 0) return 1;
+    if(columns >= MAX_COLUMNS) return MAX_COLUMNS
+    return columns;
   }
 
 

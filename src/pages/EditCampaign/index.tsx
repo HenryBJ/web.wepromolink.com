@@ -154,6 +154,6 @@ export default function Index() {
                 </FormItem>
 
             </GenericForm>
-            {loading && <Loader text="Loading..." />}
+            {loading && <Loader/>}
         </section>)
 }
