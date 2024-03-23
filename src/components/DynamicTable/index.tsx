@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { IExtraActions } from "../../interfaces/IExtraActions"
-import { IPagination, IPaginationExtended } from "../../interfaces/IPagination";
+import { IPaginationExtended } from "../../interfaces/IPagination";
 import ActionMenu from "../ActionMenu"
 import Loader from "../Loader";
 import Pagination from "../Pagination";
-import { set } from "react-hook-form";
 import NoData from "../NoData";
 
 

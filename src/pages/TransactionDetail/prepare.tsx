@@ -89,7 +89,7 @@ export const prepareData = (trasaction: IMyTransactionDetail) => (): IGenericDet
                 case 'createdAt':
                     let f_last: IField = {
                         isImage: false,
-                        title: 'Created At',
+                        title: 'Created',
                         value: value,
                         valueType: 'date',
                         isHidden: !value && true,
@@ -100,7 +100,7 @@ export const prepareData = (trasaction: IMyTransactionDetail) => (): IGenericDet
                 case 'expiredAt':
                     let f_expiredAt: IField = {
                         isImage: false,
-                        title: 'Expired At',
+                        title: 'Expired',
                         value: value,
                         valueType: 'date',
                         isHidden: !value && true,
@@ -111,7 +111,7 @@ export const prepareData = (trasaction: IMyTransactionDetail) => (): IGenericDet
                 case 'completedAt':
                     let f_completedAt: IField = {
                         isImage: false,
-                        title: 'Completed At',
+                        title: 'Completed',
                         value: value,
                         valueType: 'date',
                         isHidden: !value && true,

@@ -28,6 +28,7 @@ export default function Index() {
 
     const handleSearch = (keyword: string) => {
         setFilter(keyword)
+        setPage(1);
     }
 
     useVisit('visit_shared');

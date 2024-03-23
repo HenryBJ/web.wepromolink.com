@@ -65,7 +65,7 @@ export const getImage = (id: string): Promise<AxiosResponse<ImageBundle>> => api
 export const getBillingData = (): Promise<AxiosResponse<IPaymentMethod[]>> => api.get('user/payment/methods');
 export const verifyBTCAddress = (address: string): Promise<AxiosResponse<boolean>> => api.post(`btc/verify/${address}`);
 export const connectStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/create');
-export const hasVerifiedStripeAccount = (): Promise<AxiosResponse<boolean>> => api.get('stripe/account/isverified');
+export const hasExpressStripeAccount = (): Promise<AxiosResponse<boolean>> => api.get('stripe/account/hasExpressStripe');
 export const loginLinkStripe = (): Promise<AxiosResponse<string>> => api.post('stripe/account/login');
 export const getPushNotification = (): Promise<AxiosResponse<IPushNotification>> => api.get("push/get");
 export const getExternalId = (id: string): Promise<AxiosResponse<string>> => api.get(`profile/getid/${id}`);

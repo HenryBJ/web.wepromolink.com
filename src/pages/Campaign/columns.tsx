@@ -80,12 +80,12 @@ const handleDelete = (id: string, reload: () => void, setLoading: (value: React.
 export const Columns: IColumnData[] = [
   { title: "Id", name: "id", hidden: _ => true },
   { title: "Campaign", name: "title", hidden: _ => false, maxWidth: e => 150 },
-  { title: "Url", name: "url", hidden: w => w < 984, maxWidth: e => 300 },
+  { title: "Url", name: "url", hidden: w => w < 984, maxWidth: e => 250 },
   { title: "Status", name: "status", hidden: w => w < 390, transform: e => e ? ReactDOMServer.renderToString(activeIcon) : ReactDOMServer.renderToString(deactiveIcon) },
   { title: "Budget", name: "budget", hidden: w => w < 490, transform: e => `$${e}` },
   { title: "CPM", name: "epm", hidden: w => w < 570, transform: e => `$${e}` },
-  { title: "Last Click", name: "lastClick", hidden: w => w < 680, transform: e => timeSince(e) },
-  { title: "Last Shared", name: "lastShared", hidden: w => w < 850, transform: e => timeSince(e) },
+  { title: "Last Click", name: "lastClick", hidden: w => w < 680, transform: e => timeSince(e),maxWidth: e => 125 },
+  { title: "Last Shared", name: "lastShared", hidden: w => w < 850, transform: e => timeSince(e),maxWidth: e => 125 },
   {
     title: "Actions", name: "", hidden: _ => false, extraActions: (k) => [
       { title: "Details", icon: detailsIcon, action: (e, navigate) => navigate(`/campaigns/detail/${e.id}`) },

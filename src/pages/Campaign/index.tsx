@@ -19,7 +19,8 @@ export default function Campaign() {
     const [data, setData] = useState<IPaginationResponse<IMyCampaign>>()
     const navigate = useNavigate();
     const handleSearch = (keyword: string) => {
-        setFilter(keyword)
+        setFilter(keyword);
+        setPage(1);
     }
 
     useVisit('visit_campaign_list');

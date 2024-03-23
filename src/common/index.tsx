@@ -19,13 +19,10 @@ export function timeSince(date: Date | null | string | number): string {
         return `${day}/${month}/${year}`;
     }
 
-    if (minutes > 2) {
-        const dayStr = days > 0 ? `${days} day${days > 1 ? 's' : ''} ` : '';
-        const hoursStr = hours % 24 > 0 ? `${hours % 24} hour${(hours % 24) > 1 ? 's' : ''} ` : '';
-        const minutesStr = minutes % 60 > 0 ? `${minutes % 60} min${(minutes % 60) > 1 ? 's' : ''}` : '';
-        return `${dayStr}${hoursStr}${minutesStr} ago`;
-    }
-
+    if(days > 0) return `${days} day${days==1?'':'s'} ago`;
+    if(hours > 0) return `${hours} hour${hours==1?'':'s'} ago`;
+    if(minutes > 0) return `${minutes} min${minutes==1?'':'s'} ago`;
+    
     return "just now";
 }
 
