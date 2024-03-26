@@ -20,7 +20,6 @@ export default function Pricing() {
   const { user, login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [loadingPage, setLoadingPage] = useState(false);
-  const navigate = useNavigate();
 
   useVisit("visit_pricing");
 
@@ -28,11 +27,11 @@ export default function Pricing() {
     setLoadingPage(true);
     getSubscriptionCards()
       .then((res) => setPricingPlans(res.data))
-      .catch((error) => console.log(error))
+      .catch((error) => toast.error("Unable to fetch Subscription Plans."))
       .finally(() => setLoadingPage(false));
   }, []);
 
-  const signPlan0 = (data: ISigUpInfo) => {
+  const signPlan0 = (data: ISigUpInfo, errorCallback?: () => void) => {
     signUp({
       email: data.user.email!,
       firebaseId: data.user.uid,
@@ -50,11 +49,12 @@ export default function Pricing() {
         login(data.user, await data.user.getIdToken());
       } else {
         toast.error("Registration failed - email may already be registered.");
+        errorCallback?.();
       }
     });
   };
 
-  const signPlan1 = (data: ISigUpInfo) => {
+  const signPlan1 = (data: ISigUpInfo, errorCallback?: () => void) => {
     gTag("sign_up", {
       method: "Google",
       planId: data.planId,
@@ -63,9 +63,14 @@ export default function Pricing() {
     });
 
     data.priceId &&
-      checkout(data.priceId, data.user.uid, data.user.photoURL).then((res) =>
-        window.open(res.data, "_self")
-      );
+      checkout(data.priceId, data.user.uid, data.user.photoURL).then((res) => {
+        if (res.data) {
+          window.open(res.data, "_self");
+        } else {
+          toast.error("Registration failed - email may already be registered.");
+          errorCallback?.();
+        }
+      });
   };
 
   const onUpgrade = (priceId?: string, id?: string) => {
@@ -81,9 +86,13 @@ export default function Pricing() {
         signInWithGoogle()
           .then(async (result) => {
             if (priceId) {
-              signPlan1({ planId: id!, user: result.user, priceId });
+              signPlan1({ planId: id!, user: result.user, priceId }, () =>
+                setLoading(false)
+              );
             } else {
-              signPlan0({ planId: id!, user: result.user, priceId });
+              signPlan0({ planId: id!, user: result.user, priceId }, () =>
+                setLoading(false)
+              );
             }
           })
           .catch((_) => {
@@ -91,9 +100,9 @@ export default function Pricing() {
           });
       } else {
         if (priceId) {
-          signPlan1({ planId: id!, user, priceId });
+          signPlan1({ planId: id!, user, priceId }, () => setLoading(false));
         } else {
-          signPlan0({ planId: id!, user, priceId });
+          signPlan0({ planId: id!, user, priceId }, () => setLoading(false));
         }
       }
     } catch (error) {
