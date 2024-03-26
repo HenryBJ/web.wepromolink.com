@@ -17,8 +17,8 @@ spec:
           image: cod4it/web.wepromolink:$MICROSERVICE_WEB
           ports:
             - containerPort: 80
-          imagePullSecrets:
-            - name: dockerhub-secret  
+      imagePullSecrets:
+      - name: dockerhub-secret  
 
 ---
 apiVersion: v1
