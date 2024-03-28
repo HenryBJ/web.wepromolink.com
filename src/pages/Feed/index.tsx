@@ -134,10 +134,10 @@ export default function Feed() {
 
         <div id="loadMoreTrigger" style={{ marginTop: "30px" }} />
         <Reloader callback={() => {
-          setIsFetching(false);
-          setOffset(0);
-          setData([]);
-          setTimestamp(0);
+          setIsFetching(_=>false);
+          setOffset(_=>0);
+          setData(_=>[]);
+          setTimestamp(_=>0);
           handleCampaigns();
         }} isVisible={reload} />
       </section>

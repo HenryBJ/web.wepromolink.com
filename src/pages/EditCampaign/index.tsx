@@ -19,6 +19,7 @@ const schema = yup.object({
     description: yup.string().required(),
     url: yup.string().url().required(),
     imageBundleId: yup.string().nullable(),
+    budget: yup.number().required(),
     epm: yup.number().required()
         .min(10, "CPM must be greater than 10")
         .max(1000, "CPM must be lower than 1000")
@@ -131,7 +132,7 @@ export default function Index() {
                     {({ register, watch }) => {
                         let obj: any = watch();
                         return <div className="flex flex-row gap-2 md:gap-4 flex-grow">
-                            <input max={max} min={0}
+                            <input required max={max} min={0}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Budget"
                                 type="number"
