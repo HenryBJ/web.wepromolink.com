@@ -138,7 +138,6 @@ export default function Feed() {
           setOffset(_=>0);
           setData(_=>[]);
           setTimestamp(_=>0);
-          handleCampaigns();
         }} isVisible={reload} />
       </section>
       {
