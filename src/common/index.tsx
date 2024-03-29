@@ -2,11 +2,12 @@ export function timeSince(date: Date | null | string | number): string {
     if (date === null || date === undefined) return "never";
 
     const parsedDate = new Date(date);
-
-    const localDate = new Date(parsedDate.getTime() - (new Date().getTimezoneOffset() * 60000));
-
     let now = new Date();
+    
+    const localDate = new Date(parsedDate.getTime() - (new Date(now.toUTCString()).getTimezoneOffset() * 60000));
+    
     let dif = now.getTime() - localDate.getTime();
+    
     const seconds = Math.floor(dif / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
