@@ -5,6 +5,7 @@ export function timeSince(date: Date | null | string | number): string {
     let now = new Date();
     
     const localDate = new Date(parsedDate.getTime() - (new Date(now.toUTCString()).getTimezoneOffset() * 60000));
+    // const localDate = new Date(parsedDate.getTime() - new Date(now.toUTCString()).getTime());
     
     let dif = now.getTime() - localDate.getTime();
     

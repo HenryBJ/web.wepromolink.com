@@ -38,7 +38,8 @@ export interface ICampaignCard {
     autorName: string,
     autorExternalId: string,
     autorVerified: boolean,
-    lastModified: number
+    lastModified: Date,
+    unixTime:number
 }
 
 export interface IMyCampaign {

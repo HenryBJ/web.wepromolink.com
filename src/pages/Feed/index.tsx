@@ -51,7 +51,6 @@ export default function Feed() {
   }, []);
 
   const handleData = (incommingData: ICampaignCard[]) => {
-    console.log(`incommingData.length = ${incommingData.length}`)
     if (incommingData.length === 0) {
       setIsFetching(false);
       return;
@@ -59,8 +58,8 @@ export default function Feed() {
 
     try {
       const newTimestamp = incommingData
-        .sort((a: ICampaignCard, b: ICampaignCard) => b.lastModified - a.lastModified)[0]
-        .lastModified;
+        .sort((a: ICampaignCard, b: ICampaignCard) => b.unixTime - a.unixTime)[0]
+        .unixTime;
       setTimestamp(newTimestamp);
       setOffset(prev => prev + incommingData.length);
       setData(prev => [...prev, ...(incommingData)]);
