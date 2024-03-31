@@ -68,7 +68,7 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaignId }: ISha
 
                             <div className="relative w-full rounded-md shadow-sm ">
                                 {loading ? <Spinner text="Generating link ..." /> : <>
-                                    <input type="text" name="link" value={link!} disabled className="input-disabled zcursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
+                                    <input type="text" name="link" value={link!} disabled className="input-disabled cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
                                     <div className="absolute inset-y-0 right-0 flex items-center">
                                         <CopyButton text={link!} />
                                     </div>
