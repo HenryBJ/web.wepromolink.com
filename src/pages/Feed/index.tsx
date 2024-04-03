@@ -28,11 +28,7 @@ export default function Feed() {
     reducePushNotification
   } = useContext<INotificationContext>(NotificationContext);
 
-
-
   useVisit('visit_feed');
-
-
 
   const handleResize = () => {
     myRef.current && setWidth(myRef.current['offsetWidth']);

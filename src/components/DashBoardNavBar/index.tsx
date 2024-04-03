@@ -13,7 +13,7 @@ export default function DashBoardNavBar() {
 
     return (
         <nav className="sticky top-0 w-full h-min border border-b-2 z-50  bg-orange-500" style={{ zIndex: 100 }}>
-            <div className="container max-w-5xl mx-auto h-full">
+            <div className="container w-full px-5 mx-auto h-full">
                 <div className="flex flex-row py-1 items-center h-full ">
                     <div className="basis-1/5  pl-1">
                         <a href="https://wepromolink.com">
