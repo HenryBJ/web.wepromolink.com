@@ -20,7 +20,8 @@ export default function Feed() {
   const [isFetching, setIsFetching] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [width, setWidth] = useState<any>(0);
-  const myRef = useRef(null);
+  const myRef = useRef<HTMLDivElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
   const [reload, setReload] = useState(false);
 
   const { notification, reducePushNotification } =
@@ -44,6 +45,24 @@ export default function Feed() {
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !isFetching && !isEnd) {
+        setPage(prev=>prev+1)
+      }
+    }, { threshold: 0.1 });
+
+    if (endRef.current) {
+      observer.observe(endRef.current);
+    }
+
+    return () => {
+      if (endRef.current) {
+        observer.unobserve(endRef.current);
+      }
+    };
+  }, [isFetching, isEnd]);
+
   const handleCampaigns = () => {
     if (isFetching) return;
     reducePushNotification(({ campaign, ...rest }: IPushNotification) => ({
@@ -58,21 +77,6 @@ export default function Feed() {
       .catch((err) => setError(true));
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, clientHeight, scrollHeight } =
-        document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        
-        setPage(prev=>prev+1);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const handleData = (incommingData: ICampaignCard[]) => {
     if (incommingData.length === 0) {
@@ -111,8 +115,7 @@ export default function Feed() {
     <>
       <section
         ref={myRef}
-        className="container max-w-full px-0 sm:px-6 mx-auto pt-3 h-full flex justify-center "
-      >
+        className="container max-w-full px-0 sm:px-6 mx-auto pt-3 h-full flex justify-center">
         <Masonry
           breakpointCols={handleBreakPoints()}
           className="my-masonry-grid"
@@ -144,6 +147,7 @@ export default function Feed() {
           />
         </div>
       )}
+      <div ref={endRef} className="bg-gray-100 w-full h-5"></div>
     </>
   );
 }
