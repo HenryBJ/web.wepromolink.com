@@ -26,7 +26,7 @@ export const api = AddInterceptors(axios.create({
 
 export const getStats = (collectionName: string, externalId: string): Promise<AxiosResponse<any>> => api.get(`data/${collectionName}/${externalId}`);
 export const createCampaigns = (data: ICreateCampaign): Promise<AxiosResponse<string>> => api.post('campaign/create', data);
-export const getCampaigns = (offset: number, limit: number, timestamp: number): Promise<AxiosResponse<ICampaignCard[]>> => api.get(`campaign/explore/${offset}/${limit}/${timestamp}`);
+export const getCampaigns = (offset: number, limit: number, lastModified?: Date): Promise<AxiosResponse<ICampaignCard[]>> => api.get(`campaign/explore/${offset}/${limit}/${lastModified}`);
 export const getSubscriptionCards = (): Promise<AxiosResponse<ISubscriptionPlanCard[]>> => api.get(`pricing/all`);
 export const getIsEmailSignUp = (email: string): Promise<AxiosResponse<Boolean>> => api.get(`user/exits/${email}`);
 export const getMyExternalId = (): Promise<AxiosResponse<string>> => api.get('user/getExternalId');

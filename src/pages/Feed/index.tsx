@@ -15,7 +15,7 @@ export default function Feed() {
   const [data, setData] = useState<ICampaignCard[]>([]);
   const [error, setError] = useState(false);
   const [offsset, setOffset] = useState(0);
-  const [timestamp, setTimestamp] = useState(0);
+  const [timestamp, setTimestamp] = useState<Date|undefined>();
   const [page, setPage] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
@@ -86,8 +86,8 @@ export default function Feed() {
     }
 
     try {
-      const newTimestamp = incommingData.sort((a: ICampaignCard, b: ICampaignCard) => b.unixTime - a.unixTime)[0].unixTime;
-      setTimestamp(newTimestamp);
+      const newLastModified = incommingData.sort((a: ICampaignCard, b: ICampaignCard) => new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime())[0].lastModified;
+      setTimestamp(newLastModified);
       setOffset((prev) => prev + incommingData.length);
       setData((prev) => [...prev, ...incommingData]);
       setIsFetching(false);
@@ -133,7 +133,7 @@ export default function Feed() {
             setPage(0);
             setIsEnd(false);
             setData((_) => []);
-            setTimestamp((_) => 0);
+            setTimestamp((_) => undefined);
           }}
           isVisible={reload}
         />
