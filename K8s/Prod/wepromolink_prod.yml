@@ -14,9 +14,12 @@ spec:
     spec:
       containers:
         - name: webclient-container
-          image: cod4it/web.wepromolink:1.0.103
+          image: cod4it/web.wepromolink:$MICROSERVICE_WEB
           ports:
             - containerPort: 80
+      imagePullSecrets:
+      - name: dockerhub-secret  
+
 ---
 apiVersion: v1
 kind: Service
@@ -36,29 +39,29 @@ spec:
       name: https
   type: ClusterIP  # Cambia esto según el tipo de servicio que desees
 ---
+# apiVersion: cert-manager.io/v1
+# kind: ClusterIssuer
+# metadata:
+#   name: letsencrypt-staging-2
+# spec:
+#   acme:
+#     # The ACME server URL
+#     server: https://acme-staging-v02.api.letsencrypt.org/directory
+#     # Email address used for ACME registration
+#     email: henry.coolsoft@gmail.com
+#     # Name of a secret used to store the ACME account private key
+#     privateKeySecretRef:
+#       name: letsencrypt-staging-2
+#     # Enable the HTTP-01 challenge provider
+#     solvers:
+#       - http01:
+#           ingress:
+#             ingressClassName: nginx
+# ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-staging
-spec:
-  acme:
-    # The ACME server URL
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    # Email address used for ACME registration
-    email: henry.coolsoft@gmail.com
-    # Name of a secret used to store the ACME account private key
-    privateKeySecretRef:
-      name: letsencrypt-staging
-    # Enable the HTTP-01 challenge provider
-    solvers:
-      - http01:
-          ingress:
-            ingressClassName: nginx
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
+  name: letsencrypt-prod-2
 spec:
   acme:
     # The ACME server URL
@@ -67,7 +70,7 @@ spec:
     email: henry.coolsoft@gmail.com
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: letsencrypt-prod-2
     # Enable the HTTP-01 challenge provider
     solvers:
       - http01:
@@ -79,17 +82,30 @@ kind: Ingress
 metadata:
   name: web-my-ingress-2
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-2"
     # nginx.ingress.kubernetes.io/rewrite-target: /
-    # nginx.ingress.kubernetes.io/whitelist-source-range: "170.75.168.146/32"
+   # nginx.ingress.kubernetes.io/whitelist-source-range: "170.75.168.146/32"
     nginx.ingress.kubernetes.io/proxy-body-size: "8m"
 spec:
   ingressClassName: nginx  # Especifica el nombre del controlador de Ingress que debe manejar las reglas definidas en este Ingress
   tls:
+  # - hosts:
+  #   - dev.wepromolink.com
+  #   secretName: dev.wepromolink-tls
   - hosts:
     - wepromolink.com
-    secretName: wepromolink-tls
+    secretName: prod.wepromolink-tls
   rules:
+    # - host: dev.wepromolink.com
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: webclient-service
+    #             port:
+    #               number: 80
     - host: wepromolink.com
       http:
         paths:
