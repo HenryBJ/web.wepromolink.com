@@ -59,7 +59,7 @@ export default function Index() {
             }
         }
         if (method === "bitcoin" && !isVerified) return "Validate Address";
-        return "Atrás";
+        return "Back";
 
     }
 
