@@ -187,6 +187,15 @@ export interface IPaymentMethod {
     value?: string,
 }
 
+export interface IBankAccount {
+    holder: string,
+    accountNumber: string,
+    countryCode: string,
+    accountCurrency: string,
+    routingNumber?: string,
+    accountType: string
+}
+
 
 export interface IPushNotification {
     notification: number,
@@ -201,6 +210,7 @@ export interface ISubFeature {
     name: string,
     boolValue?: boolean,
     value?: string,
+    commingSoon: boolean,
     order:number
 }
 

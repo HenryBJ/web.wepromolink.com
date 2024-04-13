@@ -83,7 +83,7 @@ export default function Index({ id, title, monthly, annually, discount, features
                                 {paymentmethod.includes('stripe') && <FontAwesomeIcon icon={faStripe} className="text-3xl text-blue-600" />}
                                 {paymentmethod.includes('bitcoin') && <FontAwesomeIcon icon={faBtc} className="text-xl text-yellow-500" />}
                                 {paymentmethod.includes('paypal') && <FontAwesomeIcon icon={faPaypal} className="text-xl text-blue-600" />}
-                                {paymentmethod.includes('bank') && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-orange-500">
+                                {paymentmethod.includes('wire transfer') && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-orange-500">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                                 </svg>
                                 }
@@ -95,7 +95,12 @@ export default function Index({ id, title, monthly, annually, discount, features
                     {features?.sort((a, b) => a.order-b.order).map((e: ISubFeature) =>
                     (<tr>
                         <td className="w-9/10 text-orange-800">{e.name}</td>
-                        <td className="w-1/10 text-right text-orange-800  flex justify-end">{e.value ? e.value : (e.boolValue ? checkIcon : NoIcon)}</td>
+                        <td className="w-1/10 text-right text-orange-800  flex justify-end">
+                            {e.commingSoon? 
+                            <div className=" relative text-left  w-full">
+                                <span className="flex justify-center  rounded-3xl  bg-orange-500 text-white text-xs absolute top-0 -left-10 w-20">coming soon</span>
+                            </div>: 
+                            e.value ? e.value : (e.boolValue ? checkIcon : NoIcon)}</td>
                     </tr>)
                     )}
 

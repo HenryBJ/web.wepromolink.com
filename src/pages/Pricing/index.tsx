@@ -162,7 +162,7 @@ export default function Pricing() {
                     loading={loading}
                     monthlyPriceId={e.monthlyPriceId}
                     annualyPriceId={e.annualyPriceId}
-                    disabled={e.disabled}
+                    disabled={user?true:e.disabled}
                     upgradeable={e.upgradeable}
                     onGetStarted={e.upgradeable ? onUpgrade : onGetStarted}
                   />

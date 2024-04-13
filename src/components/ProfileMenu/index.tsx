@@ -44,10 +44,10 @@ export default function ProfileMenu(props: IUserInfo) {
         fn();
     }
 
-    const GoUpgrade = (fn: () => void) => {
-        navigate("/pricing");
-        fn();
-    }
+    // const GoUpgrade = (fn: () => void) => {
+    //     navigate("/pricing");
+    //     fn();
+    // }
 
     const GoProfile = (fn: () => void) => {
         getExtUserId.then(data => {
@@ -113,7 +113,7 @@ export default function ProfileMenu(props: IUserInfo) {
                                 </button>
                             )}
                         </Menu.Item>
-                        {!verified &&<Menu.Item>
+                        {/* {!verified &&<Menu.Item>
                             {({ active, close }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={() => GoUpgrade(close)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 inline mr-2 my-2">
@@ -122,7 +122,7 @@ export default function ProfileMenu(props: IUserInfo) {
                                     <span>Upgrade</span>
                                 </button>
                             )}
-                        </Menu.Item>}
+                        </Menu.Item>} */}
                         <Menu.Item>
                             {({ active }) => (
                                 <button className="hover:bg-orange-500 w-full rounded hover:text-white text-start px-1" onClick={props.logout}>
