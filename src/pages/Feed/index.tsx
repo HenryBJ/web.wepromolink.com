@@ -101,10 +101,12 @@ export default function Feed() {
   }, [page]);
 
   const handleBreakPoints = () => {
-    const MAX_COLUMNS = 5;
+    
+    let MAX_COLUMNS = 5;
     const cardWidth = 415;
     const screenWidth = width;
     const margins = 30;
+    if (data.length === 2 ) MAX_COLUMNS = 2; // Bug fixed
     let columns = Math.floor((screenWidth - margins) / cardWidth);
     if (columns <= 0) return 1;
     if (columns >= MAX_COLUMNS) return MAX_COLUMNS;

@@ -61,7 +61,6 @@ export default function CampaignCard({ data }: IProps) {
                     <div className="relative">
                         <img className="w-9 h-9 rounded-full mr-2  object-cover"
                             src={data.autorImageUrl} alt={data.autorName} />
-                            {data.autorVerified && <div className="absolute bottom-0 right-1">{badgeVerified}</div>}
                     </div>
                     {/* </Link> */}
 
