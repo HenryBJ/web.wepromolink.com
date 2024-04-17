@@ -37,8 +37,8 @@ export default function Index() {
 
     useEffect(() => {
         reducePushNotification(({ transaction, ...rest }: IPushNotification) => ({ transaction: 0, ...rest }));
-        hasExpressStripeAccount()
-            .then(res => setHasStripe(res.data))
+        // hasExpressStripeAccount()
+        //     .then(res => setHasStripe(res.data))
     }, []);
 
     const handleTransaction = () => {
