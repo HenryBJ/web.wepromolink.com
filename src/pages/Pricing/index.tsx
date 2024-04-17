@@ -112,9 +112,6 @@ export default function Pricing() {
 
   return (
     <div className="container max-w-6xl mx-auto pt-12 md:pt-0 md:mt-5 relative">
-      <div className="bg-blue-500 w-full text-white flex item-center justify-center mt-1 text-sm md:text-md ">
-        This platform is on <b>TESTING MODE</b>, no real money is use
-      </div>
       <h1 className="font-bold text-3xl text-center text-orange-100 md:text-orange-800 mb-4">
         Pricing
       </h1>
