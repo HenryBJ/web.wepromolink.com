@@ -57,9 +57,9 @@ export default function Index({title, data, load, trend, helpTip}: IProps) {
 
     return (
         <div
-            className="flex-grow min-w-[160px] sm:min-w-[180px] bg-white min-h-[70px] sm:min-h-[120px] rounded shadow-lg cursor-default max-w-xs">
+            className="flex-grow min-w-[160px] sm:min-w-[180px] bg-white min-h-[70px] sm:min-h-[120px] rounded shadow-md cursor-default max-w-xs">
             <div
-                className="relative h-7 text-sm sm:text-sm  sm:h-10 w-full bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
+                className="relative h-7 text-sm sm:text-sm  sm:h-10 w-full bg-gray-300 rounded-t text-gray-800 uppercase font-bold flex justify-center items-center">
                 {title}
                 {helpTip && <HelpTip title={`Information of ${title}`} text={helpTip}/>}
             </div>

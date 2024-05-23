@@ -70,12 +70,12 @@ export default function Index({ loading, children, schema, title, buttonTitle = 
 
     return (
         <div className="relative w-full bg-gray-200 flex flex-col rounded shadow-xl">
-            {back && <div className="absolute top-1 left-3 text-white cursor-pointer hover:text-gray-300" onClick={handleBack}>
+            {back && <div className="absolute top-1 left-3 text-gray-800 cursor-pointer hover:text-orange-500" onClick={handleBack}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>}
-            <div className="h-9 w-full rounded-t bg-orange-500 uppercase text-white flex items-center justify-center font-bold  ">
+            <div className="h-9 w-full rounded-t bg-gray-300 uppercase text-gray-800 flex items-center justify-center font-bold  ">
                 {title}
             </div>
             <div className="flex flex-col gap-1">

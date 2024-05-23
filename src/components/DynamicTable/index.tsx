@@ -56,12 +56,12 @@ export default function Index({ title, columns, rows, defaultAction, pagination,
 
     return (
         <>
-            <div ref={myRef} className="relative rounded shadow-xl w-full max-h-32 overflow-y-auto">
+            <div ref={myRef} className="relative rounded shadow-sm w-full max-h-32 overflow-y-auto">
                 {/* <p>Ancho actual: {width}px</p> */}
                 {!rows.length ? loading ? "" : <NoData />
                     :
                     <table className="w-full text-sm text-left text-white rounded shadow-xl">
-                        <thead className="text-xs text-white uppercase bg-orange-500">
+                        <thead className="text-xs text-gray-800 uppercase bg-gray-300">
                             {title ?
                                 <tr>
                                     <td className="px-2 py-1 text-xs font-bold text-center" colSpan={columns.length}>

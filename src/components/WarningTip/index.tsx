@@ -43,7 +43,7 @@ export default function Index({ text }: IProp) {
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                 >
-                    <Menu.Items className="absolute text-sm top-0 right-0 mt-0 w-72 h-20 px-1 py-1 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-100  -translate-x-6 -translate-y-6 focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50">
+                    <Menu.Items className="absolute text-sm top-0 right-0 mt-0 w-72 h-20 px-1 py-1 origin-top-right rounded bg-white shadow-lg ring-1 ring-gray-300  -translate-x-6 -translate-y-6 focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50">
                         <Menu.Item>
                             {() => (<div className="w-full relative text-left">{text}</div>)}
                         </Menu.Item>

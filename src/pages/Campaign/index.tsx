@@ -47,7 +47,7 @@ export default function Campaign() {
                 <SearchBar onChange={handleSearch} />
                 <button type="button">
                     <SubscribeWrapper onClick={handleClick} style="min-w-[180px] ml-auto focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">
-                        Create New Campaign
+                        Create Campaign
                     </SubscribeWrapper>
                 </button>
 

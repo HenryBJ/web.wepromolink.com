@@ -12,18 +12,20 @@ export default function DashBoardNavBar() {
     if (!user) return null;
 
     return (
-        <nav className="sticky top-0 w-full h-min border border-b-2 z-50  bg-orange-500" style={{ zIndex: 100 }}>
-            <div className="container w-full px-5 mx-auto h-full">
-                <div className="flex flex-row py-1 items-center h-full ">
-                    <div className="basis-1/5  pl-1">
+        <nav className="sticky top-0 w-full h-min border border-b-2 z-50  bg-white md:px-1" style={{ zIndex: 100 }}>
+            <div className="w-full h-full">
+                <div className="flex flex-row py-1 items-center h-full">
+                    <div>
                         <a href="https://wepromolink.com">
-                            <TextLogo scale={0.8} fillcolor="white" />
+                            <TextLogo scale={0.8} fillcolor="#f97316" />
                         </a>
                     </div>
-                    <div className="basis-4/5 h-full flex flex-row justify-end pr-2 items-center">
+                    <div className="w-full h-full  flex flex-row justify-center items-center">
                         <div className="hidden md:block">
                             <ToolBar />
                         </div>
+                    </div>
+                    <div className="h-full flex flex-row justify-end pr-2 items-center">
                         <ProfileMenu email={user.email} name={user.displayName} imageUrl={user.photoURL} logout={logout} />
                     </div>
                 </div>

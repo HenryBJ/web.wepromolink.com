@@ -159,8 +159,8 @@ export default function Index({
   }
 
   return (
-    <div className="flex-grow bg-white rounded shadow-lg cursor-pointer w-full sm:w-auto md:min-w-[250px]">
-      <div className="h-10 bg-orange-500 rounded-t text-white uppercase font-bold flex justify-center items-center">
+    <div className="flex-grow bg-white rounded shadow-md cursor-pointer w-full sm:w-auto md:min-w-[250px]">
+      <div className="h-10 bg-gray-300 rounded-t text-gray-800 uppercase font-bold flex justify-center items-center">
         {title}
       </div>
       <div className="h-72  rounded-b p-2 flex justify-center items-center text-2xl gap-1">

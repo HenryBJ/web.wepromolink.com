@@ -23,7 +23,6 @@ import CampaignDetail from './pages/CampaignDetail';
 import SharedDetail from './pages/SharedDetail';
 import TransactionDetail from './pages/TransactionDetail';
 import NotificationDetail from './pages/NotificationDetail';
-import SubPlanDetail from './pages/SubPlanDetail';
 import Withdraw from './pages/Withdraw';
 import CampaignStats from './pages/CampaignStats';
 import SharedStats from './pages/SharedStats';
@@ -33,7 +32,6 @@ import NotFound from './pages/NotFound';
 import ConnectionHandler from './components/ConnectionHandler'
 import Profile from './pages/Profile';
 import Survey from './pages/Survey';
-// import './App.css';
 
 function App() {
   return (

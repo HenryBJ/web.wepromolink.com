@@ -4,9 +4,7 @@ import CopyButton from '../CopyButton'
 import { createLink } from '../../services';
 import { useAuth } from '../../hooks/Auth';
 import Spinner from '../Spinner';
-import { ICreateAffLinkResponse } from '../../interfaces/Responses';
 import { gTag } from '../../firebase';
-import '../ShareDialog/style.css';
 
 interface IShareDialogInput {
     isOpen: boolean;
@@ -60,15 +58,15 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaignId }: ISha
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="flex flex-col justify-between items-center mx-auto p-2 max-w-md w-full h-56 rounded bg-orange-500 text-white ring-1 ring-white">
+                        <Dialog.Panel className="flex flex-col justify-between items-center mx-auto p-2 max-w-md w-full h-56 rounded-lg bg-gray-100 text-gray-600 ring-1 ring-gray-400">
                             <Dialog.Title className="text-center font-bold text-lg">Promote Link</Dialog.Title>
                             <Dialog.Description className="px-2">
-                                Copy the link on social networks or any website, for every 1000 clicks you will get ${epm.toString()} usd.
+                                Copy the link on social networks or any website, for every 1000 clicks you will get ${epm.toString()} USD.
                             </Dialog.Description>
 
                             <div className="relative w-full rounded-md shadow-sm ">
                                 {loading ? <Spinner text="Generating link ..." /> : <>
-                                    <input type="text" name="link" value={link!} disabled className="input-disabled cursor-text block w-full rounded-md border-gray-300 px-2 text-sm h-8" placeholder="Generating..." />
+                                    <input type="text" name="link" value={link!} disabled className="cursor-text block w-full rounded-md border-gray-400 bg-gray-300 px-2 text-sm h-8 text-gray-600" placeholder="Generating..." />
                                     <div className="absolute inset-y-0 right-0 flex items-center">
                                         <CopyButton text={link!} />
                                     </div>
@@ -77,7 +75,7 @@ export default function ShareDialog({ isOpen, setIsOpen, epm, campaignId }: ISha
                             </div>
 
                             <div className="flex justify-center">
-                                <button className="text-white shadow-lg ring-1 ring-gray-200 bg-orange-600 hover:bg-orange-700 font-medium rounded text-sm px-5 py-1 outline-none cursor-default md:cursor-pointer" onClick={() => setIsOpen(false)}>Close</button>
+                                <button className="text-gray-800 shadow-lg ring-1 ring-gray-300 bg-gray-300 hover:bg-orange-500 hover:text-white font-medium rounded text-sm px-5 py-1 outline-none cursor-default md:cursor-pointer" onClick={() => setIsOpen(false)}>Close</button>
                             </div>
 
                         </Dialog.Panel>

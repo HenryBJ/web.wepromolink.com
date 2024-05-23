@@ -56,7 +56,7 @@ export default function Index({ item, actions, reload, setLoading, onTap, reloca
                     <Menu.Items className={
                         IsCloseToBottom()
                             ? `absolute top-0 right-0 mt-0 w-44 px-1 py-1 origin-top-right rounded bg-white ${relocationY} shadow-lg ring-1 ring-orange-100  focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50`
-                            : "absolute top-0 right-0 mt-0 w-44 px-1 py-1 origin-top-right rounded bg-white shadow-lg ring-1 ring-orange-100  focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50"}>
+                            : "absolute top-0 right-0 mt-0 w-44 px-1 py-1 origin-top-right rounded bg-white shadow-lg ring-1 ring-gray-400  focus:outline-none text-center text-gray-600 font-semibold overflow-auto z-50"}>
                         {actions && actions.map((m, index) => (
                             <Menu.Item>
                                 {({ active }) => (

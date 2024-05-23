@@ -154,12 +154,12 @@ export default function Index({ prepare, actions }: Props) {
 
     return (
         <div ref={myRef} className="relative w-full bg-gray-200 flex flex-col rounded shadow-xl">
-            <div className="absolute top-1 left-3 text-white cursor-default md:cursor-pointer hover:text-gray-300" onClick={handleBack}>
+            <div className="absolute top-1 left-3 text-gray-800 cursor-default md:cursor-pointer hover:text-orange-500" onClick={handleBack}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
-            <div className="h-9 w-full rounded-t bg-orange-500 uppercase text-white flex items-center justify-center font-bold  ">
+            <div className="h-9 w-full rounded-t bg-gray-300 uppercase text-gray-800 flex items-center justify-center font-bold  ">
                 <div style={{ width: width - 100 }} className='truncate text-center'>
                     {title}
                 </div>
@@ -174,9 +174,9 @@ export default function Index({ prepare, actions }: Props) {
                     )
                 })}
                 <div className="min-h-[60px] bg-white shadow px-2 py-2 flex flex-wrap-reverse items-center justify-center w-full gap-2">
-                    <button type="button" onClick={handleBack} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Back</button>
+                    <button type="button" onClick={handleBack} className="min-w-[200px] focus:outline-none shadow-md text-gray-800 bg-gray-300 hover:bg-orange-500 hover:text-white focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">Back</button>
                     {actions && actions.map((item: IExtraAction, index) => (
-                        <button key={index} type="button" onClick={() => item.fn(data)} className="min-w-[200px] focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{item.title}</button>
+                        <button key={index} type="button" onClick={() => item.fn(data)} className="min-w-[200px] shadow-md focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:ring-orange-300 font-medium rounded text-sm px-3 py-2">{item.title}</button>
                     ))}
                 </div>
             </div>
