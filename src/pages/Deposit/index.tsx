@@ -10,7 +10,7 @@ import SelectCombo from "../../components/SelectCombo";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import useVisit from "../../hooks/Visit";
-import { gTag } from "../../firebase";
+import { gTag } from "../../lib/firebase";
 import { IOption } from "../../interfaces/Common";
 import Spinner from "../../components/Spinner";
 import { IPaymentMethod } from "../../interfaces/ViewModels";

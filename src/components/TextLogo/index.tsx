@@ -50,7 +50,7 @@ export default function TextLogo({
           height="268"
           rx="134"
           stroke="url(#paint0_linear_517_6)"
-          stroke-width="21"
+          strokeWidth="21"
         />
       </g>
       <g filter="url(#filter1_d_517_6)">
@@ -58,16 +58,16 @@ export default function TextLogo({
           d="M150.431 149.51C150.721 149.576 150.993 149.637 151.246 149.694C151.302 149.946 151.363 150.218 151.429 150.508C151.861 152.413 152.493 155.103 153.297 158.253C154.899 164.535 157.2 172.719 159.97 180.169C161.354 183.893 162.878 187.493 164.517 190.607C166.132 193.674 167.972 196.49 170.064 198.462C172.15 200.428 175.044 202.038 178.437 201.23C181.612 200.475 184.03 197.85 185.954 194.516L185.954 194.516C192.166 183.755 200.376 160.387 206.342 138.72C209.34 127.829 211.816 117.209 213.208 108.635C213.903 104.356 214.342 100.502 214.425 97.3393C214.467 95.7577 214.421 94.28 214.253 92.9702C214.09 91.7024 213.785 90.3673 213.17 89.2131C212.843 88.5989 212.341 88.0962 211.726 87.7691C210.572 87.1544 209.237 86.8498 207.969 86.6868C206.659 86.5185 205.182 86.4729 203.6 86.5143C200.437 86.5971 196.584 87.0363 192.305 87.7312C183.731 89.1235 173.111 91.599 162.219 94.5978C140.553 100.563 117.184 108.774 106.423 114.985L106.423 114.985C103.089 116.91 100.465 119.328 99.7093 122.503C98.9019 125.896 100.511 128.79 102.478 130.875C104.45 132.967 107.265 134.807 110.332 136.422C113.446 138.062 117.047 139.585 120.771 140.97C128.221 143.739 136.405 146.04 142.687 147.643C145.836 148.446 148.526 149.078 150.431 149.51Z"
           fill="#FF820E"
           stroke="white"
-          stroke-width="7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M155.047 145.893L210.94 90"
           stroke="white"
-          stroke-width="7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <path
@@ -82,9 +82,9 @@ export default function TextLogo({
           width="1001"
           height="297"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -117,9 +117,9 @@ export default function TextLogo({
           width="149.947"
           height="149.947"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -153,8 +153,8 @@ export default function TextLogo({
           y2="144.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0.660015" stop-color="white" />
-          <stop offset="1" stop-color="#999999" />
+          <stop offset="0.660015" stopColor="white" />
+          <stop offset="1" stopColor="#999999" />
         </linearGradient>
       </defs>
     </svg>

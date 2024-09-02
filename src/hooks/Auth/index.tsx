@@ -1,31 +1,63 @@
-import { createContext, useContext, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { useLocalStorage } from "../LocalStorage";
-import { User, UserCredential } from "firebase/auth";
-import { gTag } from "../../firebase";
+import { User } from "firebase/auth";
+import { onAuthStateChanged, signInWithGoogle, signOut } from "src/lib/firebase/auth";
+import { register } from "src/services";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext<any>(null);
 
-export const AuthProvider = ({ children }: any) => {
+export default function AuthProvider({ children }: any) {
   const [user, setUser] = useLocalStorage<any>("user_wepromolink", null);
-  const [idToken, setIdToken] = useLocalStorage<any>("user_wepromolink_idToken", null);
-  const navigate = useNavigate();
+  const [idToken, setIdToken] = useLocalStorage<any>(
+    "user_wepromolink_idToken",
+    null
+  );
+  const router = useRouter();
 
-  // call this function when you want to authenticate the user
-  const login = async (data: User, idToken: string) => {
-    setUser(data);
-    setIdToken(idToken);
-    navigate("/dashboard");
-    gTag("login", { method: 'Google' })
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(async (authUser) => {
+      authUser &&
+        (await register({
+          email: authUser?.email,
+          firebaseId: authUser?.uid,
+          fullname: authUser?.displayName,
+          photoUrl: authUser?.photoURL,
+        }));
+      setUser(authUser);
+      let token = await authUser?.getIdToken();
+      setIdToken(token || null);
+      router.refresh();
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    onAuthStateChanged((authUser) => {
+      if (user === undefined) return;
+      if (user?.email !== authUser?.email) {
+        router.refresh();
+      }
+    });
+  }, [user]);
+
+
+  const login = async (event) => {
+    event.preventDefault();
+    await signInWithGoogle();
   };
 
 
-  // call this function to sign out logged in user
-  const logout = () => {
+  const logout = async (event) => {
+    event.preventDefault();
+    await signOut();
     setUser(null);
     setIdToken(null);
-    gTag("logout", {})
-    navigate("/", { replace: true });
+    router.replace("/");
+    router.refresh();
   };
 
   const value = useMemo(
@@ -33,7 +65,7 @@ export const AuthProvider = ({ children }: any) => {
       user,
       idToken,
       login,
-      logout
+      logout,
     }),
     [user]
   );

@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from "react";
 import { Bar, Pie, Line, Doughnut } from "react-chartjs-2";
 import { getStats } from "../../services";
@@ -7,7 +8,9 @@ import {
   CategoryScale,
   Chart,
   Legend,
+  LineElement,
   LinearScale,
+  PointElement,
   Title,
   Tooltip,
 } from "chart.js";
@@ -21,7 +24,7 @@ interface IProps {
   externalId: string | undefined;
 }
 
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement);
 
 export default function Index({
   type,

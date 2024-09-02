@@ -26,7 +26,7 @@ interface IPieData {
 }
 
 const generateRandomColors = (n: Number) => {
-    const colors = [];
+    const colors:string[] = [];
     for (let i = 0; i < n; i++) {
         const r = Math.floor(Math.random() * 256);
         const g = Math.floor(Math.random() * 256);

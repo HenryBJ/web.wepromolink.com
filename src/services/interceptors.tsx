@@ -1,22 +1,27 @@
+'use client'
 import { getAuth, User } from "firebase/auth";
 import axios from "axios";
+
+const isBrowser = typeof window !== "undefined";
 
 export default function AddInterceptors(axiosInstance: any) {
 
     axiosInstance.interceptors.request.use(
         async (config: any) => {
-            
-            let idToken: string | null = JSON.parse(localStorage.getItem("user_wepromolink_idToken")!);
-            const user: User | null = JSON.parse(localStorage.getItem("user_wepromolink")!);
-
-            if (user) {
-                config.headers["X-Wepromolink-UserId"] = user.uid;
+            if(isBrowser){
+                let rawToken = localStorage.getItem("user_wepromolink_idToken")!;
+                let idToken: string | null = rawToken ? JSON.parse(rawToken) : null;
+                const user: User | null = JSON.parse(localStorage.getItem("user_wepromolink")!);
+    
+                if (user) {
+                    config.headers["X-Wepromolink-UserId"] = user.uid;
+                }
+    
+                if (!idToken || idToken === "null") return config;
+                config.headers.Authorization = `Bearer ${idToken}`;
             }
-
-            if (!idToken || idToken === "null") return config;
-            config.headers.Authorization = `Bearer ${idToken}`;
-
             return config;
+            
         },
         (error: any) => {
             console.log("error ============> ", error);

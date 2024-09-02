@@ -8,11 +8,10 @@ import {
 } from "../../services";
 import { ISigUpInfo, ISubscriptionPlanCard } from "../../interfaces/ViewModels";
 import { useAuth } from "../../hooks/Auth";
-import { gTag, signInWithGoogle } from "../../firebase";
+import { gTag, signInWithGoogle } from "../../lib/firebase";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { User, UserCredential } from "firebase/auth";
-import useVisit from "../../hooks/Visit";
 import Spinner, { SpinnerType } from "../../components/Spinner";
 
 export default function Pricing() {
@@ -21,7 +20,6 @@ export default function Pricing() {
   const [loading, setLoading] = useState(false);
   const [loadingPage, setLoadingPage] = useState(false);
 
-  useVisit("visit_pricing");
 
   useEffect(() => {
     setLoadingPage(true);
@@ -116,7 +114,7 @@ export default function Pricing() {
         Pricing
       </h1>
 
-      {process.env.REACT_APP_LAUNCH_MODE === "prelaunch" && (
+      {process.env.NEXT_PUBLIC_LAUNCH_MODE === "prelaunch" && (
         <div className="text-orange-100 md:text-orange-800 font-semibold text-xl md:text-2xl px-4 md:px-24 text-center w-full">
           📣 Hey there, Awesome Promoter! <br />
           <div className="text-left text-lg">
@@ -139,7 +137,7 @@ export default function Pricing() {
         </div>
       )}
 
-      {process.env.REACT_APP_LAUNCH_MODE === "live" && (
+      {process.env.NEXT_PUBLIC_LAUNCH_MODE === "live" && (
         <>
           <div className=" h-[calc(100vh-120px)] md:h-[calc(100vh-180px)] w-full flex flex-wrap gap-3 md:gap-11 justify-center overflow-y-auto ">
             {pricingPlans &&

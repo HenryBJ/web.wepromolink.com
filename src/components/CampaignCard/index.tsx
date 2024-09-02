@@ -5,7 +5,7 @@ import ImageViewer from "../ImageViewer";
 import { useState } from "react";
 import ActionMenu from "../ActionMenu";
 import { abuseReportCampaigns } from "../../services";
-import { gTag } from "../../firebase";
+import { gTag } from "../../lib/firebase";
 import { toast } from "react-toastify";
 import { timeSince } from "../../common";
 import ExpandableText from "../ExpandableText";

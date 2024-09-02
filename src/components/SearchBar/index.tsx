@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { gTag } from "../../firebase";
+import { gTag } from "../../lib/firebase";
 
 
 interface IProps {

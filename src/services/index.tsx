@@ -1,3 +1,4 @@
+'use client'
 import axios, { AxiosResponse } from "axios";
 import {
     ICampaignCard,
@@ -21,7 +22,7 @@ import { INotificationResponse, IPaginationResponse, ISubscriptionPlanDetailResp
 import AddInterceptors from "./interceptors";
 
 export const api = AddInterceptors(axios.create({
-    baseURL: process.env.REACT_APP_API_URL_WEPROMOLINK
+    baseURL: process.env.NEXT_PUBLIC_API_URL_WEPROMOLINK
 }))
 
 export const getStats = (collectionName: string, externalId: string): Promise<AxiosResponse<any>> => api.get(`data/${collectionName}/${externalId}`);
@@ -36,6 +37,7 @@ export const getDepoitFee = (): Promise<AxiosResponse<number>> => api.get('user/
 export const getWithdrawFee = (): Promise<AxiosResponse<number>> => api.get('user/withdrawfee');
 export const getLevel = (): Promise<AxiosResponse<number>> => api.get('user/level');
 export const signUp = (data: {fullname:string, email:string, firebaseId:string, subscriptionPlanId: string, photoUrl: string}): Promise<AxiosResponse<Boolean>> => api.post("user/signup", data);
+export const register = (data: {fullname:string, email:string, firebaseId:string, photoUrl: string}): Promise<AxiosResponse<Boolean>> => api.post("user/register", data);
 export const checkout = (priceId: string, firebaseId: string, photoUrl: string | null): Promise<AxiosResponse<string>> => api.post("stripe/account/checkout",{priceId,firebaseId,photoUrl});
 export const upgrade = (priceId: string, planId: string): Promise<AxiosResponse<string>> => api.post("stripe/account/upgrade",{priceId,planId});
 export const getAvailableBalanceData = (): Promise<AxiosResponse<Number>> => api.get(`data/available`);

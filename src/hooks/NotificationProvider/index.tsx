@@ -1,10 +1,9 @@
-import { createContext, useEffect, useState } from 'react';
-import { getPushNotification } from '../../services';
-import { IPushNotification } from '../../interfaces/ViewModels';
-import { toast } from 'react-toastify';
-import { useLocalStorage } from '../LocalStorage';
-
-
+"use client";
+import { createContext, useEffect, useState } from "react";
+import { getPushNotification } from "../../services";
+import { IPushNotification } from "../../interfaces/ViewModels";
+import { toast } from "react-toastify";
+import { useLocalStorage } from "../LocalStorage";
 
 const INTERVAL = 20000;
 
@@ -15,23 +14,20 @@ const initial: IPushNotification = {
   links: 0,
   transaction: 0,
   messages: [],
-  etag: ''
-}
+  etag: "",
+};
 
 export const NotificationContext = createContext<any>(null);
 
 export default function Index({ children }: any) {
-
-
-  const [notification, _, setNotification] = useLocalStorage<IPushNotification>("wepromolink_noti", initial);
-  // const [notification, setNotification] = useState<IPushNotification>(initial);
-
-
-  // const reducePushNotification = (reducer: (e: IPushNotification) => IPushNotification) => {
-  //   setNotification(reducer);
-  // }
-
-  const reducePushNotification = (reducer: (e: IPushNotification) => IPushNotification) => {
+  const [notification, _, setNotification] = useLocalStorage<IPushNotification>(
+    "wepromolink_noti",
+    initial
+  );
+  
+  const reducePushNotification = (
+    reducer: (e: IPushNotification) => IPushNotification
+  ) => {
     return new Promise((resolve, reject) => {
       try {
         setNotification(reducer);
@@ -42,35 +38,37 @@ export default function Index({ children }: any) {
     });
   };
 
-
   const handleNotification = (data: IPushNotification) => {
-    setNotification(e => ({
+    setNotification((e) => ({
       campaign: e.campaign + data.campaign,
       messages: [],
       etag: data.etag,
       links: e.links + data.links,
       notification: e.notification + data.notification,
-      transaction: e.transaction + data.transaction
+      transaction: e.transaction + data.transaction,
     }));
-  }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
-      getPushNotification()
-        .then(res => {
-          let newNoti: IPushNotification = res.data;
-          if (newNoti.etag !== notification.etag) {
-            newNoti.messages.map(e => toast.success(<div dangerouslySetInnerHTML={{ __html: e }} />));
-            handleNotification(newNoti);
-          }
-        });
+      getPushNotification().then((res) => {
+        let newNoti: IPushNotification = res.data;
+        if (newNoti.etag !== notification.etag) {
+          newNoti.messages.map((e) =>
+            toast.success(<div dangerouslySetInnerHTML={{ __html: e }} />)
+          );
+          handleNotification(newNoti);
+        }
+      });
     }, INTERVAL);
 
     return () => clearInterval(timer);
   }, [notification.etag]);
 
   return (
-    <NotificationContext.Provider value={{ notification, reducePushNotification }}>
+    <NotificationContext.Provider
+      value={{ notification, reducePushNotification }}
+    >
       {children}
     </NotificationContext.Provider>
   );

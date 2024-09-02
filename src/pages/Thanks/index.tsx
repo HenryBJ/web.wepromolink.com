@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef } from "react";
 import { useAuth } from "../../hooks/Auth";
 import { useNavigate } from "react-router-dom";
-import { signInWithGoogle } from "../../firebase";
+import { signInWithGoogle } from "../../lib/firebase";
 import { getIsEmailSignUp } from "../../services";
 import GoogleIcon from "../../components/Google";
 import useVisit from "../../hooks/Visit";

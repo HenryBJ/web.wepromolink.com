@@ -1,3 +1,4 @@
+'use client'
 import { ReactNode, useContext, useEffect, useState } from "react"
 import { NotificationContext } from "../../hooks/NotificationProvider"
 import { motion, useAnimation } from "framer-motion";

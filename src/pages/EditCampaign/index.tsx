@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { getAvailableBalanceData } from "../../services";
 import ImageLoader from "../../components/ImageLoader";
 import useVisit from "../../hooks/Visit";
-import { gTag } from "../../firebase";
+import { gTag } from "../../lib/firebase";
 
 
 const schema = yup.object({

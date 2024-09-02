@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/Auth";
 import Breadcrumb from "../../components/Breadcrumb";
 import { toast } from "react-toastify";
 import ImageLoader from "../../components/ImageLoader";
-import { gTag } from "../../firebase";
+import { gTag } from "../../lib/firebase";
 import useVisit from "../../hooks/Visit";
 
 

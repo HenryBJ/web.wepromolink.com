@@ -4,7 +4,7 @@ import CopyButton from '../CopyButton'
 import { createLink } from '../../services';
 import { useAuth } from '../../hooks/Auth';
 import Spinner from '../Spinner';
-import { gTag } from '../../firebase';
+import { gTag } from '../../lib/firebase';
 
 interface IShareDialogInput {
     isOpen: boolean;
